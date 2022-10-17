@@ -35,7 +35,7 @@ public class Member {
     private int authLevel;
 
     public MemberDto toDto() {
-        Member memberDto = Member.builder()
+        MemberDto memberDto = MemberDto.builder()
                 .username(this.username)
                 .password(this.password)
                 .nickname(this.nickname)
@@ -45,6 +45,6 @@ public class Member {
                 .authLevel(this.authLevel)
                 .build();
 
-        return memberDto
+        return memberDto;
     }
 }
