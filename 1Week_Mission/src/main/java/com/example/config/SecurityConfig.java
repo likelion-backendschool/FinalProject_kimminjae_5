@@ -23,10 +23,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/**").permitAll()
+            //로그인 설정
                 .and()
                 .formLogin()
                 .loginPage("/member/login")
                 .defaultSuccessUrl("/")
+            //로그아웃 설정
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))

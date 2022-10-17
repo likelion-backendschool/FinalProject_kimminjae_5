@@ -41,6 +41,7 @@ public class MemberService {
         return member.toDto();
     }
 
+    //id로 회원 찾기
     public MemberDto getMemberById(long id) {
         Optional<Member> optionalMember = memberRepository.findById(id);
         if(optionalMember.isPresent()) {
@@ -50,6 +51,7 @@ public class MemberService {
         }
     }
 
+    //회원 정보(이메일, 닉네임) 수정
     public void modify(MemberDto memberDto, String email, String nickname) {
         Optional<Member> optionalMember = memberRepository.findById(memberDto.getId());
         if(optionalMember.isPresent()) {
@@ -60,6 +62,7 @@ public class MemberService {
         } else return;
     }
 
+    //비밀번호 변경
     public void modifyPassword(MemberDto memberDto, String password) {
         Optional<Member> optionalMember = memberRepository.findById(memberDto.getId());
         if(optionalMember.isPresent()) {
