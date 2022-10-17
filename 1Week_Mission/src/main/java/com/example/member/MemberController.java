@@ -14,6 +14,11 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/login")
+    public String login() {
+        return "member/login_form";
+    }
+
     @GetMapping("/join")
     public String join(MemberForm memberForm) {
         return "member/join_form";
