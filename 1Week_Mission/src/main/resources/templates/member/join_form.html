@@ -1,25 +1,30 @@
-<h1>회원가입</h1>
-<form th:action="@{/member/join}" method="post" th:object="${memberForm}">
-    <div th:replace="member/form_errors :: formErrorsFragment"></div>
-    <div>
-        <h2>사용자 아이디</h2>
-        <input type="text" name="username" id="username" th:field="*{username}">
-    </div>
-    <div>
-        <h2>비밀번호</h2>
-        <input type="text" name="password1" id="password1" th:field="*{password1}">
-    </div>
-    <div>
-        <h2>비밀번호 확인</h2>
-        <input type="password" name="password2" id="password2" th:field="*{password2}">
-    </div>
-    <div>
-        <h2>작가명</h2>
-        <input type="text" name="nickname" id="nickname" placeholder="작가명을 입력해야 작가 권한을 가질 수 있습니다." th:field="*{nickname}">
-    </div>
-    <div>
-        <h2>이메일</h2>
-        <input type="email" th:field="*{email}" class="form-control" name="email" id="email">
-    </div>
-    <button type="submit">확인</button>
-</form>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <h1>회원가입</h1>
+    <form th:action="@{/member/join}" method="post" th:object="${memberForm}">
+        <div th:replace="member/form_errors :: formErrorsFragment"></div>
+        <div>
+            <h2>사용자 아이디</h2>
+            <input type="text" name="username" id="username" th:field="*{username}">
+        </div>
+        <div>
+            <h2>비밀번호</h2>
+            <input type="password" name="password" id="password" th:field="*{password}">
+        </div>
+        <div>
+            <h2>비밀번호 확인</h2>
+            <input type="password" name="passwordConfirm" id="passwordConfirm" th:field="*{passwordConfirm}">
+        </div>
+        <div>
+            <h2>작가명</h2>
+            <input type="text" name="nickname" id="nickname" placeholder="작가명을 입력해야 작가 권한을 가질 수 있습니다."
+                   th:field="*{nickname}">
+        </div>
+        <div>
+            <h2>이메일</h2>
+            <input type="email" th:field="*{email}" class="form-control" name="email" id="email">
+        </div>
+        <button type="submit">확인</button>
+    </form>
+</div>
+</html>

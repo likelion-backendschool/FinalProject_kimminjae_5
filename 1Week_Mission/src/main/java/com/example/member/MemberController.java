@@ -23,12 +23,12 @@ public class MemberController {
         if(bindingResult.hasErrors()) {
             return "member/join_form";
         }
-        if(!memberForm.getPassword1().equals(memberForm.getPassword2())) {
-            bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
+        if(!memberForm.getPassword().equals(memberForm.getPasswordConfirm())) {
+            bindingResult.rejectValue("passwordConfirm", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
             return "member/join_form";
         }
         try {
-            memberService.create(memberForm.getUsername(), memberForm.getPassword1(), memberForm.getEmail());
+            memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail());
         } catch(DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
