@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3">
+<div layout:fragment="content">
     <h1>회원가입</h1>
     <form th:action="@{/member/join}" method="post" th:object="${memberForm}">
         <div th:replace="member/form_errors :: formErrorsFragment"></div>
