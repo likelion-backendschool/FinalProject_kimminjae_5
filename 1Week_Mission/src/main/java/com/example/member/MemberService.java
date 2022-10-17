@@ -1,5 +1,6 @@
 package com.example.member;
 
+import com.example.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,7 +48,7 @@ public class MemberService {
         if(optionalMember.isPresent()) {
             return optionalMember.get().toDto();
         } else {
-            return null;
+            throw new DataNotFoundException("회원이 존재하지 않습니다.");
         }
     }
 
@@ -59,7 +60,7 @@ public class MemberService {
             member.setEmail(email);
             member.setNickname(nickname);
             memberRepository.save(member);
-        } else return;
+        } else throw new DataNotFoundException("회원이 존재하지 않습니다.");
     }
 
     //비밀번호 변경
@@ -69,7 +70,7 @@ public class MemberService {
             Member member = optionalMember.get();
             member.setPassword(passwordEncoder.encode(password));
             memberRepository.save(member);
-        } else return;
+        } else new DataNotFoundException("회원이 존재하지 않습니다.");
     }
 
     //username으로 Member찾기
@@ -78,7 +79,7 @@ public class MemberService {
         if(optionalMember.isPresent()) {
             return optionalMember.get().toDto();
         } else {
-            return null;
+            throw new DataNotFoundException("회원이 존재하지 않습니다.");
         }
     }
 
@@ -91,7 +92,7 @@ public class MemberService {
             member.setAuthLevel(7);
             memberRepository.save(member);
         } else {
-            return;
+            throw new DataNotFoundException("회원이 존재하지 않습니다.");
         }
     }
 
@@ -101,7 +102,7 @@ public class MemberService {
         if(optionalMember.isPresent()) {
             return optionalMember.get().toDto();
         } else {
-            return null;
+            throw new DataNotFoundException("회원이 존재하지 않습니다.");
         }
     }
 
@@ -111,7 +112,7 @@ public class MemberService {
         if(optionalMember.isPresent()) {
             return optionalMember.get().toDto();
         } else {
-            return null;
+            throw new DataNotFoundException("회원이 존재하지 않습니다.");
         }
     }
 }
