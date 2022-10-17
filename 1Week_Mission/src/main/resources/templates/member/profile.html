@@ -8,26 +8,7 @@
         <form th:if="${member.nickname == null}" th:action="@{/member/signup/author}" method="post">
             <input type="text" placeholder="작가로 활동할 이름을 정해보세요!" name="nickname" id="nickname">
             <button type="submit">작가 되기</button>
-<!--            onclick="submit_form()"-->
         </form>
-<!--        <script>-->
-<!--            function submit_form(nick_name) {-->
-<!--                $.ajax({-->
-<!--                    type: "post",-->
-<!--                    url: "/member/signup/author",-->
-<!--                    data: {-->
-<!--                        nickname: nick_name-->
-<!--                    },-->
-<!--                    datatype: "text",-->
-<!--                    success: function (res) {-->
-<!--                        location.href("/member");-->
-<!--                    },-->
-<!--                    error: function () {-->
-<!--                        alert('이미 존재하는 작가명입니다.');-->
-<!--                    }-->
-<!--                });-->
-<!--            }-->
-<!--        </script>-->
 
         <a th:href="@{/member/modify}">회원정보수정</a>
     </div>
