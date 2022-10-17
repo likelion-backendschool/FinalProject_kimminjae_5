@@ -68,11 +68,16 @@ public class MemberController {
 
     //작가로 등록
     @PostMapping("/signup/author")
+    @ResponseBody
     public String signupAuthor(@RequestParam("nickname") String nickname, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
-        memberService.signupAuthor(memberDto, nickname);
-
-        return "redirect:/member";
+        try {
+            memberService.signupAuthor(memberDto, nickname);
+        } catch(DataIntegrityViolationException e) {
+            String errorMessage = "<script>alert('이미 존재하는 작가명입니다.'); location.href='/member'</script>";
+            return errorMessage;
+        }
+        return "<script>location.href='/member'</script>";
     }
 
     //회원 정보 수정
@@ -95,25 +100,19 @@ public class MemberController {
         if(bindingResult.hasErrors()) {
             return "member/modify_form";
         }
-        //작가명 중복여부 검사
-        MemberDto otherMemberDto = memberService.getMemberByNickname(memberModifyForm.getNickname());
-        if(otherMemberDto != null) {
-            bindingResult.rejectValue("nickname", "alreadyExistNickname", "이미 존재하는 작가명입니다.");
-            return "member/modify_form";
-        }
-        //이메일 중복여부 검사
-        MemberDto otherMemberDto2 = memberService.getMemberByEmail(memberModifyForm.getEmail());
-        if(otherMemberDto2 != null) {
-            bindingResult.rejectValue("email", "alreadyExistEmail", "이미 존재하는 이메일입니다.");
-            return "member/modify_form";
-        }
 
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         //수정권한 검사
         if(!memberDto.getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        memberService.modify(memberDto, memberModifyForm.getEmail(), memberModifyForm.getNickname());
+        try {
+            memberService.modify(memberDto, memberModifyForm.getEmail(), memberModifyForm.getNickname());
+        } catch(DataIntegrityViolationException e) {
+            e.printStackTrace();
+            bindingResult.rejectValue("nickname", "alreadyExistData", "이미 존재하는 작가명 혹은 이메일입니다.");
+            return "member/modify_form";
+        }
         return "redirect:/member";
     }
 }
