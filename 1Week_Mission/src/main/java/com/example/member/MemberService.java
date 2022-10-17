@@ -31,7 +31,7 @@ public class MemberService {
     public MemberDto create(String username, String password, String nickname, String email) {
         Member member = Member.builder()
                 .username(username)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .nickname(nickname)
                 .email(email)
                 .createDate(LocalDateTime.now())
@@ -90,6 +90,24 @@ public class MemberService {
             memberRepository.save(member);
         } else {
             return;
+        }
+    }
+
+    public MemberDto getMemberByNickname(String nickname) {
+        Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
+        if(optionalMember.isPresent()) {
+            return optionalMember.get().toDto();
+        } else {
+            return null;
+        }
+    }
+
+    public MemberDto getMemberByEmail(String email) {
+        Optional<Member> optionalMember = memberRepository.findByNickname(email);
+        if(optionalMember.isPresent()) {
+            return optionalMember.get().toDto();
+        } else {
+            return null;
         }
     }
 }
