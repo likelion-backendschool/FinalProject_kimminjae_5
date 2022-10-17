@@ -67,6 +67,7 @@
                 datatype: "text",
                 success: function (res) {
                     alert('회원님의 아이디는 ' + res + ' 입니다');
+                    location.href="/member/login";
                 },
                 error: function () {
                     alert('존재하지 않는 회원입니다.');
