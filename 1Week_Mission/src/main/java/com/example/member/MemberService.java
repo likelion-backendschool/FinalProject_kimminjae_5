@@ -12,7 +12,19 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    //회원 생성
+    //일반 회원 생성
+    public MemberDto create(String username, String password, String email) {
+        Member member = Member.builder()
+                .username(username)
+                .password(password)
+                .email(email)
+                .createDate(LocalDateTime.now())
+                .authLevel(3)
+                .build();
+        memberRepository.save(member);
+        return member.toDto();
+    }
+    //작가 회원 생성
     public MemberDto create(String username, String password, String nickname, String email) {
         Member member = Member.builder()
                 .username(username)
@@ -20,7 +32,7 @@ public class MemberService {
                 .nickname(nickname)
                 .email(email)
                 .createDate(LocalDateTime.now())
-                .authLevel(3)
+                .authLevel(7)
                 .build();
         memberRepository.save(member);
         return member.toDto();
