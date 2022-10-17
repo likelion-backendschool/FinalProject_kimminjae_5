@@ -1,6 +1,5 @@
 package com.example.config;
 
-import com.example.sbbproject.user.UserSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
