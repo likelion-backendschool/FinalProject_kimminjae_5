@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.net.URLDecoder;
 import java.security.Principal;
 
 @Controller
@@ -147,5 +148,14 @@ public class MemberController {
         memberService.modifyPassword(memberDto, passwordForm.getPassword());
 
         return "redirect:/member/logout";
+    }
+
+    //이메일로 아이디 찾기
+    @GetMapping("/findUsername")
+    @ResponseBody
+    public String findUsernameByEmail(@RequestParam("email") String email) {
+        MemberDto memberDto = memberService.getMemberByEmail(email);
+
+        return memberDto.getUsername();
     }
 }

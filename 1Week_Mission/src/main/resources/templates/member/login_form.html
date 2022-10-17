@@ -35,6 +35,9 @@
     <div class="popup-1">
         <div class="popup-1__head">
             <button style="display:block; margin-left:auto;" class="popup-1__btn-close">X</button>
+            <h3>이메일을 입력하세요</h3>
+            <input type="email" id="email">
+            <button type="submit" onclick="find_email()">아이디 찾기</button>
         </div>
     </div>
     <button class="btn-popup-1">아이디 찾기</button>
@@ -51,6 +54,25 @@
 
         $('.btn-popup-1').click(Popup1__show);
         $('.popup-1__btn-close').click(Popup1__hide);
+
+        function find_email() {
+            let input_email = document.getElementById('email').value;
+            console.log(input_email);
+            $.ajax({
+                type: "get",
+                url: "/member/findUsername?email="+input_email,
+                // data: {
+                //     email: input_email
+                // },
+                datatype: "text",
+                success: function (res) {
+                    alert('회원님의 아이디는 ' + res + ' 입니다');
+                },
+                error: function () {
+                    alert('존재하지 않는 회원입니다.');
+                }
+            });
+        }
     </script>
 </div>
 </html>

@@ -108,7 +108,7 @@ public class MemberService {
 
     //이메일로 유저 찾기
     public MemberDto getMemberByEmail(String email) {
-        Optional<Member> optionalMember = memberRepository.findByNickname(email);
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
         if(optionalMember.isPresent()) {
             return optionalMember.get().toDto();
         } else {
