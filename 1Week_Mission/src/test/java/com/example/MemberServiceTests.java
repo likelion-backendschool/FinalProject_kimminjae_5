@@ -3,11 +3,10 @@ package com.example;
 
 import com.example.member.Member;
 import com.example.member.MemberDto;
+import com.example.member.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,10 +18,10 @@ public class MemberServiceTests {
     //회원가입 테스트
     @Test
     void create() {
-        Member member = memberService.create("min356812", "qwer1234@", "nickname", "min3568@naver.com");
+        MemberDto member = memberService.create("min356812", "qwer1234@", "nickname", "min3568@naver.com");
 
-        assertThat("min356812").isEqualTo(member.getUsername());
-        assertThat("qwer1234@").isEqualTo(member.getPassword());
+        assertThat(member.getUsername()).isEqualTo("min356812");
+        assertThat(member.getPassword()).isEqualTo("qwer1234@");
     }
 
     //회원 조회 테스트
@@ -30,8 +29,8 @@ public class MemberServiceTests {
     void select() {
         MemberDto member = memberService.getMemberById(1L);
 
-        assertThat("min356812").isEqualTo(member.getUsername());
-        assertThat("qwer1234@").isEqualTo(member.getPassword());
+        assertThat(member.getUsername()).isEqualTo("min356812");
+        assertThat(member.getPassword()).isEqualTo("qwer1234@");
     }
 
     //회원 정보 수정 테스트
@@ -41,16 +40,18 @@ public class MemberServiceTests {
         memberService.modify(member, "min356812@naver.com", "nickname");
         MemberDto modifiedMember = memberService.getMemberById(1L);
 
-        assertThat("min356812@naver.com").isEqualTo(modifiedMember.getEmail());
+        assertThat(modifiedMember.getEmail()).isEqualTo("min356812@naver.com");
     }
 
     //비밀번호 변경 테스트
     @Test
     void modifyPassword() {
         MemberDto member = memberService.getMemberById(1L);
+
+        assertThat(member.getPassword()).isEqualTo("qwer1234@");
         memberService.modifyPassword(member, "newqwer1234@");
         MemberDto modifiedMember = memberService.getMemberById(1L);
 
-        assertThat("newqwer1234@").isEqualTo(modifiedMember.getPassword());
+        assertThat(modifiedMember.getPassword()).isEqualTo("newqwer1234@");
     }
 }

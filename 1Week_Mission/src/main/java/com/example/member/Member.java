@@ -36,6 +36,7 @@ public class Member {
 
     public MemberDto toDto() {
         MemberDto memberDto = MemberDto.builder()
+                .id(id)
                 .username(this.username)
                 .password(this.password)
                 .nickname(this.nickname)
@@ -46,5 +47,17 @@ public class Member {
                 .build();
 
         return memberDto;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setPassword(String newPassword) {
+            this.password = newPassword;
     }
 }
