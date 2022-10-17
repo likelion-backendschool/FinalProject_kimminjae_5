@@ -72,6 +72,7 @@ public class MemberService {
         } else return;
     }
 
+    //username으로 Member찾기
     public MemberDto getMemberByUsername(String name) {
         Optional<Member> optionalMember = memberRepository.findByusername(name);
         if(optionalMember.isPresent()) {
@@ -81,6 +82,7 @@ public class MemberService {
         }
     }
 
+    //작가 등록
     public void signupAuthor(MemberDto memberDto, String nickname) {
         Optional<Member> optionalMember = memberRepository.findById(memberDto.getId());
         if(optionalMember.isPresent()) {
@@ -93,6 +95,7 @@ public class MemberService {
         }
     }
 
+    //작가명으로 유저 찾기
     public MemberDto getMemberByNickname(String nickname) {
         Optional<Member> optionalMember = memberRepository.findByNickname(nickname);
         if(optionalMember.isPresent()) {
@@ -102,6 +105,7 @@ public class MemberService {
         }
     }
 
+    //이메일로 유저 찾기
     public MemberDto getMemberByEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByNickname(email);
         if(optionalMember.isPresent()) {
