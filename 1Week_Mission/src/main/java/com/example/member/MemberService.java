@@ -80,4 +80,16 @@ public class MemberService {
             return null;
         }
     }
+
+    public void signupAuthor(MemberDto memberDto, String nickname) {
+        Optional<Member> optionalMember = memberRepository.findById(memberDto.getId());
+        if(optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            member.setNickname(nickname);
+            member.setAuthLevel(7);
+            memberRepository.save(member);
+        } else {
+            return;
+        }
+    }
 }

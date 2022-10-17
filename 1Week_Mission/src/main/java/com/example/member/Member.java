@@ -60,4 +60,8 @@ public class Member {
     public void setPassword(String newPassword) {
             this.password = newPassword;
     }
+
+    public void setAuthLevel(int authLevel) {
+        this.authLevel = authLevel;
+    }
 }

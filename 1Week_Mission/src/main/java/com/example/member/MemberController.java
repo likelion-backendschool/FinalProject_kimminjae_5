@@ -59,4 +59,13 @@ public class MemberController {
 
         return "member/profile";
     }
+
+    //작가로 등록
+    @PostMapping("/signup/author")
+    public String signupAuthor(@RequestParam("nickname") String nickname, Principal principal) {
+        MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+        memberService.signupAuthor(memberDto, nickname);
+
+        return "redirect:/member";
+    }
 }
