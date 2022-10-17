@@ -1,20 +1,56 @@
 <html layout:decorate="~{layout}">
+<head>
+    <style>
+        .popup-1 {
+            width: 300px;
+            height: 300px;
+            background-color: white;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 10px solid black;
+            box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.8);
+            display: none;
+        }
+    </style>
+</head>
 <div layout:fragment="content">
-  <form th:action="@{/member/login}" method="post">
-    <div th:if="${param.error}">
-      <div>
-        사용자ID 또는 비밀번호를 확인해 주세요.
-      </div>
+    <form th:action="@{/member/login}" method="post">
+        <div th:if="${param.error}">
+            <div>
+                사용자ID 또는 비밀번호를 확인해 주세요.
+            </div>
+        </div>
+        <div>
+            <h2>아이디</h2>
+            <input type="text" name="username" id="username">
+        </div>
+        <div>
+            <h2>비밀번호</h2>
+            <input type="password" name="password" id="password">
+        </div>
+        <button type="submit">로그인</button>
+    </form>
+    <div class="popup-1">
+        <div class="popup-1__head">
+            <button style="display:block; margin-left:auto;" class="popup-1__btn-close">X</button>
+        </div>
     </div>
-    <div>
-      <h2>아이디</h2>
-      <input type="text" name="username" id="username">
-    </div>
-    <div>
-      <h2>비밀번호</h2>
-      <input type="password" name="password" id="password">
-    </div>
-    <button type="submit">로그인</button>
-  </form>
+    <button class="btn-popup-1">아이디 찾기</button>
+    <script>
+        console.clear();
+
+        function Popup1__show() {
+            $('.popup-1').css('display', 'block');
+        }
+
+        function Popup1__hide() {
+            $('.popup-1').css('display', 'none');
+        }
+
+        $('.btn-popup-1').click(Popup1__show);
+        $('.popup-1__btn-close').click(Popup1__hide);
+    </script>
 </div>
 </html>
