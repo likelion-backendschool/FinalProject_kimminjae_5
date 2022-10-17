@@ -67,7 +67,7 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findById(memberDto.getId());
         if(optionalMember.isPresent()) {
             Member member = optionalMember.get();
-            member.setPassword(password);
+            member.setPassword(passwordEncoder.encode(password));
             memberRepository.save(member);
         } else return;
     }

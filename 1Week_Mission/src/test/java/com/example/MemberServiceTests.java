@@ -53,6 +53,7 @@ public class MemberServiceTests {
         memberService.modifyPassword(member, "newqwer1234@");
         MemberDto modifiedMember = memberService.getMemberById(1L);
 
-        assertTrue(!modifiedMember.getPassword().equals(passwordEncoder.encode("qwer1234@")));
+        boolean b = passwordEncoder.matches("newqwer1234@", modifiedMember.getPassword());
+        assertTrue(b);
     }
 }

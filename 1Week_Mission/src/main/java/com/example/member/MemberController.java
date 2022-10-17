@@ -3,6 +3,7 @@ package com.example.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
+    private final PasswordEncoder passwordEncoder;
     private final MemberService memberService;
 
     //로그인
@@ -114,5 +116,36 @@ public class MemberController {
             return "member/modify_form";
         }
         return "redirect:/member";
+    }
+
+    //비밀번호 변경
+    @GetMapping("/modifyPassword")
+    public String modifyPassword(PasswordForm passwordForm, Principal principal) {
+        MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+
+        if(!memberDto.getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        return "member/password_modify_form";
+    }
+    //비밀번호 변경 처리
+    @PostMapping("/modifyPassword")
+    public String modifyPassword(@Valid PasswordForm passwordForm, BindingResult bindingResult, Principal principal) {
+        if(bindingResult.hasErrors()) {
+            return "member/password_modify_form";
+        }
+        if(!passwordForm.getPassword().equals(passwordForm.getPasswordConfirm())) {
+            bindingResult.rejectValue("password", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
+            return "member/password_modify_form";
+        }
+        MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+        String password = passwordForm.getOldPassword();
+        if (!passwordEncoder.matches(password, memberDto.getPassword())) {
+            bindingResult.rejectValue("oldPassword", "passwordInCorrect", "기존 비밀번호가 틀렸습니다.");
+            return "member/password_modify_form";
+        }
+        memberService.modifyPassword(memberDto, passwordForm.getPassword());
+
+        return "redirect:/member/logout";
     }
 }
