@@ -71,4 +71,13 @@ public class MemberService {
             memberRepository.save(member);
         } else return;
     }
+
+    public MemberDto getMemberByUsername(String name) {
+        Optional<Member> optionalMember = memberRepository.findByusername(name);
+        if(optionalMember.isPresent()) {
+            return optionalMember.get().toDto();
+        } else {
+            return null;
+        }
+    }
 }
