@@ -19,7 +19,7 @@
 
 <!--navbar-->
 <!--<div th:replace="common/navbar :: navbarFragment"></div>-->
-<div th:fragment="narbarFragment" class="navbar bg-base-100">
+<header th:fragment="narbarFragment" class="navbar bg-base-100">
   <div class="navbar bg-base-100">
     <div class="flex-1">
       <a class="btn btn-ghost normal-case text-xl">멋 북스</a>
@@ -35,7 +35,7 @@
       </ul>
     </div>
   </div>
-</div>
+</header>
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 <th:block class="container py-3 px-5 mx-auto" layout:fragment="content"></th:block>

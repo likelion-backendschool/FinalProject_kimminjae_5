@@ -1,31 +1,32 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-    <h1>글 목록</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th style="width:50%;">제목</th>
-            <th>작가</th>
-            <th>작성일시</th>
-            <th>수정일시</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="text-center" th:each="post, loop : ${postList}">
-<!--            <td th:text="${postList.size() - loop.index}"></td>-->
-            <td class="badge badge-primary mr-2" th:text="${post.id}"></td>
-            <td>
-                <a class="flex-grow hover:underline hover:text-[red]" th:text="${post.subject}" th:href="@{|/post/${post.id}|}"></a>
-            </td>
-            <td>
-                <span th:if="${post.member != null}" th:text="${post.member.username}"></span>
-                <span th:if="${post.member == null}" th:text="unknown"></span>
-            </td>
-            <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:if="${post.updateDate != null}" th:text="${#temporals.format(post.updateDate, 'yyyy-MM-dd HH:mm')}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="overflow-x-auto">
+        <table class="table table-compact w-full">
+            <thead>
+            <tr class="text-center">
+                <th>번호</th>
+                <th style="width:50%;">제목</th>
+                <th>작가</th>
+                <th>작성일시</th>
+                <th>수정일시</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" th:each="post, loop : ${postList}">
+                <!--            <td th:text="${postList.size() - loop.index}"></td>-->
+                <td><a class="badge badge-primary" th:text="${post.id}"></a></td>
+                <td>
+                    <a class="flex-grow hover:underline hover:text-[red]" th:text="${post.subject}" th:href="@{|/post/${post.id}|}"></a>
+                </td>
+                <td>
+                    <span th:if="${post.member != null}" th:text="${post.member.username}"></span>
+                    <span th:if="${post.member == null}" th:text="unknown"></span>
+                </td>
+                <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:if="${post.updateDate != null}" th:text="${#temporals.format(post.updateDate, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </html>
