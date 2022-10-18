@@ -138,6 +138,7 @@ public class MemberController {
 
     //비밀번호 변경 처리
     @PostMapping("/modifyPassword")
+    @ResponseBody
     public String modifyPassword(@Valid PasswordForm passwordForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "member/password_modify_form";
@@ -154,7 +155,9 @@ public class MemberController {
         }
         memberService.modifyPassword(memberDto, passwordForm.getPassword());
 
-        return "redirect:/member/logout";
+        return "<script>alert('비밀번호가 변경되었습니다.'); location.href='/member/logout';</script>";
+
+//        return "redirect:/member/logout";
     }
 
     //이메일로 아이디 찾기
