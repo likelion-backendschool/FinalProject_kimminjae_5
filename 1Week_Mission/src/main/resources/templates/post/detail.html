@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content">
+<div layout:fragment="content" class="contaier">
     <h1>글 상세 페이지</h1>
     <a th:href="@{|/post/${post.id}/delete|}" onclick="if (!confirm('삭제하시겠습니까?')) return false;">삭제</a>
     <a th:href="@{|/post/${post.id}/modify|}">수정</a>

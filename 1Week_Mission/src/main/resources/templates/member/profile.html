@@ -6,7 +6,7 @@
         <h2 th:text="${member.email}"></h2>
         <h2 th:if="${member.nickname != null}" th:text="${member.nickname}"></h2>
         <form th:if="${member.nickname == null}" th:action="@{/member/signup/author}" method="post">
-            <input type="text" placeholder="작가로 활동할 이름을 정해보세요!" name="nickname" id="nickname">
+            <input class="input input-bordered input-md w-full max-w-xs" type="text" placeholder="작가로 활동할 이름을 정해보세요!" name="nickname" id="nickname">
             <button type="submit">작가 되기</button>
         </form>
 
