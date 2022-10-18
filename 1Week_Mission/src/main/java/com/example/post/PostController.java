@@ -17,7 +17,7 @@ import java.util.List;
 public class PostController {
     private final MemberService memberService;
     private final PostService postService;
-    // /post/list
+    // 글 목록
     @GetMapping("/list")
     public String list(Model model) {
 
@@ -25,12 +25,17 @@ public class PostController {
         model.addAttribute("postList", postDtoList);
         return "post/list";
     }
-    // /post/{id}
+
+    // 글 상세페이지
     @GetMapping("/{id}")
-    public String detail(@PathVariable("id") Long id) {
+    public String detail(Model model, @PathVariable("id") Long id) {
+        PostDto postDto = postService.getPostById(id);
+        model.addAttribute("post", postDto);
+
         return "post/detail";
     }
-    // /post/write
+
+    // 글 작성
     @GetMapping("/write")
     public String write() {
         return "post/write";
@@ -41,7 +46,8 @@ public class PostController {
         postService.write(member, subject, content);
         return "redirect:/";
     }
-    // /post/{id}/modify
+
+    // 글 수정
     @GetMapping("/{id}/modify")
     public String modify() {
         return "post/modify";
@@ -51,7 +57,8 @@ public class PostController {
 //    public String modify() {
 //        return "redirect:/";
 //    }
-    // /post/{id}/delete
+
+    //글 삭제
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id) {
         return "redirect:/";

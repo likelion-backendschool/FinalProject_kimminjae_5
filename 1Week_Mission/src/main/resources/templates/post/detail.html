@@ -1,5 +1,12 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-    글 상세 페이지
+    <h1>글 상세 페이지</h1>
+    <div>
+        <h2 th:text="|${post.id}. ${post.subject}|"></h2>
+        <span th:text="${post.member.nickname}"></span>
+        <span th:text="${post.createDate}"></span>
+        <span th:text="${post.updateDate}"></span>
+        <div th:text="${post.content}"></div>
+    </div>
 </div>
 </html>

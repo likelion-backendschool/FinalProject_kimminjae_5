@@ -13,7 +13,8 @@
         </thead>
         <tbody>
         <tr th:each="post, loop : ${postList}">
-            <td th:text="${postList.size() - loop.index}"></td>
+<!--            <td th:text="${postList.size() - loop.index}"></td>-->
+            <td th:text="${post.id}"></td>
             <td>
                 <a th:text="${post.subject}" th:href="@{|/post/${post.id}|}"></a>
             </td>
