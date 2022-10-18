@@ -1,14 +1,30 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="contaier">
-    <h1>글 상세 페이지</h1>
-    <a th:href="@{|/post/${post.id}/delete|}" onclick="if (!confirm('삭제하시겠습니까?')) return false;">삭제</a>
-    <a th:href="@{|/post/${post.id}/modify|}">수정</a>
+<div layout:fragment="content">
+    <div class="hero">
+        <div class="container py-3 px-3 mx-auto flex">
+            <h1 class="text-5xl font-bold mr-auto" style="white-space: nowrap;"
+                th:text="|${post.id}. ${post.subject}|"></h1>
+            <div>
+                <span class="my-auto mr-2" th:text="|작가 : ${post.member.nickname}|"></span>
+            </div>
+            <div class="mr-2">
+                <div th:text="|생성일시 : ${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}|"></div>
+                <div th:text="|최종수정 : ${#temporals.format(post.updateDate, 'yyyy-MM-dd HH:mm')}|"></div>
+            </div>
+            <ul class="flex gap-3">
+                <li>
+                    <a class="btn btn-primary" th:href="@{|/post/${post.id}/modify|}">수정</a>
+                </li>
+                <li>
+                    <a class="btn btn-outline btn-error" th:href="@{|/post/${post.id}/delete|}"
+                       onclick="if (!confirm('삭제하시겠습니까?')) return false;">삭제</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div>
-        <h2 th:text="|${post.id}. ${post.subject}|"></h2>
-        <span th:text="${post.member.nickname}"></span>
-        <span th:text="${post.createDate}"></span>
-        <span th:text="${post.updateDate}"></span>
-        <div th:text="${post.content}"></div>
+        <!--    <div class="text-center">-->
+        <p class="py-6" th:text="${post.content}"></p>
     </div>
 </div>
 </html>

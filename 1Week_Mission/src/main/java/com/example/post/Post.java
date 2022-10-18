@@ -58,4 +58,8 @@ public class Post {
     public void setContentHtml(String contentHtml) {
         this.contentHtml = contentHtml;
     }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
 }

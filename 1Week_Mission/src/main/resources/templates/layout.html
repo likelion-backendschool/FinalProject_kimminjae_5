@@ -3,7 +3,10 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+
+  <!-- 모바일에서 디자인이 축소되지 않게 하기 위한 코드 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- 제이쿼리 불러오기 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!--데이지UI 불러오기 -->
@@ -12,7 +15,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <title>멋북스</title>
   <style>
-
+    /*body {*/
+    /*  background-color: darkgray;*/
+    /*}*/
   </style>
 </head>
 <body>
@@ -47,7 +52,7 @@
 </header>
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-<th:block class="container py-3 px-5 mx-auto" layout:fragment="content"></th:block>
+<th:block class="container py-3 px-5 mx-auto" layout:fragment="content" style="width:100%;"></th:block> <!--shadow-2xl-->
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
 </body>
