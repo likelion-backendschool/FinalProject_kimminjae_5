@@ -59,8 +59,15 @@ public class PostController {
 
     //글 수정 처리
     @PostMapping("/{id}/modify")
-    public String modify(@PathVariable("id") long id) {
-        return "redirect:/";
+    public String modify(Principal principal, @PathVariable("id") long id,
+                         @RequestParam("subject") String subject, @RequestParam("content") String content) {
+        PostDto postDto = postService.getPostById(id);
+        //수정 권한 확인
+        if(!postDto.getMember().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        postService.modify(postDto, subject, content);
+        return "redirect:/post/%d".formatted(postDto.getId());
     }
 
     //글 삭제
