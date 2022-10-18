@@ -40,9 +40,11 @@ public class MemberController {
     //회원가입 처리
     @PostMapping("/join")
     public String join(@Valid MemberForm memberForm, BindingResult bindingResult) {
+        //폼 에러 있을 경우
         if (bindingResult.hasErrors()) {
             return "member/join_form";
         }
+        //비밀번호와 비밀번호 확인이 일치하지 않을 경우
         if (!memberForm.getPassword().equals(memberForm.getPasswordConfirm())) {
             bindingResult.rejectValue("passwordConfirm", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
             return "member/join_form";

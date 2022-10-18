@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class MemberForm {
+public class MemberForm { //회원가입 폼
 
     @NotEmpty(message = "아이디는 필수항목입니다.")
     @Size(min = 5, max = 20)

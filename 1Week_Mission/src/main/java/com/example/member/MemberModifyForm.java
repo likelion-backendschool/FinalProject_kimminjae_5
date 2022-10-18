@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
-public class MemberModifyForm {
+public class MemberModifyForm { //회원 정보 수정 폼
     @NotEmpty(message = "작가명은 필수항목입니다.")
     private String nickname;
 

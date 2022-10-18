@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class PasswordForm {
+public class PasswordForm { //비밀번호 변경 폼
     @NotEmpty(message = "현재 비밀번호는 필수항목입니다.")
     private String oldPassword;
 
