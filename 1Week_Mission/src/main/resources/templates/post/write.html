@@ -1,27 +1,7 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-    <script>
-        function ArticleSave__submitForm(form) {
-            form.subject.value = form.subject.value.trim();
-            if (form.subject.value.length == 0) {
-                alert('제목을 입력해주세요.');
-                form.subject.focus();
-                return;
-            }
-            const editor = $(form).find(".toast-ui-editor").data("data-toast-editor");
-            const markdown = editor.getMarkdown();
-            console.log(markdown);
-            form.content.value = markdown.trim();
-            if (form.content.value.length == 0) {
-                alert("내용을 입력해주세요");
-                editor.focus();
-                return;
-            }
-            form.submit();
-        }
-    </script>
     <div class="hero">
-        <form th:action="@{/post/write}" onsubmit="ArticleSave__submitForm(this); return false;" method="post">
+        <form th:action="@{/post/write}" method="post">
             <div class="ml-5">
                 <p class="text-5xl font-bold mb-2">글 제목</p>
                 <input class="input input-bordered" type="text" name="subject" id="subject">
@@ -29,20 +9,22 @@
             </div>
             <div class="hero-content flex-col lg:flex-row">
                 <div>
-                    <input type="hidden" name="content"/>
-                    <div class="toast-ui-editor" toast-ui-editor--height="calc(100vh - 200px)" id="content"
-                         name="content"></div>
+                    <textarea class="textarea textarea-bordered" name="content" id="content" cols="75" rows="18"
+                              onkeyup='printName()'></textarea>
+                </div>
+                <div>
+                    <textarea id="result" class="textarea textarea-bordered" disabled cols="75" rows="18"></textarea>
                 </div>
             </div>
-<!--            <script>-->
-<!--                function printName() {-->
-<!--                    const name = document.getElementById('content').value;-->
-<!--                    document.getElementById("result").innerText = name;-->
+            <script>
+                function printName() {
+                    const name = document.getElementById('content').value;
+                    document.getElementById("result").innerText = name;
 
-<!--                    let length = name.length;-->
-<!--                    document.getElementById("size").innerText = length;-->
-<!--                }-->
-<!--            </script>-->
+                    let length = name.length;
+                    document.getElementById("size").innerText = length;
+                }
+            </script>
             <button class="btn btn-primary" style="float: right;">저장</button>
         </form>
     </div>
