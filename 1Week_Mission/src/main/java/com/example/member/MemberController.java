@@ -1,5 +1,7 @@
 package com.example.member;
 
+import com.example.DataNotFoundException;
+import com.example.Util;
 import com.example.mail.MailService;
 import com.example.mail.MailTO;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +54,8 @@ public class MemberController {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getNickname(), memberForm.getEmail());
             }
             //메일 생성 & 발송
-            MailTO mail = new MailTO(memberForm.getEmail(), "멋북스 회원가입 축하 메일", "멋북스의 회원이 되신 것을 진심으로 축하드립니다!");
-            mailService.sendMail(mail);
+//            MailTO mail = new MailTO(memberForm.getEmail(), "멋북스 회원가입 축하 메일", "멋북스의 회원이 되신 것을 진심으로 축하드립니다!");
+//            mailService.sendMail(mail);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -160,12 +162,46 @@ public class MemberController {
 //        return "redirect:/member/logout";
     }
 
-    //이메일로 아이디 찾기
+    //이메일로 아이디 찾기 처리
     @GetMapping("/findUsername")
     @ResponseBody
     public String findUsernameByEmail(@RequestParam("email") String email) {
         MemberDto memberDto = memberService.getMemberByEmail(email);
 
         return memberDto.getUsername();
+    }
+
+    //비밀번호 찾기 폼
+    @GetMapping("/findPassword")
+    public String findPassword() {
+        return "member/find_password_form";
+    }
+
+    //비밀번호 찾기
+    @PostMapping("/findPassword")
+    @ResponseBody
+    public String findPassword(@RequestParam("email") String email, @RequestParam("username") String username) {
+        MemberDto member;
+        try {
+            //회원 찾기
+            member = memberService.getMemberByUsername(username);
+
+            if (!member.getEmail().equals(email)) {
+                throw new DataNotFoundException("회원을 찾을 수 없습니다.");
+            }
+        } catch(Exception e) {
+            return "<script>alert('아이디 혹은 이메일을 확인하세요.');</script>";
+        }
+        //임시 비밀번호 생성
+        String newPassword = Util.makeRandomPassword();
+
+        //임시 비밀번호로 비밀번호 변겅
+        memberService.modifyPassword(member, newPassword);
+
+        //메일 생성 & 발송
+        MailTO mail = new MailTO(email, "임시 비밀번호 발급", "회원님의 임시 비밀번호는 " + newPassword + " 입니다.");
+        mailService.sendMail(mail);
+
+        return "<script>alert('임시 비밀번호가 메일로 발송되었습니다'); location.href='/';</script>";
     }
 }
