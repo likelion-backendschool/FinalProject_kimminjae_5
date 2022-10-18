@@ -36,9 +36,6 @@ public class Member {
 
     private int authLevel;
 
-    @OneToMany(mappedBy = "member")
-    private List<Post> postList;
-
     public MemberDto toDto() {
         MemberDto memberDto = MemberDto.builder()
                 .id(id)
