@@ -2,7 +2,9 @@ package com.example.post;
 
 import com.example.DataNotFoundException;
 import com.example.member.Member;
+import com.example.member.MemberDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,13 +18,13 @@ public class PostService {
     private final PostRepository postRepository;
 
     //글 작성
-    public PostDto write(Member member, String subject, String content, String contentHtml) {
+    public PostDto write(MemberDto member, String subject, String content) {
         Post post = Post.builder()
                 .subject(subject)
                 .content(content)
-                .contentHtml(contentHtml)
+                .contentHtml(content)
                 .createDate(LocalDateTime.now())
-                .member(member)
+                .member(member.toEntity())
                 .build();
         postRepository.save(post);
 
@@ -31,12 +33,16 @@ public class PostService {
 
     //전체 글 불러오기
     public List<PostDto> getAllPost() {
+//        List<Sort.Order> sorts = new ArrayList<>();
+//        sorts.add(Sort.Order.desc("createDate"));
+//
         List<Post> postList = postRepository.findAll();
         List<PostDto> postDtoList = new ArrayList<>();
 
         for(Post post : postList) {
             postDtoList.add(post.toDto());
         }
+//        postDtoList.sort();
         return postDtoList;
     }
 

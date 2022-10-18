@@ -21,8 +21,8 @@ public class PostServiceTests {
                 .username("username").authLevel(3).createDate(LocalDateTime.now()).email("min@123").password("password")
                 .build();
         memberRepository.save(member);
-        PostDto post1 = postService.write(member, "subject1", "content1", "contentHtml1");
-        PostDto post2 = postService.write(member, "subject2", "content2", "contentHtml2");
+        PostDto post1 = postService.write(member.toDto(), "subject1", "content1");
+        PostDto post2 = postService.write(member.toDto(), "subject2", "content2");
     }
     @Autowired
     private PostService postService;
@@ -34,7 +34,7 @@ public class PostServiceTests {
                 .username("username").authLevel(3).createDate(LocalDateTime.now()).email("min@123").password("password")
                 .build();
         memberRepository.save(member);
-        PostDto post1 = postService.write(member, "subject1", "content1", "contentHtml1");
+        PostDto post1 = postService.write(member.toDto(), "subject1", "content1");
 
         assertThat(post1.getSubject()).isEqualTo("subject1");
     }

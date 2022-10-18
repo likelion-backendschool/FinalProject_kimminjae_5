@@ -29,4 +29,17 @@ public class MemberDto {
     private LocalDateTime updateDate;
 
     private int authLevel;
+
+    public Member toEntity() {
+        return Member.builder()
+                .id(this.id)
+                .username(this.username)
+                .password(this.password)
+                .nickname(this.nickname)
+                .email(this.email)
+                .createDate(this.createDate)
+                .updateDate(this.updateDate)
+                .authLevel(this.authLevel)
+                .build();
+    }
 }
