@@ -48,7 +48,6 @@
                         <input type="text" placeholder="password" class="input input-bordered" id="password"
                                name="password"/>
                         <label class="label">
-                            <a for="my-modal-3" class="label-text-alt link link-hover mr-2">Forgot ID?</a>
                             <!-- Put this part before </body> tag -->
                             <input type="checkbox" id="my-modal-3" class="modal-toggle" />
                             <div class="modal">
@@ -56,9 +55,10 @@
                                     <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                                     <h3 class="mb-1">이메일을 입력하세요</h3>
                                     <input class="input input-bordered input-md w-full max-w-xs mr-2" type="email" id="email">
-                                    <button class="btn btn-primary" type="button" onclick="find_id_email()">아이디 찾기</button>
+                                    <button class="btn btn-outline btn-primary" type="button" onclick="find_id_email()">아이디 찾기</button>
                                 </div>
                             </div>
+                            <a for="my-modal-3" class="label-text-alt link link-hover mr-2">Forgot ID?</a>
                             <a th:href="@{/member/findPassword}" class="label-text-alt link link-hover">Forgot password?</a>
                         </label>
                     </div>

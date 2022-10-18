@@ -22,7 +22,7 @@
 <header th:fragment="narbarFragment" class="navbar bg-base-100">
   <div class="navbar bg-base-100">
     <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl">멋 북스</a>
+      <a class="btn btn-ghost normal-case text-xl" th:href="@{/post/list}">멋 북스</a>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal p-0">
@@ -32,7 +32,14 @@
           <a sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
           <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
         </li>
-        <li><a sec:authorize="isAuthenticated()" th:href="@{/member}">마이페이지</a></li>
+        <li class="mr-5">
+          <a sec:authorize="isAuthenticated()" th:href="@{/member}" class="avatar">
+            <div class="w-8 mask mask-squircle">
+              <img src="https://placeimg.com/192/192/people" />
+            </div>
+          </a>
+<!--          <a sec:authorize="isAuthenticated()" th:href="@{/member}">마이페이지</a>-->
+        </li>
         <li><a sec:authorize="isAnonymous()" th:href="@{/member/join}">회원가입</a></li>
       </ul>
     </div>
