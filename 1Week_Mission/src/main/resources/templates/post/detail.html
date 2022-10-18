@@ -12,10 +12,10 @@
                 <div th:text="|최종수정 : ${#temporals.format(post.updateDate, 'yyyy-MM-dd HH:mm')}|"></div>
             </div>
             <ul class="flex gap-3">
-                <li>
+                <li th:if="${post.member != null and #authentication.getPrincipal().getUsername() == post.member.username}">
                     <a class="btn btn-primary" th:href="@{|/post/${post.id}/modify|}">수정</a>
                 </li>
-                <li>
+                <li th:if="${post.member != null and #authentication.getPrincipal().getUsername() == post.member.username}">
                     <a class="btn btn-outline btn-error" th:href="@{|/post/${post.id}/delete|}"
                        onclick="if (!confirm('삭제하시겠습니까?')) return false;">삭제</a>
                 </li>
