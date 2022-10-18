@@ -4,9 +4,11 @@ import com.example.member.MemberDto;
 import com.example.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.criterion.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -49,18 +51,27 @@ public class PostController {
 
     // 글 수정
     @GetMapping("/{id}/modify")
-    public String modify() {
+    public String modify(Model model, @PathVariable("id") Long id) {
+        PostDto postDto = postService.getPostById(id);
+        model.addAttribute("post", postDto);
         return "post/modify";
     }
-    // /post/{id}/modify - post
-//    @PostMapping("/{id}/modify")
-//    public String modify() {
-//        return "redirect:/";
-//    }
+
+    //글 수정 처리
+    @PostMapping("/{id}/modify")
+    public String modify(@PathVariable("id") long id) {
+        return "redirect:/";
+    }
 
     //글 삭제
     @GetMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
+    public String delete(@PathVariable("id") Long id, Principal principal) {
+        PostDto postDto = postService.getPostById(id);
+        //삭제 권한 확인
+        if(!postDto.getMember().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+        postService.delete(postDto);
         return "redirect:/";
     }
 }
