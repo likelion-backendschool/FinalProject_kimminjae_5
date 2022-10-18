@@ -190,7 +190,7 @@ public class MemberController {
                 throw new DataNotFoundException("회원을 찾을 수 없습니다.");
             }
         } catch(Exception e) {
-            return "<script>alert('아이디 혹은 이메일을 확인하세요.');</script>";
+            return "<script>alert('아이디 혹은 이메일을 확인하세요.'); location.href='/member/findPassword';</script>";
         }
         //임시 비밀번호 생성
         String newPassword = Util.makeRandomPassword();
