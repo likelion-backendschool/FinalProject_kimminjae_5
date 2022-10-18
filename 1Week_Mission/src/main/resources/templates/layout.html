@@ -26,6 +26,8 @@
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal p-0">
+        <li><a th:href="@{/post/list}">글 목록</a></li>
+        <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}">글 작성</a></li>
         <li>
           <a sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
           <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
