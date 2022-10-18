@@ -29,10 +29,10 @@
         <li><a th:href="@{/post/list}">글 목록</a></li>
         <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}">글 작성</a></li>
         <li>
-          <a sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+          <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
           <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
         </li>
-        <li class="mr-5">
+        <li>
           <a sec:authorize="isAuthenticated()" th:href="@{/member}" class="avatar">
             <div class="w-8 mask mask-squircle">
               <img src="https://placeimg.com/192/192/people" />
