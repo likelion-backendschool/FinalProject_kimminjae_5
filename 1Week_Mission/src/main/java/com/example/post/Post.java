@@ -46,4 +46,16 @@ public class Post {
                 .build();
         return postDto;
     }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
+    }
 }
