@@ -1,0 +1,49 @@
+package com.example.post;
+
+import com.example.member.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @CreatedDate
+    private LocalDateTime createDate;
+
+    private LocalDateTime updateDate;
+
+    private String subject;
+
+    private String content;
+
+    private String contentHtml;
+
+    @ManyToOne
+    private Member member;
+
+    public PostDto toDto() {
+        PostDto postDto = PostDto.builder()
+                .id(this.id)
+                .createDate(this.createDate)
+                .updateDate(this.updateDate)
+                .subject(this.subject)
+                .content(this.content)
+                .contentHtml(this.contentHtml)
+                .member(this.member.toDto())
+                .build();
+        return postDto;
+    }
+}

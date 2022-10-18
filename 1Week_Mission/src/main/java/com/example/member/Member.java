@@ -1,10 +1,12 @@
 package com.example.member;
 
+import com.example.post.Post;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +35,9 @@ public class Member {
     private LocalDateTime updateDate;
 
     private int authLevel;
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> postList;
 
     public MemberDto toDto() {
         MemberDto memberDto = MemberDto.builder()
