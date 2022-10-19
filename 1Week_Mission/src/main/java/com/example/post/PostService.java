@@ -75,6 +75,7 @@ public class PostService {
         }
         post.setSubject(subject);
         post.setContent(content);
+        post.setContentHtml(CommonUtil.markdown(content));
         post.setUpdateDate(LocalDateTime.now());
         //마크다운 형식으로 변환해 저장 - 구현 아직 안됨
         post.setContentHtml(content);
