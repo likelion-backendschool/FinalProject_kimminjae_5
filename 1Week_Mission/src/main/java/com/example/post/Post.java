@@ -37,7 +37,7 @@ public class Post {
     private Member member;
 
     @OneToMany(mappedBy = "post")
-    private List<HashTag> tagList;
+    private List<HashTag> hashTagList;
 
     public PostDto toDto() {
         PostDto postDto = PostDto.builder()
@@ -48,6 +48,7 @@ public class Post {
                 .content(this.content)
                 .contentHtml(this.contentHtml)
                 .member(this.member.toDto())
+                .hashTagList(this.hashTagList)
                 .build();
         return postDto;
     }

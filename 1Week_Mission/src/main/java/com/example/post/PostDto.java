@@ -1,5 +1,6 @@
 package com.example.post;
 
+import com.example.hashTag.HashTag;
 import com.example.member.Member;
 import com.example.member.MemberDto;
 import lombok.*;
@@ -31,6 +32,8 @@ public class PostDto {
 
     private MemberDto member;
 
+    private List<HashTag> hashTagList;
+
     public Post toEntity() {
         return Post.builder()
                 .id(this.id)
@@ -40,6 +43,7 @@ public class PostDto {
                 .content(this.content)
                 .contentHtml(this.contentHtml)
                 .member(this.member.toEntity())
+                .hashTagList(this.hashTagList)
                 .build();
     }
 }

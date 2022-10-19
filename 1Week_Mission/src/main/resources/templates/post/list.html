@@ -19,20 +19,20 @@
                 <td>
                     <a class="flex-grow hover:underline hover:text-[red]" th:text="${post.subject}" th:href="@{|/post/${post.id}|}"></a>
                 </td>
-                <td>
-                   <ul>
-                       <li>
-                           tagList
-                       </li>
-                   </ul>
-                </td>
 <!--                <td>-->
-<!--                    <ul class="flex">-->
-<!--                        <li class="mr-1" th:each="tag : ${post.hashTagList}">-->
-<!--                            <a href="" th:text="|#${tag.keyword.content}|"></a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
+<!--                   <ul>-->
+<!--                       <li>-->
+<!--                           tagList-->
+<!--                       </li>-->
+<!--                   </ul>-->
 <!--                </td>-->
+                <td>
+                    <ul class="flex">
+                        <li class="mr-1" th:each="tag : ${post.hashTagList}">
+                            <a class="hover:underline hover:text-[red]" th:href="@{|/post/list/?tag=${tag.keyword.content}|}" th:text="|#${tag.keyword.content}|"></a>
+                        </li>
+                    </ul>
+                </td>
                 <td>
                     <span th:if="${post.member != null}" th:text="${post.member.username}"></span>
                     <span th:if="${post.member == null}" th:text="unknown"></span>
