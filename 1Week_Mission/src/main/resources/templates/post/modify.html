@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container py-3 px-5 mx-auto">
     <h1 class="text-center text-5xl mb-2">글 수정 페이지</h1>
     <div class="hero">
-        <form th:action="@{|/post/${post.id}/modify|}" method="post">
+        <form th:action="@{|/post/${post.id}/modify|}" method="post" onsubmit="Post_submit(this)">
             <div class="ml-5">
                 <p class="text-5xl font-bold mb-2">글 제목</p>
                 <input class="input input-bordered" type="text" name="subject" id="subject" th:field="*{post.subject}">
@@ -19,7 +19,7 @@
                 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
                 <div id="editor" th:value="*{post.content}"></div>
                 <!-- !!여기!! 에디터 내용을 받을 div태그-->
-                <input type="hidden" id="content" name="content" th:field="*{post.content}" />
+                <input type="hidden" id="content" name="content" />
             </div>
             <!-- TOAST UI Editor CDN URL(JS) -->
             <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
