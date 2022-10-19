@@ -36,7 +36,7 @@ public class Post {
     @ManyToOne
     private Member member;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<HashTag> hashTagList;
 
     public PostDto toDto() {
