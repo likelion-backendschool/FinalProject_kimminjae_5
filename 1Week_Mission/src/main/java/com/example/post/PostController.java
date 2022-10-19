@@ -1,5 +1,7 @@
 package com.example.post;
 
+import com.example.hashTag.HashTagDto;
+import com.example.hashTag.HashTagService;
 import com.example.member.MemberDto;
 import com.example.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +21,18 @@ import java.util.List;
 public class PostController {
     private final MemberService memberService;
     private final PostService postService;
+    private final HashTagService hashTagService;
     // 글 목록
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(Model model, @RequestParam(value = "tag", defaultValue = "") String tag) {
+        List<PostDto> postDtoList;
 
-        List<PostDto> postDtoList = postService.getAllPost();
+        if(tag.length() > 0) {
+            postDtoList = postService.getPostByTag(tag);
+        } else {
+            postDtoList = postService.getAllPost();
+        }
+
         model.addAttribute("postList", postDtoList);
         return "post/list";
     }
@@ -32,6 +41,9 @@ public class PostController {
     @GetMapping("/{id}")
     public String detail(Model model, @PathVariable("id") Long id) {
         PostDto postDto = postService.getPostById(id);
+        List<HashTagDto> tagList = hashTagService.getTagsByPost(postDto);
+
+        model.addAttribute("tagList", tagList);
         model.addAttribute("post", postDto);
 
         return "post/detail";
@@ -43,9 +55,9 @@ public class PostController {
         return "post/write";
     }
     @PostMapping("/write")
-    public String write(@RequestParam("subject") String subject, @RequestParam("content") String content, Principal principal) {
+    public String write(@RequestParam("subject") String subject, @RequestParam("hashtag") String hashTag, @RequestParam("content") String content, Principal principal) {
         MemberDto member = memberService.getMemberByUsername(principal.getName());
-        postService.write(member, subject, content);
+        postService.write(member, subject, hashTag, content);
         return "redirect:/";
     }
 

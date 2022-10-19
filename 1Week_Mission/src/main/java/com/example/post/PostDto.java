@@ -30,4 +30,16 @@ public class PostDto {
     private String contentHtml;
 
     private MemberDto member;
+
+    public Post toEntity() {
+        return Post.builder()
+                .id(this.id)
+                .createDate(this.createDate)
+                .updateDate(this.updateDate)
+                .subject(this.subject)
+                .content(this.content)
+                .contentHtml(this.contentHtml)
+                .member(this.member.toEntity())
+                .build();
+    }
 }

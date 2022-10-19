@@ -11,7 +11,7 @@
                 <div th:text="|생성일시 : ${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}|"></div>
                 <div th:text="|최종수정 : ${#temporals.format(post.updateDate, 'yyyy-MM-dd HH:mm')}|"></div>
             </div>
-            <ul class="flex gap-3">
+            <ul sec:authorize="isAuthenticated()" class="flex gap-3">
                 <li th:if="${post.member != null and #authentication.getPrincipal().getUsername() == post.member.username}">
                     <a class="btn btn-primary" th:href="@{|/post/${post.id}/modify|}">수정</a>
                 </li>
@@ -21,6 +21,13 @@
                 </li>
             </ul>
         </div>
+    </div>
+    <div th:if="${tagList != null}">
+        <ul class="flex">
+            <li class="text-3xl mr-3" th:each="hashTag : ${tagList}">
+                <a th:href="@{|/post/list?tag=${hashTag.keyword.content}|}" th:text="|#${hashTag.keyword.content}|"></a>
+            </li>
+        </ul>
     </div>
     <div>
         <!--    <div class="text-center">-->

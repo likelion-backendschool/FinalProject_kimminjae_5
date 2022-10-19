@@ -2,10 +2,15 @@
 <div layout:fragment="content" class="container py-3 px-5 mx-auto">
     <div class="hero">
         <form th:action="@{/post/write}" method="post">
-            <div class="ml-5">
+            <div class="ml-5 mb-2">
                 <p class="text-5xl font-bold mb-2">글 제목</p>
-                <input class="input input-bordered" type="text" name="subject" id="subject">
+                <input class="input input-bordered" type="text" name="subject" id="subject" placeholder="글의 제목">
                 <p id="size" class="text-3xl" style="float: right;"></p>
+            </div>
+            <div class="ml-5">
+                <p class="text-3xl mb-2">해시태그</p>
+                <input class="input input-bordered" style="width: 45%;"
+                       type="text" name="hashtag" id="hashtag" placeholder="#자바 #스프링 #프로젝트">
             </div>
             <div class="hero-content flex-col lg:flex-row">
                 <div>

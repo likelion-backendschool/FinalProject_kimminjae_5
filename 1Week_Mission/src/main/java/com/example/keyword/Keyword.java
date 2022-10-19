@@ -1,5 +1,6 @@
 package com.example.keyword;
 
+import com.example.member.MemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,5 +29,14 @@ public class Keyword {
     private LocalDateTime updateDate;
 
     private String content;
+
+    public KeywordDto toDto() {
+        return KeywordDto.builder()
+                .id(id)
+                .createDate(this.createDate)
+                .updateDate(this.updateDate)
+                .content(this.content)
+                .build();
+    }
 
 }

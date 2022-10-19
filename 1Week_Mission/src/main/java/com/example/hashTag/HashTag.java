@@ -2,6 +2,7 @@ package com.example.hashTag;
 
 import com.example.keyword.Keyword;
 import com.example.member.Member;
+import com.example.member.MemberDto;
 import com.example.post.Post;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,4 +33,16 @@ public class HashTag {
 
     @ManyToOne
     private Keyword keyword;
+
+    public HashTagDto toDto() {
+        return HashTagDto.builder()
+                .id(id)
+                .createDate(this.createDate)
+                .updateDate(this.updateDate)
+                .member(this.member)
+                .post(this.post)
+                .keyword(this.keyword)
+                .build();
+
+    }
 }

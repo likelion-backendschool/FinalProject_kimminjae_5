@@ -1,6 +1,8 @@
 package com.example.post;
 
 import com.example.DataNotFoundException;
+import com.example.hashTag.HashTag;
+import com.example.hashTag.HashTagService;
 import com.example.member.Member;
 import com.example.member.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,10 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
 
+    private final HashTagService hashTagService;
+
     //글 작성
-    public PostDto write(MemberDto member, String subject, String content) {
+    public PostDto write(MemberDto member, String subject, String hashTag, String content) {
         Post post = Post.builder()
                 .subject(subject)
                 .content(content)
@@ -27,6 +31,8 @@ public class PostService {
                 .member(member.toEntity())
                 .build();
         postRepository.save(post);
+
+        hashTagService.save(member, post, hashTag);
 
         return post.toDto();
     }
@@ -82,5 +88,15 @@ public class PostService {
         } else {
             throw new DataNotFoundException("글이 존재하지 않습니다.");
         }
+    }
+
+    public List<PostDto> getPostByTag(String tag) {
+        List<HashTag> tagList = hashTagService.getListByKeyword(tag);
+        List<PostDto> postDtoList = new ArrayList<>();
+
+        for(HashTag hashTag : tagList) {
+            postDtoList.add(hashTag.getPost().toDto());
+        }
+        return postDtoList;
     }
 }

@@ -5,7 +5,8 @@
             <thead>
             <tr class="text-center">
                 <th>번호</th>
-                <th style="width:50%;">제목</th>
+                <th style="width:25%;">제목</th>
+                <th>태그</th>
                 <th>작가</th>
                 <th>작성일시</th>
                 <th>수정일시</th>
@@ -19,11 +20,27 @@
                     <a class="flex-grow hover:underline hover:text-[red]" th:text="${post.subject}" th:href="@{|/post/${post.id}|}"></a>
                 </td>
                 <td>
+                   <ul>
+                       <li>
+                           tagList
+                       </li>
+                   </ul>
+                </td>
+<!--                <td>-->
+<!--                    <ul class="flex">-->
+<!--                        <li class="mr-1" th:each="tag : ${post.hashTagList}">-->
+<!--                            <a href="" th:text="|#${tag.keyword.content}|"></a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </td>-->
+                <td>
                     <span th:if="${post.member != null}" th:text="${post.member.username}"></span>
                     <span th:if="${post.member == null}" th:text="unknown"></span>
                 </td>
                 <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-                <td th:if="${post.updateDate != null}" th:text="${#temporals.format(post.updateDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <span th:if="${post.updateDate != null}" th:text="${#temporals.format(post.updateDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </td>
             </tr>
             </tbody>
         </table>

@@ -1,5 +1,6 @@
 package com.example.post;
 
+import com.example.hashTag.HashTag;
 import com.example.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +35,9 @@ public class Post {
 
     @ManyToOne
     private Member member;
+
+    @OneToMany(mappedBy = "post")
+    private List<HashTag> tagList;
 
     public PostDto toDto() {
         PostDto postDto = PostDto.builder()
