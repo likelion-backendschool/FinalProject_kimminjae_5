@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content">
+<div layout:fragment="content" class="container py-3 px-5 mx-auto">
     <h1 class="text-center text-5xl mb-2">글 수정 페이지</h1>
     <div class="hero">
         <form th:action="@{|/post/${post.id}/modify|}" method="post">

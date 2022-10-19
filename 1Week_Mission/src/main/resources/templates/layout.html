@@ -1,59 +1,59 @@
 <!doctype html>
 <html lang="ko" data-theme="light">
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-<!--  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <!--  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
 
-  <!-- 모바일에서 디자인이 축소되지 않게 하기 위한 코드 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- 제이쿼리 불러오기 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!--데이지UI 불러오기 -->
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css" />
-  <!-- 테일윈드 불러오기 -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>멋북스</title>
-  <style>
-    /*body {*/
-    /*  background-color: darkgray;*/
-    /*}*/
-  </style>
+    <!-- 모바일에서 디자인이 축소되지 않게 하기 위한 코드 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 제이쿼리 불러오기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!--데이지UI 불러오기 -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css"/>
+    <!-- 테일윈드 불러오기 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>멋북스</title>
+    <style>
+        /*body {*/
+        /*  background-color: darkgray;*/
+        /*}*/
+    </style>
 </head>
 <body>
 
 <!--navbar-->
 <!--<div th:replace="common/navbar :: navbarFragment"></div>-->
 <header th:fragment="narbarFragment" class="navbar bg-base-100">
-  <div class="navbar bg-base-100">
-    <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl" th:href="@{/post/list}">멋 북스</a>
+    <div class="navbar bg-base-100">
+        <div class="flex-1">
+            <a class="btn btn-ghost normal-case text-xl" th:href="@{/post/list}">멋 북스</a>
+        </div>
+        <div class="flex-none">
+            <ul class="menu menu-horizontal p-0">
+                <li><a th:href="@{/post/list}">글 목록</a></li>
+                <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}">글 작성</a></li>
+                <li>
+                    <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+                </li>
+                <li>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/member}" class="avatar">
+                        <div class="w-8 mask mask-squircle">
+                            <img src="https://placeimg.com/192/192/people"/>
+                        </div>
+                    </a>
+                    <!--          <a sec:authorize="isAuthenticated()" th:href="@{/member}">마이페이지</a>-->
+                </li>
+                <li><a sec:authorize="isAnonymous()" th:href="@{/member/join}">회원가입</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="flex-none">
-      <ul class="menu menu-horizontal p-0">
-        <li><a th:href="@{/post/list}">글 목록</a></li>
-        <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}">글 작성</a></li>
-        <li>
-          <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
-          <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
-        </li>
-        <li>
-          <a sec:authorize="isAuthenticated()" th:href="@{/member}" class="avatar">
-            <div class="w-8 mask mask-squircle">
-              <img src="https://placeimg.com/192/192/people" />
-            </div>
-          </a>
-<!--          <a sec:authorize="isAuthenticated()" th:href="@{/member}">마이페이지</a>-->
-        </li>
-        <li><a sec:authorize="isAnonymous()" th:href="@{/member/join}">회원가입</a></li>
-      </ul>
-    </div>
-  </div>
 </header>
-
-<!-- 기본 템플릿 안에 삽입될 내용 Start -->
-<th:block class="container py-3 px-5 mx-auto" layout:fragment="content" style="width:100%;"></th:block> <!--shadow-2xl-->
-<!-- 기본 템플릿 안에 삽입될 내용 End -->
-
+        <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+        <th:block class="hero min-h-screen py-3 px-5 mx-auto" layout:fragment="content"
+                  style="width:100%;"></th:block>
+        <!--shadow-2xl-->
+        <!-- 기본 템플릿 안에 삽입될 내용 End -->
 </body>
 </html>

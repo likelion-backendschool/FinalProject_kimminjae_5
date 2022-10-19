@@ -1,8 +1,8 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content">
+<div layout:fragment="content" class="container py-3 px-5 mx-auto">
     <div class="hero">
         <div class="hero-content lg:flex-row">
-            <img src="https://placeimg.com/260/400/arch" class="max-w-sm rounded-lg shadow-2xl" />
+            <img src="https://placeimg.com/260/400/arch" class="max-w-sm rounded-lg" />
             <div>
                 <h1 class="text-5xl font-bold" th:text="${member.username}"></h1>
                 <h2 th:if="${member.nickname != null}" th:text="${member.nickname}"></h2>
