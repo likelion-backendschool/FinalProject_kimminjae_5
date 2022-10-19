@@ -8,6 +8,11 @@
                 <input class="input input-bordered" type="text" name="subject" id="subject" th:field="*{post.subject}">
                 <p id="size" class="text-3xl" style="float: right;"></p>
             </div>
+            <div class="ml-5">
+                <p class="text-3xl mb-2">해시태그</p>
+                <input class="input input-bordered" style="width: 45%;"
+                       type="text" name="hashtag" id="hashtag" th:value="${tags}">
+            </div>
             <div class="hero-content flex-col lg:flex-row">
                 <div>
                     <textarea class="textarea textarea-bordered" name="content" id="content" cols="75" rows="18" th:field="*{post.content}"

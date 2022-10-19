@@ -1,5 +1,6 @@
 package com.example.post;
 
+import com.example.hashTag.HashTag;
 import com.example.hashTag.HashTagDto;
 import com.example.hashTag.HashTagService;
 import com.example.member.MemberDto;
@@ -69,6 +70,13 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     public String modify(Model model, @PathVariable("id") Long id) {
         PostDto postDto = postService.getPostById(id);
+
+        List<HashTag> tagList = postDto.getHashTagList();
+        StringBuilder tags = new StringBuilder();
+        for(HashTag hashTag : tagList) {
+            tags.append("#%s ".formatted(hashTag.getKeyword().getContent()));
+        }
+        model.addAttribute("tags", tags.toString());
         model.addAttribute("post", postDto);
         return "post/modify";
     }
@@ -77,13 +85,15 @@ public class PostController {
     @PostMapping("/{id}/modify")
     @PreAuthorize("isAuthenticated()")
     public String modify(Principal principal, @PathVariable("id") long id,
-                         @RequestParam("subject") String subject, @RequestParam("content") String content) {
+                         @RequestParam("subject") String subject,
+                         @RequestParam("content") String content,
+                         @RequestParam("hashtag") String hashTag) {
         PostDto postDto = postService.getPostById(id);
         //수정 권한 확인
         if(!postDto.getMember().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        postService.modify(postDto, subject, content);
+        postService.modify(postDto, subject, hashTag, content);
         return "redirect:/post/%d".formatted(postDto.getId());
     }
 

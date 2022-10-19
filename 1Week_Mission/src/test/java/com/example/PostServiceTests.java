@@ -58,7 +58,7 @@ public class PostServiceTests {
         PostDto post = postService.getPostById(1L);
         assertThat(post.getSubject()).isEqualTo("subject1");
 
-        postService.modify(post, "modifySubject", "modifyContent");
+        postService.modify(post, "modifySubject", "#a #b", "modifyContent");
         post = postService.getPostById(1L);
         assertThat(post.getSubject()).isEqualTo("modifySubject");
     }

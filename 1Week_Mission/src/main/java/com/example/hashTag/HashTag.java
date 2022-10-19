@@ -44,4 +44,12 @@ public class HashTag {
                 .build();
 
     }
+
+    public void setKeyword(Keyword keyword) {
+        this.keyword = keyword;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }

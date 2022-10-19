@@ -63,7 +63,7 @@ public class PostService {
     }
 
     //글 수정
-    public void modify(PostDto postDto, String subject, String content) {
+    public void modify(PostDto postDto, String subject, String hashTag, String content) {
         Optional<Post> optionalPost = postRepository.findById(postDto.getId());
 
         Post post;
@@ -77,6 +77,10 @@ public class PostService {
         post.setUpdateDate(LocalDateTime.now());
         //마크다운 형식으로 변환해 저장 - 구현 아직 안됨
         post.setContentHtml(content);
+        postRepository.save(post);
+
+        hashTagService.modify(postDto.getMember(), post, hashTag);
+
         postRepository.save(post);
     }
 
@@ -102,5 +106,10 @@ public class PostService {
             postDtoList.add(hashTag.getPost().toDto());
         }
         return postDtoList;
+    }
+
+    public void removeHashTag(Post post, HashTag hashTag1) {
+        post.getHashTagList().remove(hashTag1);
+        postRepository.save(post);
     }
 }

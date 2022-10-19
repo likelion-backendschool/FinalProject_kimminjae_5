@@ -12,4 +12,6 @@ public interface HashTagRepository extends JpaRepository<HashTag, Long> {
     List<HashTag> findByPost(Post post);
 
     List<HashTag> findByKeyword(Keyword keyword);
+
+    HashTag findByKeyword(String keyword);
 }
