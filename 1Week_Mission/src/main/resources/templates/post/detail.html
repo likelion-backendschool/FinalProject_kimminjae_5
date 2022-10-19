@@ -33,9 +33,16 @@
     </div>
     <div>
         <!--    <div class="text-center">-->
-        <div th:utext="${post.contentHtml}"></div>
+        <div style="border-bottom: black 1px solid; ">
+            렌더링 결과
+            <div class="mt-2" th:text="${post.contentHtml}"></div>
+        </div>
+        <div class="mt-2">
+            but, 테일윈드 때문인지 아래와 같이 출력됨
+            <div class="mt-2" th:utext="${post.contentHtml}"></div>
+        </div>
 
-        <div th:utext="${@commonUtil.markdown(post.content)}"></div>
+<!--        <div th:utext="${@commonUtil.markdown(post.content)}"></div>-->
     </div>
 </div>
 </html>

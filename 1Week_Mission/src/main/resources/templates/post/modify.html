@@ -19,7 +19,7 @@
                 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
                 <div id="editor" th:value="*{post.content}"></div>
                 <!-- !!여기!! 에디터 내용을 받을 div태그-->
-                <input type="hidden" id="content" name="content" />
+                <input type="hidden" id="content" name="content"/>
             </div>
             <!-- TOAST UI Editor CDN URL(JS) -->
             <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -64,19 +64,18 @@
             <!--                <div>-->
             <!--                    <textarea id="result" class="textarea textarea-bordered" disabled cols="75" rows="18"></textarea>-->
             <!--                </div>-->
-    </div>
-    <!--            <script>-->
-    <!--                function printName() {-->
-    <!--                    const name = document.getElementById('content').value;-->
-    <!--                    document.getElementById("result").innerText = name;-->
+            <!--            <script>-->
+            <!--                function printName() {-->
+            <!--                    const name = document.getElementById('content').value;-->
+            <!--                    document.getElementById("result").innerText = name;-->
 
-    <!--                    let length = name.length;-->
-    <!--                    document.getElementById("size").innerText = length;-->
-    <!--                }-->
-    <!--            </script>-->
-    <button class="btn btn-primary" style="float: right;">저장</button>
-    </form>
-</div>
+            <!--                    let length = name.length;-->
+            <!--                    document.getElementById("size").innerText = length;-->
+            <!--                }-->
+            <!--            </script>-->
+            <button class="btn btn-primary" style="float: right;">저장</button>
+        </form>
+    </div>
 
 
 </div>
