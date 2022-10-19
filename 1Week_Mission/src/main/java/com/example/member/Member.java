@@ -1,12 +1,10 @@
 package com.example.member;
 
-import com.example.post.Post;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter

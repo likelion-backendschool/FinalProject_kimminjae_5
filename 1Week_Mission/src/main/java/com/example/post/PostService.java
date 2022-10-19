@@ -75,7 +75,7 @@ public class PostService {
         post.setSubject(subject);
         post.setContent(content);
         post.setUpdateDate(LocalDateTime.now());
-        //마크다운 형식으로 변환해 저장
+        //마크다운 형식으로 변환해 저장 - 구현 아직 안됨
         post.setContentHtml(content);
         postRepository.save(post);
     }
@@ -90,8 +90,12 @@ public class PostService {
         }
     }
 
+    //태그로 글 불러오기
     public List<PostDto> getPostByTag(String tag) {
+        //태그 키워드로 해시태그를 찾고
         List<HashTag> tagList = hashTagService.getListByKeyword(tag);
+
+        //해시태그로 글을 찾아 리스트로 반환한다
         List<PostDto> postDtoList = new ArrayList<>();
 
         for(HashTag hashTag : tagList) {

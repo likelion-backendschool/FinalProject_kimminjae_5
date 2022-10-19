@@ -4,12 +4,6 @@ import com.example.keyword.Keyword;
 import com.example.member.Member;
 import com.example.post.Post;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Getter

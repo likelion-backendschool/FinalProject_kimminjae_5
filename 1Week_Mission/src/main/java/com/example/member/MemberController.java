@@ -87,7 +87,7 @@ public class MemberController {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         try {
             memberService.signupAuthor(memberDto, nickname);
-        } catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) { //작가명이 중복될 경우
             String errorMessage = "<script>alert('이미 존재하는 작가명입니다.'); location.href='/member'</script>";
             return errorMessage;
         }
@@ -99,6 +99,7 @@ public class MemberController {
     public String modify(MemberModifyForm memberModifyForm, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
+        //수정 권한 검사
         if (!memberDto.getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
@@ -122,7 +123,7 @@ public class MemberController {
         }
         try {
             memberService.modify(memberDto, memberModifyForm.getEmail(), memberModifyForm.getNickname());
-        } catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) { //작가명 혹은 이메일이 중복될 경우
             e.printStackTrace();
             bindingResult.rejectValue("nickname", "alreadyExistData", "이미 존재하는 작가명 혹은 이메일입니다.");
             return "member/modify_form";
@@ -135,6 +136,7 @@ public class MemberController {
     public String modifyPassword(PasswordForm passwordForm, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
+        //수정 권한 검사
         if (!memberDto.getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
@@ -147,10 +149,14 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "member/password_modify_form";
         }
+
+        //비밀번호와 비밀번호 확인 비교
         if (!passwordForm.getPassword().equals(passwordForm.getPasswordConfirm())) {
             bindingResult.rejectValue("password", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
             return "member/password_modify_form";
         }
+
+        //기존 비밀번호 확인
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         String password = passwordForm.getOldPassword();
         if (!passwordEncoder.matches(password, memberDto.getPassword())) {
@@ -161,6 +167,7 @@ public class MemberController {
 
 //        return "<script>alert('비밀번호가 변경되었습니다.'); location.href='/member/logout';</script>";
 
+        //비밀번호 변경완료시 로그아웃
         return "redirect:/member/logout";
     }
 

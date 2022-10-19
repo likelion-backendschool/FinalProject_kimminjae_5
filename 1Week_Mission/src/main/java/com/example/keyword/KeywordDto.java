@@ -1,7 +1,6 @@
 package com.example.keyword;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 

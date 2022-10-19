@@ -7,6 +7,7 @@ import com.example.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.criterion.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,11 +51,13 @@ public class PostController {
     }
 
     // 글 작성
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
     public String write() {
         return "post/write";
     }
     @PostMapping("/write")
+    @PreAuthorize("isAuthenticated()")
     public String write(@RequestParam("subject") String subject, @RequestParam("hashtag") String hashTag, @RequestParam("content") String content, Principal principal) {
         MemberDto member = memberService.getMemberByUsername(principal.getName());
         postService.write(member, subject, hashTag, content);
@@ -63,6 +66,7 @@ public class PostController {
 
     // 글 수정
     @GetMapping("/{id}/modify")
+    @PreAuthorize("isAuthenticated()")
     public String modify(Model model, @PathVariable("id") Long id) {
         PostDto postDto = postService.getPostById(id);
         model.addAttribute("post", postDto);
@@ -71,6 +75,7 @@ public class PostController {
 
     //글 수정 처리
     @PostMapping("/{id}/modify")
+    @PreAuthorize("isAuthenticated()")
     public String modify(Principal principal, @PathVariable("id") long id,
                          @RequestParam("subject") String subject, @RequestParam("content") String content) {
         PostDto postDto = postService.getPostById(id);
@@ -84,6 +89,7 @@ public class PostController {
 
     //글 삭제
     @GetMapping("/{id}/delete")
+    @PreAuthorize("isAuthenticated()")
     public String delete(@PathVariable("id") Long id, Principal principal) {
         PostDto postDto = postService.getPostById(id);
         //삭제 권한 확인

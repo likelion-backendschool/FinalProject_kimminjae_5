@@ -1,6 +1,5 @@
 package com.example.keyword;
 
-import com.example.member.MemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

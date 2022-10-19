@@ -2,7 +2,6 @@ package com.example.hashTag;
 
 import com.example.keyword.Keyword;
 import com.example.member.Member;
-import com.example.member.MemberDto;
 import com.example.post.Post;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
