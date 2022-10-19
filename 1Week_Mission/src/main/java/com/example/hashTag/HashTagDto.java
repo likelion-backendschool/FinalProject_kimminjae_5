@@ -6,30 +6,27 @@ import com.example.post.Post;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
+@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class HashTag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+public class HashTagDto {
     private Long id;
 
-    @CreatedDate
     private LocalDateTime createDate;
 
     private LocalDateTime updateDate;
 
-    @ManyToOne
     private Member member;
 
-    @ManyToOne
     private Post post;
 
-    @ManyToOne
     private Keyword keyword;
 }
