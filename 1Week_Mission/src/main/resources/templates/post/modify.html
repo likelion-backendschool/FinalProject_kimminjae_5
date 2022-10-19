@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container py-3 px-5 mx-auto">
     <h1 class="text-center text-5xl mb-2">글 수정 페이지</h1>
     <div class="hero">
-        <form th:action="@{|/post/${post.id}/modify|}" method="post" onsubmit="Post_submit(this)">
+        <form th:action="@{|/post/${post.id}/modify|}" method="post" onsubmit="Post_submit(this); return false;">
             <div class="ml-5">
                 <p class="text-5xl font-bold mb-2">글 제목</p>
                 <input class="input input-bordered" type="text" name="subject" id="subject" th:field="*{post.subject}">
@@ -37,7 +37,7 @@
                 function Post_submit(form) {
                     form.subject.value = form.subject.value.trim();
                     if (form.subject.value.length == 0) {
-                        warningModal("제목을 입력해주세요.");
+                        alert('제목을 입력하세요');
                         form.subject.focus();
 
                         return;
@@ -47,7 +47,7 @@
                     console.log(markdown);
                     form.content.value = markdown.trim();
                     if (form.content.value.length == 0) {
-                        warningModal("내용을 입력해주세요.");
+                        alert('내용을 입력하세요');
                         editor.focus();
                         return;
                     }
