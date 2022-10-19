@@ -33,7 +33,8 @@
     </div>
     <div>
         <!--    <div class="text-center">-->
-        <p class="py-6" th:text="${post.content}"></p>
+        <div th:utext="${post.contentHtml}"></div>
+        <div th:utext="${@commonUtil.markdown(post.content)}"></div>
     </div>
 </div>
 </html>

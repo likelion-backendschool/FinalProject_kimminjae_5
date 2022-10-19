@@ -1,5 +1,6 @@
 package com.example.post;
 
+import com.example.CommonUtil;
 import com.example.DataNotFoundException;
 import com.example.hashTag.HashTag;
 import com.example.hashTag.HashTagService;
@@ -26,7 +27,7 @@ public class PostService {
         Post post = Post.builder()
                 .subject(subject)
                 .content(content)
-                .contentHtml(content)
+                .contentHtml(CommonUtil.markdown(content))
                 .createDate(LocalDateTime.now())
                 .member(member.toEntity())
                 .build();

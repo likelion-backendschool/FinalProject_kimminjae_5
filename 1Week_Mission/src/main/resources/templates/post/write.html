@@ -1,7 +1,27 @@
 <html layout:decorate="~{layout}">
+<head>
+    <!--    <style>-->
+    <!--        * {-->
+    <!--            text-align:  center;-->
+    <!--        }-->
+    <!--        #editor {-->
+    <!--            /* border : 1px solid; */-->
+    <!--            width : 50%;-->
+    <!--            margin : 0 auto;-->
+    <!--        }-->
+    <!--        /* !!여기!! 새로운 div태그 스타일 추가해줫습니다. */-->
+    <!--        #contents {-->
+    <!--            width:50%;-->
+    <!--            height: 100px;-->
+    <!--            margin : 30px auto;-->
+    <!--            border : 1px solid;-->
+    <!--        }-->
+    <!--    </style>-->
+
+</head>
 <div layout:fragment="content" class="container py-3 px-5 mx-auto">
     <div class="hero">
-        <form th:action="@{/post/write}" method="post">
+        <form th:action="@{/post/write}" method="post" onsubmit="Post_submit(this); return false;">
             <div class="ml-5 mb-2">
                 <p class="text-5xl font-bold mb-2">글 제목</p>
                 <input class="input input-bordered" type="text" name="subject" id="subject" placeholder="글의 제목">
@@ -13,23 +33,66 @@
                        type="text" name="hashtag" id="hashtag" placeholder="#자바 #스프링 #프로젝트">
             </div>
             <div class="hero-content flex-col lg:flex-row">
-                <div>
-                    <textarea class="textarea textarea-bordered" name="content" id="content" cols="75" rows="18"
-                              onkeyup='printName()'></textarea>
-                </div>
-                <div>
-                    <textarea id="result" class="textarea textarea-bordered" disabled cols="75" rows="18"></textarea>
-                </div>
+                <!--                <div>-->
+                <!--                    <textarea class="textarea textarea-bordered" name="subject" id="content" cols="75" rows="18"-->
+                <!--                              onkeyup='printName()'></textarea>-->
+                <!--                </div>-->
+                <!--                <div>-->
+                <!--                    <textarea id="result" class="textarea textarea-bordered" disabled cols="75" rows="18"></textarea>-->
+                <!--                </div>-->
+                <!-- TOAST UI Editor가 들어갈 div태그 -->
+                <!-- TOAST UI Editor CDN URL(CSS)-->
+                <link rel="stylesheet"
+                      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"/>
+                <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+                <div id="editor"></div>
+                <!-- !!여기!! 에디터 내용을 받을 div태그-->
+                <input type="hidden" id="content" name="content"/>
             </div>
-            <script>
-                function printName() {
-                    const name = document.getElementById('content').value;
-                    document.getElementById("result").innerText = name;
+            <!-- TOAST UI Editor CDN URL(JS) -->
+            <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
-                    let length = name.length;
-                    document.getElementById("size").innerText = length;
+            <!-- TOAST UI Editor 생성 JavaScript 코드 -->
+            <script>
+                const editor = new toastui.Editor({
+                    el: document.querySelector('#editor'),
+                    previewStyle: 'vertical',
+                    height: '500px',
+                    initialValue: '안녕하세요. 코딩노잼입니다.'
+                });
+
+                function Post_submit(form) {
+                    form.subject.value = form.subject.value.trim();
+                    if (form.subject.value.length == 0) {
+                        warningModal("제목을 입력해주세요.");
+                        form.subject.focus();
+
+                        return;
+                    }
+
+                    const markdown = editor.getMarkdown();
+                    console.log(markdown);
+                    form.content.value = markdown.trim();
+                    if (form.content.value.length == 0) {
+                        warningModal("내용을 입력해주세요.");
+                        editor.focus();
+                        return;
+                    }
+
+                    form.submit();
                 }
+
+
             </script>
+<!--            <script>-->
+<!--                function printName() {-->
+<!--                    const name = document.getElementById('content').value;-->
+<!--                    document.getElementById("result").innerText = name;-->
+
+<!--                    let length = name.length;-->
+<!--                    document.getElementById("size").innerText = length;-->
+<!--                }-->
+<!--            </script>-->
             <button class="btn btn-primary" style="float: right;">저장</button>
         </form>
     </div>
