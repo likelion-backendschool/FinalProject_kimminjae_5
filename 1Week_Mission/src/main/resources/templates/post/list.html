@@ -14,18 +14,11 @@
             </thead>
             <tbody>
             <tr class="text-center" th:each="post, loop : ${postList}">
-                <!--            <td th:text="${postList.size() - loop.index}"></td>-->
                 <td><a class="badge badge-primary" th:text="${post.id}"></a></td>
                 <td>
                     <a class="flex-grow hover:underline hover:text-[red]" th:text="${post.subject}" th:href="@{|/post/${post.id}|}"></a>
                 </td>
-<!--                <td>-->
-<!--                   <ul>-->
-<!--                       <li>-->
-<!--                           tagList-->
-<!--                       </li>-->
-<!--                   </ul>-->
-<!--                </td>-->
+
                 <td>
                     <ul class="flex">
                         <li class="mr-1" th:each="tag : ${post.hashTagList}">

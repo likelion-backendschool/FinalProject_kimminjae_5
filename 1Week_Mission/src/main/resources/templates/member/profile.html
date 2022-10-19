@@ -4,9 +4,9 @@
         <div class="hero-content lg:flex-row">
             <img src="https://placeimg.com/260/400/arch" class="max-w-sm rounded-lg" />
             <div>
-                <h1 class="text-5xl font-bold" th:text="${member.username}"></h1>
+                <h1 class="text-5xl font-bold mb-2" th:text="${member.username}"></h1>
                 <h2 th:if="${member.nickname != null}" th:text="${member.nickname}"></h2>
-                <form th:if="${member.nickname == null}" th:action="@{/member/signup/author}" method="post">
+                <form th:if="${member.nickname.length == 0}" th:action="@{/member/signup/author}" method="post">
                     <input class="input input-bordered" type="text" placeholder="작가로 활동할 이름을 정해보세요!" name="nickname" id="nickname">
                     <button class="btn btn-primary">작가 되기</button>
                 </form>

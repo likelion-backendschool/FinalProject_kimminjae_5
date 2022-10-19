@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 public class MemberForm { //회원가입 폼
 
     @NotEmpty(message = "아이디는 필수항목입니다.")
-    @Size(min = 5, max = 20)
+    @Size(min = 3, max = 20)
     private String username;
 
     @NotEmpty(message = "비밀번호는 필수항목입니다.")

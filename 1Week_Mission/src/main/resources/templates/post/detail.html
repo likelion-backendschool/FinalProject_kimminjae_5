@@ -3,9 +3,11 @@
     <div class="hero">
         <div class="container py-3 px-3 mx-auto flex">
             <h1 class="text-5xl font-bold mr-auto" style="white-space: nowrap;"
-                th:text="|${post.id}. ${post.subject}|"></h1>
+                th:text="|${post.subject}|"></h1>
             <div>
-                <span class="my-auto mr-2" th:text="|작가 : ${post.member.nickname}|"></span>
+                <span class="my-auto mr-2">
+                    <a href="#" th:text="|작가 : ${post.member.nickname}|"></a>
+                </span>
             </div>
             <div class="mr-2">
                 <div th:text="|생성일시 : ${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}|"></div>
@@ -24,8 +26,8 @@
     </div>
     <div th:if="${tagList != null}">
         <ul class="flex">
-            <li class="text-3xl mr-3" th:each="hashTag : ${tagList}">
-                <a th:href="@{|/post/list?tag=${hashTag.keyword.content}|}" th:text="|#${hashTag.keyword.content}|"></a>
+            <li class="text-2xl mr-3" th:each="hashTag : ${tagList}">
+                <a class="hover:underline hover:text-[red]" th:href="@{|/post/list?tag=${hashTag.keyword.content}|}" th:text="|#${hashTag.keyword.content}|"></a>
             </li>
         </ul>
     </div>
