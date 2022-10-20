@@ -1,12 +1,11 @@
 <div th:fragment="editorFragment">
     <style>
-        /* 지마켓 산스 불러오기 */
-        /*@font-face {*/
-        /*    font-family: "GmarketSansMedium";*/
-        /*    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff") format("woff");*/
-        /*    font-weight: normal;*/
-        /*    font-style: normal;*/
-        /*}*/
+        @font-face {
+            font-family: 'RIDIBatang';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
 
         /* 토스트 UI 에디터 관련 스타일 시작 */
         html > body,
@@ -16,7 +15,7 @@
         html > body pre[class*="language-"],
         html > body code[class*="lang-"],
         html > body pre[class*="lang-"] {
-            font-family: "GmarketSansMedium";
+            font-family: "RIDIBatang";
             text-underline-position: under;
             letter-spacing: 0;
         }

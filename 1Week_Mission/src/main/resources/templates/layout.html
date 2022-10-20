@@ -9,6 +9,7 @@
     <title>멋북스</title>
 </head>
 <body>
+
 <!-- 제이쿼리 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- 폰트어썸 -->
@@ -60,6 +61,21 @@
 <!-- docpurify -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.8/purify.min.js"></script>
 <!-- 토스트 UI 에디터 의존성 끝 -->
+
+
+<style>
+    @font-face {
+        font-family: 'RIDIBatang';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    html > body {
+        font-family: "RIDIBatang";
+        text-underline-position: under;
+        color: #444;
+    }
+</style>
 
 <div th:replace="common/navbar :: narbarFragment"></div>
 
