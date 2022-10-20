@@ -1,27 +1,33 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container py-3 px-5 mx-auto">
     <div th:replace="common/toastEditorFragment :: editorFragment"></div>
-    <h1 class="text-center text-5xl mb-2">글 수정 페이지</h1>
+    <h1 class="text-center text-5xl mb-2"><i class="fa-solid fa-pen-to-square"></i> 글 수정</h1>
     <div class="hero">
         <form th:action="@{|/post/${post.id}/modify|}" method="post"
               onsubmit="ArticleSave__submitForm(this); return false;">
-            <div class="ml-5">
-                <p class="text-5xl font-bold mb-2">글 제목</p>
-                <input class="input input-bordered input-lg" type="text" name="subject" id="subject" th:field="*{post.subject}" style="width: 50%;">
+            <div class="ml-5 mb-2">
+                <p class="font-bold mb-2">글 제목</p>
+                <input class="input input-bordered input-lg" type="text" name="subject" id="subject"
+                       th:field="*{post.subject}" style="width: 50%;">
                 <p id="size" class="text-3xl" style="float: right;"></p>
             </div>
-            <div class="ml-5">
-                <p class="text-3xl mb-2">해시태그</p>
+            <div class="ml-5 mb-2">
+                <p class="mb-2">해시태그</p>
                 <input class="input input-bordered" style="width: 50%;"
                        type="text" name="hashtag" id="hashtag" th:value="${tags}">
             </div>
             <div class="hero-content flex-col lg:flex-row">
                 <input type="hidden" name="content"/>
-                <div class="toast-ui-editor" toast-ui-editor--height="calc(100vh - 0px)">
-                    <script type="text/x-template">[[${post.content}]]</script>
+                <div class="form-control w-full">
+                    <label class="label">
+                        <p class="mb-2">내용</p>
+                    </label>
+                    <div class="toast-ui-editor" toast-ui-editor--height="calc(100vh - 0px)">
+                        <script type="text/x-template">[[${post.content}]]</script>
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-primary" style="float: right;">저장</button>
+            <button class="btn btn-primary btn-wide" style="float: right;">저장</button>
         </form>
     </div>
 </div>

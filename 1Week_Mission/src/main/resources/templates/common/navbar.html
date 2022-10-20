@@ -1,25 +1,23 @@
 <div th:fragment="narbarFragment" class="navbar bg-base-100">
     <div class="navbar bg-base-100">
         <div class="flex-1">
-            <a class="btn btn-ghost normal-case text-5xl" th:href="@{/post/list}">멋 북스</a>
+            <a class="text-3xl" th:href="@{/post/list}"><i class="fa-solid fa-book"></i> 멋 북스</a>
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal p-0">
-                <li><a th:href="@{/post/list}">글 목록</a></li>
-                <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}">글 작성</a></li>
+                <li><a th:href="@{/post/list}"><i class="fa-solid fa-list"></i>글 목록</a></li>
+                <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}"><i
+                        class="fa-regular fa-pen-to-square"></i>글 작성</a></li>
                 <li>
-                    <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
-                    <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+                    <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}"><i
+                            class="fa-solid fa-right-to-bracket"></i>로그인</a>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}"><i
+                            class="fa-solid fa-right-from-bracket"></i>로그아웃</a>
                 </li>
                 <li>
-                    <a sec:authorize="isAuthenticated()" th:href="@{/member}" class="avatar">
-                        <div class="w-8 mask mask-squircle">
-                            <img src="https://placeimg.com/192/192/people"/>
-                        </div>
-                    </a>
-                    <!--          <a sec:authorize="isAuthenticated()" th:href="@{/member}">마이페이지</a>-->
+                    <a sec:authorize="isAuthenticated()" th:href="@{/member}"><i class="fa-solid fa-user"></i>마이페이지</a>
                 </li>
-                <li><a sec:authorize="isAnonymous()" th:href="@{/member/join}">회원가입</a></li>
+                <li><a sec:authorize="isAnonymous()" th:href="@{/member/join}"><i class="fa-solid fa-user-plus"></i>회원가입</a></li>
             </ul>
         </div>
     </div>
