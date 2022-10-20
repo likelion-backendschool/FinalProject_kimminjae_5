@@ -1,6 +1,7 @@
 package com.example.hashTag;
 
 import com.example.keyword.Keyword;
+import com.example.member.Member;
 import com.example.post.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,6 @@ public interface HashTagRepository extends JpaRepository<HashTag, Long> {
     List<HashTag> findByKeyword(Keyword keyword);
 
     HashTag findByKeyword(String keyword);
+
+    List<HashTag> findByMember(Member toEntity);
 }

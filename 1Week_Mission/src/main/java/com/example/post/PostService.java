@@ -113,4 +113,30 @@ public class PostService {
         post.getHashTagList().remove(hashTag1);
         postRepository.save(post);
     }
+
+    public List<PostDto> getPostByMember(MemberDto memberDto) {
+        Member member = memberDto.toEntity();
+        List<Post> postList = postRepository.findByMember(member);
+
+        List<PostDto> postDtoList = new ArrayList<>();
+        for(Post post : postList) {
+            postDtoList.add(post.toDto());
+        }
+        return postDtoList;
+    }
+    public List<PostDto> getPostByTagAndMember(MemberDto memberDto, String tag) {
+        Member member = memberDto.toEntity();
+        //태그 키워드로 해시태그를 찾고
+        List<HashTag> tagList = hashTagService.getListByKeyword(tag);
+
+        //해시태그로 글을 찾아 리스트로 반환한다
+        List<PostDto> postDtoList = new ArrayList<>();
+
+        for(HashTag hashTag : tagList) {
+            if(hashTag.getMember().getId() == member.getId()) {
+                postDtoList.add(hashTag.getPost().toDto());
+            }
+        }
+        return postDtoList;
+    }
 }

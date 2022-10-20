@@ -2,8 +2,12 @@ package com.example.member;
 
 import com.example.DataNotFoundException;
 import com.example.Util;
+import com.example.hashTag.HashTagDto;
+import com.example.hashTag.HashTagService;
 import com.example.mail.MailService;
 import com.example.mail.MailTO;
+import com.example.post.PostDto;
+import com.example.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -16,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,6 +29,8 @@ public class MemberController {
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
     private final MemberService memberService;
+    private final PostService postService;
+    private final HashTagService hashTagService;
 
     //로그인
     @GetMapping("/login")
@@ -73,8 +80,19 @@ public class MemberController {
 
     //마이페이지, 프로필
     @GetMapping("")
-    public String memberDetail(Model model, Principal principal) {
+    public String memberDetail(Model model, Principal principal, @RequestParam(value = "tag", defaultValue = "") String tag) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+        List<PostDto> postDtoList;
+        List<HashTagDto> tagDtoList = hashTagService.getHashTagByMember(memberDto);
+
+        if(tag.length() == 0) {
+            postDtoList = postService.getPostByMember(memberDto);
+        } else {
+            postDtoList = postService.getPostByTagAndMember(memberDto, tag);
+        }
+
+        model.addAttribute("tagList", tagDtoList);
+        model.addAttribute("postList", postDtoList);
         model.addAttribute("member", memberDto);
 
         return "member/profile";

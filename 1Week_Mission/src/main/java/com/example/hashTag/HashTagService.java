@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,5 +100,14 @@ public class HashTagService {
         List<HashTag> tagList = hashTagRepository.findByKeyword(keyword);
 
         return tagList;
+    }
+
+    public List<HashTagDto> getHashTagByMember(MemberDto memberDto) {
+        List<HashTag> tagList = hashTagRepository.findByMember(memberDto.toEntity());
+        List<HashTagDto> tagDtoList = new ArrayList<>();
+        for(HashTag hashTag : tagList) {
+            tagDtoList.add(hashTag.toDto());
+        }
+        return tagDtoList;
     }
 }
