@@ -3,7 +3,8 @@
     <div th:replace="common/toastEditorFragment :: editorFragment"></div>
     <h1 class="text-center text-5xl mb-2">글 수정 페이지</h1>
     <div class="hero">
-        <form th:action="@{|/post/${post.id}/modify|}" method="post" onsubmit="ArticleSave__submitForm(this); return false;">
+        <form th:action="@{|/post/${post.id}/modify|}" method="post"
+              onsubmit="ArticleSave__submitForm(this); return false;">
             <div class="ml-5">
                 <p class="text-5xl font-bold mb-2">글 제목</p>
                 <input class="input input-bordered" type="text" name="subject" id="subject" th:field="*{post.subject}">
@@ -23,7 +24,5 @@
             <button class="btn btn-primary" style="float: right;">저장</button>
         </form>
     </div>
-
-
 </div>
 </html>

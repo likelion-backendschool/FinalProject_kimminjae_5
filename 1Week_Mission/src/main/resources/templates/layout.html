@@ -4,35 +4,21 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
-    <!--  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-
     <!-- 모바일에서 디자인이 축소되지 않게 하기 위한 코드 -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>멋북스</title>
-    <style>
-        /*body {*/
-        /*  background-color: darkgray;*/
-        /*}*/
-    </style>
 </head>
 <body>
 <!-- 제이쿼리 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-
 <!-- 폰트어썸 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 <!-- 테일윈드 불러오기 -->
 <script src="https://cdn.tailwindcss.com"></script>
 <!--데이지UI 불러오기 -->
 <link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css"/>
-<!-- Toast UI Editor -->
-<!--<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />-->
-<!-- Toast UI Editor js -->
-<!--<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>-->
-<!--navbar-->
-<!--<div th:replace="common/navbar :: navbarFragment"></div>-->
+
 
 <!-- 토스트 UI 에디터 의존성 시작 -->
 
@@ -74,7 +60,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.8/purify.min.js"></script>
 <!-- 토스트 UI 에디터 의존성 끝 -->
 
-<!-- 공통 CSS -->
 
 <header th:fragment="narbarFragment" class="navbar bg-base-100">
     <div class="navbar bg-base-100">
@@ -105,7 +90,6 @@
         <!-- 기본 템플릿 안에 삽입될 내용 Start -->
         <th:block class="hero min-h-screen py-3 px-5 mx-auto" layout:fragment="content"
                   style="width:100%;"></th:block>
-        <!--shadow-2xl-->
         <!-- 기본 템플릿 안에 삽입될 내용 End -->
 </body>
 </html>
