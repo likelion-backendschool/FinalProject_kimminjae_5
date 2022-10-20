@@ -5,12 +5,12 @@
         <form th:action="@{/post/write}" method="post" onsubmit="ArticleSave__submitForm(this); return false;">
             <div class="ml-5 mb-2">
                 <p class="text-5xl font-bold mb-2">글 제목</p>
-                <input class="input input-bordered" type="text" name="subject" id="subject" placeholder="글의 제목">
+                <input class="input input-bordered input-lg" type="text" name="subject" id="subject" placeholder="글의 제목" style="width: 50%;">
                 <p id="size" class="text-3xl" style="float: right;"></p>
             </div>
             <div class="ml-5">
                 <p class="text-3xl mb-2">해시태그</p>
-                <input class="input input-bordered" style="width: 45%;"
+                <input class="input input-bordered" style="width: 50%;"
                        type="text" name="hashtag" id="hashtag" placeholder="#자바 #스프링 #프로젝트">
             </div>
             <div class="hero-content flex-col lg:flex-row">

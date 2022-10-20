@@ -7,12 +7,12 @@
               onsubmit="ArticleSave__submitForm(this); return false;">
             <div class="ml-5">
                 <p class="text-5xl font-bold mb-2">글 제목</p>
-                <input class="input input-bordered" type="text" name="subject" id="subject" th:field="*{post.subject}">
+                <input class="input input-bordered input-lg" type="text" name="subject" id="subject" th:field="*{post.subject}" style="width: 50%;">
                 <p id="size" class="text-3xl" style="float: right;"></p>
             </div>
             <div class="ml-5">
                 <p class="text-3xl mb-2">해시태그</p>
-                <input class="input input-bordered" style="width: 45%;"
+                <input class="input input-bordered" style="width: 50%;"
                        type="text" name="hashtag" id="hashtag" th:value="${tags}">
             </div>
             <div class="hero-content flex-col lg:flex-row">
