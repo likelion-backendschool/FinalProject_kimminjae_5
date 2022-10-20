@@ -29,8 +29,10 @@ public class Post {
 
     private String subject;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column(columnDefinition = "TEXT")
     private String contentHtml;
 
     @ManyToOne

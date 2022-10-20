@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container py-3 px-5 mx-auto">
+    <div th:replace="common/toastEditorFragment :: editorFragment"></div>
     <div class="hero">
         <div class="container py-3 px-3 mx-auto flex">
             <h1 class="text-5xl font-bold mr-auto" style="white-space: nowrap;"
@@ -27,22 +28,17 @@
     <div th:if="${tagList != null}">
         <ul class="flex">
             <li class="text-2xl mr-3" th:each="hashTag : ${tagList}">
-                <a class="hover:underline hover:text-[red]" th:href="@{|/post/list?tag=${hashTag.keyword.content}|}" th:text="|#${hashTag.keyword.content}|"></a>
+                <a class="hover:underline hover:text-[red]" th:href="@{|/post/list?tag=${hashTag.keyword.content}|}"
+                   th:text="|#${hashTag.keyword.content}|"></a>
             </li>
         </ul>
     </div>
-    <div>
-        <!--    <div class="text-center">-->
-        <div style="border-bottom: black 1px solid; ">
-            렌더링 결과
-            <div class="mt-2" th:text="${post.contentHtml}"></div>
+    <div class="mt-2" style="width: 90%; margin: auto;">
+        <div class="toast-ui-viewer">
+            <script type="text/x-template">
+                [[${post.content}]]
+            </script>
         </div>
-        <div class="mt-2">
-            but, 테일윈드 때문인지 아래와 같이 출력됨
-            <div class="mt-2" th:utext="${post.contentHtml}"></div>
-        </div>
-
-<!--        <div th:utext="${@commonUtil.markdown(post.content)}"></div>-->
     </div>
 </div>
 </html>

@@ -6,7 +6,7 @@
                 <h1 class="text-6xl font-bold mb-2 text-neutral-content" style="white-space: nowrap;">회원가입</h1>
             </div>
             <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                <form class="card-body" th:action="@{/member/join}" method="post" th:object="${memberForm}">
+                <form class="card-body" th:action="@{/member/join}" method="POST" th:object="${memberForm}">
                     <div th:replace="member/form_errors :: formErrorsFragment"></div>
                     <div class="form-control">
                         <label class="label">
