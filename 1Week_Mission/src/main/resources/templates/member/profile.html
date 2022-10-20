@@ -5,12 +5,12 @@
             <img src="https://placeimg.com/260/400/arch" class="max-w-sm rounded-lg" />
             <div>
                 <h1 class="text-5xl font-bold mb-2" th:text="${member.username}"></h1>
-                <h2 th:if="${member.nickname != null}" th:text="${member.nickname}"></h2>
+                <h2 class="text-2xl" th:if="${member.nickname.length != 0}" th:text="|작가명 : ${member.nickname}|"></h2>
                 <form th:if="${member.nickname.length == 0}" th:action="@{/member/signup/author}" method="post">
                     <input class="input input-bordered" type="text" placeholder="작가로 활동할 이름을 정해보세요!" name="nickname" id="nickname">
                     <button class="btn btn-primary">작가 되기</button>
                 </form>
-                <p class="py-6" th:text="${member.email}"></p>
+                <p class="py-6 text-2xl"><i class="fa-regular fa-envelope"></i> [[${member.email}]]</p>
                 <a class="btn btn-outline btn-primary" th:href="@{/member/modify}">회원정보수정</a>
                 <a class="btn btn-outline btn-success" th:href="@{/member/modifyPassword}">비밀번호 변경</a>
             </div>
