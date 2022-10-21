@@ -11,6 +11,7 @@ import com.example.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,9 +64,8 @@ public class MemberController {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getNickname(), memberForm.getEmail());
             }
             //메일 생성 & 발송
-            //나중에 주석 해제
-//            MailTO mail = new MailTO(memberForm.getEmail(), "멋북스 회원가입 축하 메일", "멋북스의 회원이 되신 것을 진심으로 축하드립니다!");
-//            mailService.sendMail(mail);
+            MailTO mail = new MailTO(memberForm.getEmail(), "멋북스 회원가입 축하 메일", "멋북스의 회원이 되신 것을 진심으로 축하드립니다!");
+            mailService.sendMail(mail);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -80,6 +80,7 @@ public class MemberController {
 
     //마이페이지, 프로필
     @GetMapping("")
+    @PreAuthorize("isAuthenticated()")
     public String memberDetail(Model model, Principal principal, @RequestParam(value = "tag", defaultValue = "") String tag) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         List<PostDto> postDtoList;
@@ -101,6 +102,7 @@ public class MemberController {
     //작가로 등록
     @PostMapping("/signup/author")
     @ResponseBody
+    @PreAuthorize("isAuthenticated()")
     public String signupAuthor(@RequestParam("nickname") String nickname, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         try {
@@ -114,6 +116,7 @@ public class MemberController {
 
     //회원 정보 수정
     @GetMapping("/modify")
+    @PreAuthorize("isAuthenticated()")
     public String modify(MemberModifyForm memberModifyForm, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
@@ -129,6 +132,7 @@ public class MemberController {
 
     //회원 정보 수정 처리
     @PostMapping("/modify")
+    @PreAuthorize("isAuthenticated()")
     public String modify(@Valid MemberModifyForm memberModifyForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "member/modify_form";
@@ -151,6 +155,7 @@ public class MemberController {
 
     //비밀번호 변경
     @GetMapping("/modifyPassword")
+    @PreAuthorize("isAuthenticated()")
     public String modifyPassword(PasswordForm passwordForm, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
@@ -163,6 +168,7 @@ public class MemberController {
 
     //비밀번호 변경 처리
     @PostMapping("/modifyPassword")
+    @PreAuthorize("isAuthenticated()")
     public String modifyPassword(@Valid PasswordForm passwordForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "member/password_modify_form";
