@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
+//git test
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
