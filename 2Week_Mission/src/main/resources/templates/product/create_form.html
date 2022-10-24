@@ -1,0 +1,145 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container py-3 mx-auto">
+    <form th:action="@{/product/create}" method="post" class="flex justify-between mb-3"
+          onsubmit="ProductSave__submitForm(this); return false;">
+        <div style="width: 50%;">
+            <div class="mb-2">
+                <p class="font-bold mb-2">도서 제목</p>
+                <input class="input input-bordered input-lg" type="text" name="subject" id="subject"
+                       placeholder="도서의 제목" style="width: 100%;">
+                <p id="size" class="text-3xl" style="float: right;"></p>
+            </div>
+            <div class="mb-2">
+                <p class="mb-2">해시태그</p>
+                <input class="input input-bordered" style="width: 100%;"
+                       type="text" name="hashtag" id="hashtag" placeholder="#자바 #스프링 #프로젝트">
+            </div>
+            <div class="mb-2">
+                <p class="mb-2">가격</p>
+                <input class="input input-bordered" style="width: 100%;"
+                       type="text" name="price" id="price" placeholder="가격을 책정해주세요.">
+            </div>
+            <input type="hidden" id="postIds" name="postIds" value="">
+            <button class="btn btn-primary btn-block ">도서 등록</button>
+        </div>
+        <div class="postList" id="postList" style="width: 50%;">
+            도서에 들어갈 글 목록 (순서 - 제목)
+        </div>
+    </form>
+    <script>
+        const postList = [];
+
+        function ProductSave__submitForm(form) {
+            form.subject.value = form.subject.value.trim();
+            if (form.subject.value.length == 0) {
+                alert('제목을 입력해주세요.');
+                form.subject.focus();
+                return;
+            }
+            form.hashtag.value = form.hashtag.value.trim();
+            if (form.hashtag.value.length == 0) {
+                alert("태그를 입력해주세요");
+                form.hashtag.focus();
+                return;
+            }
+            //가격 책정 이슈 해결 필요
+
+            form.submit();
+            // 도서 등록
+            console.log(form.subject.value);
+            console.log(form.hashtag.value);
+            console.log(form.price.value);
+            console.log(form.postIds.value);
+            console.log(postList);
+            // $.ajax({
+            //     type: "post",
+            //     url: "/product/create",
+            //     data: {
+            //         input_subject: form.subject.value,
+            //         input_hashtag: form.hashtag.value,
+            //         input_price: form.price.value,
+            //         input_postList: postList
+            //     },
+            //     datatype: "text",
+            //     success: function (res) {
+            //         alert('도서가 등록되었습니다.');
+            //         location.href = '/member';
+            //     },
+            //     error: function () {
+            //         alert('도서 등록에 실패했습니다.');
+            //     }
+            // });
+        }
+        function addPostAtProduct(element) {
+            const postId = element.id;
+            if(postList.includes(postId)) {
+                alert('글 목록에 존재하는 글입니다.');
+                return;
+            }
+            postList.push(postId);
+            $('input[name=postIds]').attr('value', document.getElementById('postIds').value + postId + ',');
+
+            alert(document.getElementById('postIds').value);
+
+            const subjectElement = document.getElementById('post' + postId);
+            const subject = subjectElement.innerText;
+            const html = `
+                <div>
+                    <a class="badge badge-primary">${postId}</a>
+                    <a th:href="@{|/post/${postId}|}">${subject}</a>
+                </div>
+            `;
+            $('.postList').append(html);
+        }
+    </script>
+
+
+    <div class="text-center my-auto" th:if="${postList.size() == 0}" style="align-items: center; margin-top: 25%;">
+        <a class="mx-auto my-auto text-3xl hover:underline hover:text-[skyblue]" th:href="@{/post/write}">
+            <i class="fa-regular fa-pen-to-square"></i> 글 작성하기</a>
+    </div>
+    <div th:if="${postList.size() > 0}" class="overflow-x-auto">
+        <table class="table table-compact w-full">
+            <thead>
+            <tr class="text-center">
+                <th>ADD</th>
+                <th>번호</th>
+                <th style="width:25%;">제목</th>
+                <th style="width:40%;">태그</th>
+                <th>작성일시</th>
+                <th>수정일시</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" th:each="post, loop : ${postList}">
+                <td>
+                    <button class="btn btn-outline" onclick="addPostAtProduct(this);" th:id="${post.id}"><i
+                            class="fa-solid fa-plus"></i></button>
+                </td>
+                <td><a class="badge badge-primary" th:text="${post.id}"></a></td>
+                <td>
+                    <a class="flex-grow hover:underline hover:text-[red]" th:id="'post'+${post.id}"
+                       th:text="${post.subject}"
+                       th:href="@{|/post/${post.id}|}"></a>
+                </td>
+
+                <td>
+                    <ul class="flex">
+                        <li class="mr-1" th:each="tag : ${post.hashTagList}">
+                            <a class="hover:underline hover:text-[red]"
+                               th:href="@{|/member?tag=${tag.keyword.content}|}"
+                               th:text="|#${tag.keyword.content}|"></a>
+                        </li>
+                    </ul>
+                </td>
+                <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <span th:if="${post.updateDate != null}"
+                          th:text="${#temporals.format(post.updateDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>
