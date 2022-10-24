@@ -3,6 +3,7 @@ package com.example.product;
 import com.example.Util;
 import com.example.member.Member;
 import com.example.post.Post;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class Product {
     private Member member;
 
     @ManyToMany
+    @JsonBackReference
     private List<Post> postList;
 
     public ProductDto toDto() {
@@ -49,5 +51,13 @@ public class Product {
                 .memberDto(this.member.toDto())
                 .postDtoList(Util.toPostDtoList(this.postList))
                 .build();
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

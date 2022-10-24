@@ -7,6 +7,7 @@ import com.example.post.PostDto;
 import com.example.product.Product;
 import com.example.product.ProductDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -47,7 +48,11 @@ public class Util {
     }
 
     public static List<Post> toEntityList(List<PostDto> postDtoList) {
-        List<Post> postList = postDtoList.stream().map(PostDto :: toEntity).toList();
+//        List<Post> postList = postDtoList.stream().map(PostDto :: toEntity).toList();
+        List<Post> postList = new ArrayList<>();
+        for(PostDto postDto : postDtoList) {
+            postList.add(postDto.toEntity());
+        }
 
         return postList;
     }

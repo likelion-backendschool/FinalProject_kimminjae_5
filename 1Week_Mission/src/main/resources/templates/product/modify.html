@@ -1,32 +1,41 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container py-3 mx-auto">
-    <form th:action="@{/product/create}" method="post" class="flex justify-between mb-3"
+    <form th:action="@{|/product/${product.id}/modify|}" method="post" class="flex justify-between mb-3"
           onsubmit="ProductSave__submitForm(this); return false;">
         <div style="width: 50%;">
             <div class="mb-2">
                 <p class="font-bold mb-2">도서 제목</p>
                 <input class="input input-bordered input-lg" type="text" name="subject" id="subject"
-                       placeholder="도서의 제목" style="width: 100%;">
+                       placeholder="도서의 제목" style="width: 100%;" th:field="*{product.subject}">
                 <p id="size" class="text-3xl" style="float: right;"></p>
             </div>
             <div class="mb-2">
                 <p class="mb-2">해시태그</p>
                 <input class="input input-bordered" style="width: 100%;"
-                       type="text" name="hashtag" id="hashtag" placeholder="#자바 #스프링 #프로젝트">
+                       type="text" name="hashtag" id="hashtag" placeholder="#자바 #스프링 #프로젝트"> <!-- th:field="*{product.tags}" -->
             </div>
             <div class="mb-2">
                 <p class="mb-2">가격</p>
                 <input class="input input-bordered" style="width: 100%;"
-                       type="text" name="price" id="price" placeholder="가격을 책정해주세요.">
+                       type="text" name="price" id="price" placeholder="가격을 책정해주세요." th:field="*{product.price}">
             </div>
             <input type="hidden" id="postIds" name="postIds" value="">
             <button class="btn btn-primary btn-block ">도서 등록</button>
         </div>
         <div class="postList" id="postList" style="width: 50%;">
             도서에 들어갈 글 목록 (순서 - 제목)
+            <div th:each="post : ${product.postDtoList}">
+                <a class="badge badge-primary">[[${post.id}]]</a>
+                <a th:href="@{|/post/${post.Id}|}">[[${post.subject}]]</a>
+                <button class="btn btn-circle btn-outline" onclick="removePostAtProduct(this)" th:id="${post.Id}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
         </div>
     </form>
-    <script>
+    <script th:inline="javascript">
+        const productId = [[${product.id}]];
+        const postList = [];
 
         function ProductSave__submitForm(form) {
             form.subject.value = form.subject.value.trim();
@@ -44,36 +53,57 @@
             //가격 책정 이슈 해결 필요
 
             form.submit();
+            // 도서 등록
+            console.log(form.subject.value);
+            console.log(form.hashtag.value);
+            console.log(form.price.value);
+            console.log(form.postIds.value);
+            console.log(postList);
         }
 
         function addPostAtProduct(element) {
             const postId = element.id;
-            if (document.getElementById('postIds').value.includes(postId)) {
-                alert('글 목록에 존재하는 글입니다.');
-                return;
-            }
-            $('input[name=postIds]').attr('value', document.getElementById('postIds').value + postId + ',');
-
-            alert(document.getElementById('postIds').value);
-
-            const subjectElement = document.getElementById('post' + postId);
-            const subject = subjectElement.innerText;
-            const html = `
+            $.ajax({
+                url: "/product/addPost",
+                data: {
+                    input_postId: postId,
+                    input_productId: productId
+                },
+                success: function (post) {
+                    const html = `
                 <div th:name="${postId}">
                     <a class="badge badge-primary">${postId}</a>
-                    <a th:href="@{|/post/${postId}|}">${subject}</a>
-                    <button class="btn btn-circle btn-outline" onclick="removePostAtProduct(this)" id=${postId}>
+                    <a th:href="@{|/post/${post.Id}|}">${post.subject}</a>
+                    <button class="btn btn-circle btn-outline" onclick="removePostAtProduct(this)" id=${post.Id}>
   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
 </button>
                 </div>
             `;
-            $('.postList').append(html);
+                    $('.postList').append(html);
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
         }
         function removePostAtProduct(element) {
             const postId = element.id;
             console.log(postId);
-            $('input[name=postIds]').attr('value', document.getElementById('postIds').value.replace(postId+',', ''));
-            alert(document.getElementById('postIds').value);
+            $.ajax({
+                url: "/product/removePost",
+                data: {
+                    input_postId: postId,
+                    input_productId: productId
+                },
+                datatype: "text",
+                success: function (post) {
+                    console.log('제거 완료');
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+
             $(element).parent().remove();
         }
     </script>

@@ -101,4 +101,60 @@ public class ProductController {
         productService.delete(productDto);
         return "redirect:/";
     }
+
+    //도서 수정
+    @GetMapping("/{id}/modify")
+    @PreAuthorize("isAuthenticated()")
+    public String modifyProduct(Model model, @PathVariable("id") long id, Principal principal) {
+        ProductDto productDto = productService.getProductById(id);
+        List<PostDto> postDtoList = postService.getPostByMember(memberService.getMemberByUsername(principal.getName()));
+        //수정 권한 확인
+        if(!productDto.getMemberDto().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        model.addAttribute("postList", postDtoList);
+        model.addAttribute("product", productDto);
+        return "product/modify";
+    }
+
+    //수정 페이지에서 도서에 글 넣기
+    @GetMapping("/addPost")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public PostDto addPost(@RequestParam("input_postId") long postId, @RequestParam("input_productId") long productId) {
+        ProductDto productDto = productService.getProductById(productId);
+        PostDto postDto = postService.getPostById(postId);
+
+        productService.addPostAtProduct(productDto, postDto);
+
+        return postDto;
+    }
+    //수정 페이지에서 도서에 글 넣기
+    @GetMapping("/removePost")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public String removePost(@RequestParam("input_postId") long postId, @RequestParam("input_productId") long productId) {
+        ProductDto productDto = productService.getProductById(productId);
+        PostDto postDto = postService.getPostById(postId);
+
+        productService.removePostAtProduct(productDto, postDto);
+
+        return "success";
+    }
+
+    //도서 수정 처리
+    @PostMapping("{id}/modify")
+    @PreAuthorize("isAuthenticated()")
+    public String modifyProduct(Principal principal, @PathVariable("id") long id, @RequestParam("subject") String subject, @RequestParam("hashtag") String hashtags, @RequestParam("price") int price) {
+        ProductDto productDto = productService.getProductById(id);
+
+        //수정 권한 확인
+        if(!productDto.getMemberDto().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+
+        productService.modify(productDto, subject, hashtags, price);
+
+        return "redirect:/product/%d".formatted(id);
+    }
 }

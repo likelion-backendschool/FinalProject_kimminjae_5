@@ -64,4 +64,41 @@ public class ProductService {
     public List<ProductDto> getAll() {
         return Util.toDtoList(productRepository.findAll());
     }
+
+    public void addPostAtProduct(ProductDto productDto, PostDto postDto) {
+        Product product = productDto.toEntity();
+        Post post = postDto.toEntity();
+
+        List<Post> postList = product.getPostList();
+        for(Post post1 : postList) {
+            if(post1.getId() == post.getId()) throw new DataNotFoundException("도서에 글이 존재합니다.");
+        }
+        postList.add(post);
+
+        productRepository.save(product);
+    }
+
+    public void removePostAtProduct(ProductDto productDto, PostDto postDto) {
+        Product product = productDto.toEntity();
+        Post post = postDto.toEntity();
+        List<Post> postList = product.getPostList();
+
+        for(Post post1 : postList) {
+            if(post1.getId() == post.getId()) {
+                postList.remove(post1);
+                break;
+            }
+        }
+        productRepository.save(product);
+    }
+
+    public void modify(ProductDto productDto, String subject, String hashtags, int price) {
+        Product product = productDto.toEntity();
+        product.setSubject(subject);
+        product.setPrice(price);
+
+        //해시태그 수정 로직 추가
+
+        productRepository.save(product);
+    }
 }
