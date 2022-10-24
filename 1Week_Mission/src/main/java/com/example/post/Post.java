@@ -1,6 +1,6 @@
 package com.example.post;
 
-import com.example.hashTag.HashTag;
+import com.example.post.post_hashTag.HashTag;
 import com.example.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

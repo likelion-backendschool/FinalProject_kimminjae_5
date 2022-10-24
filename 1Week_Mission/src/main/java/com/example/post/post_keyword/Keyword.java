@@ -1,16 +1,15 @@
-package com.example.keyword;
+package com.example.post.post_keyword;
 
+import com.example.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -37,5 +36,4 @@ public class Keyword {
                 .content(this.content)
                 .build();
     }
-
 }

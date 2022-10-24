@@ -1,4 +1,4 @@
-package com.example.keyword;
+package com.example.post.post_keyword;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

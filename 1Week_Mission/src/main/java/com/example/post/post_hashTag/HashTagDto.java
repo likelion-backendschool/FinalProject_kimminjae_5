@@ -1,6 +1,6 @@
-package com.example.hashTag;
+package com.example.post.post_hashTag;
 
-import com.example.keyword.Keyword;
+import com.example.post.post_keyword.Keyword;
 import com.example.member.Member;
 import com.example.post.Post;
 import lombok.*;

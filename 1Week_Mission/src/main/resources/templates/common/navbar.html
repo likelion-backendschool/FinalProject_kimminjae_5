@@ -5,7 +5,11 @@
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal p-0">
+                <li><a th:href="@{/product/list}"><i class="fa-solid fa-books"></i>전체 도서 목록</a></li>
                 <li><a th:href="@{/post/list}"><i class="fa-solid fa-list"></i>전체 글 목록</a></li>
+                <li><a sec:authorize="isAuthenticated()"
+                       th:href="@{/product/create}"><i class="fa-regular fa-pen-to-square"></i>도서 등록</a></li>
+                <li>
                 <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}"><i
                         class="fa-regular fa-pen-to-square"></i>글 작성</a></li>
                 <li>

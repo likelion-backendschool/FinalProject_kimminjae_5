@@ -1,12 +1,11 @@
 package com.example.post;
 
-import com.example.hashTag.HashTag;
-import com.example.hashTag.HashTagDto;
-import com.example.hashTag.HashTagService;
+import com.example.post.post_hashTag.HashTag;
+import com.example.post.post_hashTag.HashTagDto;
+import com.example.post.post_hashTag.HashTagService;
 import com.example.member.MemberDto;
 import com.example.member.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.criterion.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -101,13 +100,28 @@ public class PostController {
     //글 삭제
     @GetMapping("/{id}/delete")
     @PreAuthorize("isAuthenticated()")
+    @ResponseBody
     public String delete(@PathVariable("id") Long id, Principal principal) {
         PostDto postDto = postService.getPostById(id);
         //삭제 권한 확인
         if(!postDto.getMember().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
-        postService.delete(postDto);
-        return "redirect:/";
+        try {
+            postService.delete(postDto);
+        } catch(Exception e) {
+            return "<script>alert('도서에 등록된 글은 삭제할 수 없습니다!'); location.href='/post/%d';</script>".formatted(id);
+        }
+//        return "redirect:/";
+        return "<script>location.href='/';</script>";
     }
+
+    //글 정보 가져오기
+//    @PostMapping("/get")
+//    @ResponseBody
+//    public PostDto getPost(@RequestParam(value = "input_postId") Long id) {
+//        PostDto postDto = postService.getPostById(id);
+//
+//        return postDto;
+//    }
 }

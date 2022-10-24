@@ -2,12 +2,15 @@ package com.example.member;
 
 import com.example.DataNotFoundException;
 import com.example.Util;
-import com.example.hashTag.HashTagDto;
-import com.example.hashTag.HashTagService;
+import com.example.post.post_hashTag.HashTagDto;
+import com.example.post.post_hashTag.HashTagService;
 import com.example.mail.MailService;
 import com.example.mail.MailTO;
 import com.example.post.PostDto;
 import com.example.post.PostService;
+import com.example.product.Product;
+import com.example.product.ProductDto;
+import com.example.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -23,11 +26,11 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
-//git test
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
+    private final ProductService productService;
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
     private final MemberService memberService;
@@ -86,13 +89,14 @@ public class MemberController {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         List<PostDto> postDtoList;
         List<HashTagDto> tagDtoList = hashTagService.getHashTagByMember(memberDto);
+        List<ProductDto> productDtos = productService.getByMember(memberDto);
 
         if(tag.length() == 0) {
             postDtoList = postService.getPostByMember(memberDto);
         } else {
             postDtoList = postService.getPostByTagAndMember(memberDto, tag);
         }
-
+        model.addAttribute("productList", productDtos);
         model.addAttribute("tagList", tagDtoList);
         model.addAttribute("postList", postDtoList);
         model.addAttribute("member", memberDto);

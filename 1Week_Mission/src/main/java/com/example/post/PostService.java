@@ -2,12 +2,11 @@ package com.example.post;
 
 import com.example.CommonUtil;
 import com.example.DataNotFoundException;
-import com.example.hashTag.HashTag;
-import com.example.hashTag.HashTagService;
+import com.example.post.post_hashTag.HashTag;
+import com.example.post.post_hashTag.HashTagService;
 import com.example.member.Member;
 import com.example.member.MemberDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

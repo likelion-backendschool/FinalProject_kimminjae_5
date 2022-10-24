@@ -1,4 +1,4 @@
-package com.example.post;
+package com.example.product;
 
 import com.example.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findByMember(Member member);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findByMember(Member member);
 }

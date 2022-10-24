@@ -1,28 +1,44 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container py-3 px-5 mx-auto">
     <div class="mb-5">
-        <div class="lg:flex-row">
-            <div class="flex">
-                <div class="avatar mr-4">
-                    <div class="w-24 mask mask-squircle">
-                        <img src="https://placeimg.com/192/192/people"/>
+        <div class="flex">
+            <div class="lg:flex-row mr-10">
+                <div class="flex">
+                    <div class="avatar mr-4">
+                        <div class="w-24 mask mask-squircle">
+                            <img src="https://placeimg.com/192/192/people"/>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-5xl font-bold mb-2" th:text="${member.username}"></h1>
+                        <h2 class="text-2xl" th:if="${member.nickname.length != 0}"
+                            th:text="|작가명 : ${member.nickname}|"></h2>
+                        <form th:if="${member.nickname.length == 0}" th:action="@{/member/signup/author}" method="post">
+                            <input class="input input-bordered" type="text" placeholder="작가로 활동할 이름을 정해보세요!"
+                                   name="nickname"
+                                   id="nickname">
+                            <button class="btn btn-primary">작가 되기</button>
+                        </form>
                     </div>
                 </div>
                 <div>
-                    <h1 class="text-5xl font-bold mb-2" th:text="${member.username}"></h1>
-                    <h2 class="text-2xl" th:if="${member.nickname.length != 0}"
-                        th:text="|작가명 : ${member.nickname}|"></h2>
-                    <form th:if="${member.nickname.length == 0}" th:action="@{/member/signup/author}" method="post">
-                        <input class="input input-bordered" type="text" placeholder="작가로 활동할 이름을 정해보세요!" name="nickname"
-                               id="nickname">
-                        <button class="btn btn-primary">작가 되기</button>
-                    </form>
+                    <p class="py-6 text-2xl"><i class="fa-regular fa-envelope"></i> [[${member.email}]]</p>
+                    <a class="btn btn-outline btn-primary" th:href="@{/member/modify}">회원정보수정</a>
+                    <a class="btn btn-outline btn-success" th:href="@{/member/modifyPassword}">비밀번호 변경</a>
                 </div>
             </div>
-            <div>
-                <p class="py-6 text-2xl"><i class="fa-regular fa-envelope"></i> [[${member.email}]]</p>
-                <a class="btn btn-outline btn-primary" th:href="@{/member/modify}">회원정보수정</a>
-                <a class="btn btn-outline btn-success" th:href="@{/member/modifyPassword}">비밀번호 변경</a>
+            <div style="float: right;">
+                <ul class="flex">
+                    <li class="mr-5" th:each="product : ${productList}">
+                        <div>
+                            <a th:href="@{|/product/${product.id}|}">[[${product.subject}]]</a>
+                            <br>
+                            <span>tagList</span>
+                            <br>
+                            <span th:text="${product.price}"></span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

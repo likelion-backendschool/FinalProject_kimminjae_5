@@ -1,15 +1,9 @@
 package com.example.post;
 
-import com.example.hashTag.HashTag;
-import com.example.member.Member;
+import com.example.post.post_hashTag.HashTag;
 import com.example.member.MemberDto;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.List;
 
