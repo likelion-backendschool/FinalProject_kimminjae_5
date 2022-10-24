@@ -5,6 +5,11 @@ import com.example.member.MemberDto;
 import com.example.member.MemberService;
 import com.example.post.PostDto;
 import com.example.post.PostService;
+import com.example.post.post_hashTag.HashTag;
+import com.example.post.post_hashTag.HashTagDto;
+import com.example.product.product_hashTag.ProductHashTag;
+import com.example.product.product_hashTag.ProductHashTagDto;
+import com.example.product.product_hashTag.ProductHashTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/product")
 public class ProductController {
+    private final ProductHashTagService productHashTagService;
     private final ProductService productService;
     private final MemberService memberService;
 
@@ -28,10 +34,16 @@ public class ProductController {
 
     //도서 목록
     @GetMapping("/list")
-    public String productList(Model model, Principal principal) {
+    public String productList(Model model, Principal principal, @RequestParam(value = "tag", defaultValue = "") String tag) {
 //        List<ProductDto> productDtos = productService.getByMember(memberService.getMemberByUsername(principal.getName()));
-        List<ProductDto> productDtos = productService.getAll();
 
+        List<ProductDto> productDtos;
+
+        if(tag.length() == 0) {
+            productDtos = productService.getAll();
+        } else {
+            productDtos = productService.getProductByTag(tag);
+        }
         model.addAttribute("productList", productDtos);
 
         return "product/list";
@@ -59,7 +71,7 @@ public class ProductController {
                                 @RequestParam(value = "hashtag") String tags,
                                 @RequestParam(value = "price", defaultValue = "0") int price,
                                 @RequestParam(value = "postIds", defaultValue = "") String postIds,
-//                                @RequestParam(value = "input_postList") List<Long> postIdList,
+                                @RequestParam(value = "description") String description,
                                 Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
@@ -74,7 +86,7 @@ public class ProductController {
                 postDtoList.add(postService.getPostById(id));
             }
         }
-        productService.create(memberDto, subject, tags, price, postDtoList);
+        productService.create(memberDto, subject, tags, price, description, postDtoList);
 
         return "redirect:/member";
     }
@@ -83,7 +95,9 @@ public class ProductController {
     @GetMapping("/{id}")
     public String productDetail(Model model, @PathVariable("id") long id) {
         ProductDto productDto = productService.getProductById(id);
+        List<ProductHashTagDto> tagList = productHashTagService.getTagsByProduct(productDto);
 
+        model.addAttribute("tagList", tagList);
         model.addAttribute("product", productDto);
 
         return "product/detail";
@@ -99,7 +113,7 @@ public class ProductController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         productService.delete(productDto);
-        return "redirect:/";
+        return "redirect:/member";
     }
 
     //도서 수정
@@ -112,6 +126,12 @@ public class ProductController {
         if(!productDto.getMemberDto().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
+        List<ProductHashTag> tagList = productDto.getProductHashTagList();
+        StringBuilder tags = new StringBuilder();
+        for(ProductHashTag hashTag : tagList) {
+            tags.append("#%s ".formatted(hashTag.getProductKeyword().getContent()));
+        }
+        model.addAttribute("tags", tags.toString());
         model.addAttribute("postList", postDtoList);
         model.addAttribute("product", productDto);
         return "product/modify";
@@ -145,7 +165,12 @@ public class ProductController {
     //도서 수정 처리
     @PostMapping("{id}/modify")
     @PreAuthorize("isAuthenticated()")
-    public String modifyProduct(Principal principal, @PathVariable("id") long id, @RequestParam("subject") String subject, @RequestParam("hashtag") String hashtags, @RequestParam("price") int price) {
+    public String modifyProduct(Principal principal,
+                                @PathVariable("id") long id,
+                                @RequestParam("subject") String subject,
+                                @RequestParam("hashtag") String hashtags,
+                                @RequestParam("price") int price,
+                                @RequestParam("description") String description) {
         ProductDto productDto = productService.getProductById(id);
 
         //수정 권한 확인
@@ -153,7 +178,7 @@ public class ProductController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
 
-        productService.modify(productDto, subject, hashtags, price);
+        productService.modify(productDto, subject, hashtags, price, description);
 
         return "redirect:/product/%d".formatted(id);
     }

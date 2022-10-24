@@ -25,6 +25,11 @@
                     </a>
                 </span>
             </div>
+            <div>
+            <span class="badge badge-primary my-auto mr-2">
+                [[${product.price}]] 원
+            </span>
+            </div>
             <div class="mr-2">
                 <div class="badge" th:text="|생성일시 : ${#temporals.format(product.createDate, 'yyyy-MM-dd HH:mm')}|"></div>
                 <div class="badge badge-outline"
@@ -32,10 +37,16 @@
                      th:text="|최종수정 : ${#temporals.format(product.updateDate, 'yyyy-MM-dd HH:mm')}|"></div>
             </div>
         </div>
-        <div>
-            <span class="badge badge-primary my-auto mr-2">
-                [[${product.price}]] 원
-            </span>
+        <div th:if="${tagList != null}">
+            <ul class="flex">
+                <li class="text-2xl mr-3" th:each="hashTag : ${tagList}">
+                    <div class="badge badge-outline badge-lg">
+                        <a class="hover:underline hover:text-[red]"
+                           th:href="@{|/product/list?tag=${hashTag.productKeyword.content}|}"
+                           th:text="|#${hashTag.productKeyword.content}|"></a>
+                    </div>
+                </li>
+            </ul>
         </div>
         <div>
             <ul>

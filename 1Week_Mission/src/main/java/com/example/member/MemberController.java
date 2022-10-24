@@ -11,6 +11,9 @@ import com.example.post.PostService;
 import com.example.product.Product;
 import com.example.product.ProductDto;
 import com.example.product.ProductService;
+import com.example.product.product_hashTag.ProductHashTag;
+import com.example.product.product_hashTag.ProductHashTagDto;
+import com.example.product.product_hashTag.ProductHashTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +39,7 @@ public class MemberController {
     private final MemberService memberService;
     private final PostService postService;
     private final HashTagService hashTagService;
+    private final ProductHashTagService productHashTagService;
 
     //로그인
     @GetMapping("/login")
@@ -85,20 +89,37 @@ public class MemberController {
     //마이페이지, 프로필
     @GetMapping("")
     @PreAuthorize("isAuthenticated()")
-    public String memberDetail(Model model, Principal principal, @RequestParam(value = "tag", defaultValue = "") String tag) {
+    public String memberDetail(Model model, Principal principal, @RequestParam(value = "listType", defaultValue = "") String listType, @RequestParam(value = "tag", defaultValue = "") String tag) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
-        List<PostDto> postDtoList;
-        List<HashTagDto> tagDtoList = hashTagService.getHashTagByMember(memberDto);
-        List<ProductDto> productDtos = productService.getByMember(memberDto);
 
-        if(tag.length() == 0) {
-            postDtoList = postService.getPostByMember(memberDto);
-        } else {
-            postDtoList = postService.getPostByTagAndMember(memberDto, tag);
+        List<ProductDto> productDtos = null;
+        List<PostDto> postDtoList = null;
+        List<HashTagDto> tagDtoList = null;
+        List<ProductHashTagDto> productHashTagDtos = null;
+
+        if(listType.equals("product") || listType.equals("")) {
+            productHashTagDtos = productHashTagService.getProductHashTagByMember(memberDto);
+            if(tag.length() == 0) {
+                productDtos = productService.getByMember(memberDto);
+            } else {
+                productDtos = productService.getProductByTagAndMember(memberDto, tag);
+            }
+        } else if(listType.equals("post")) {
+            tagDtoList = hashTagService.getHashTagByMember(memberDto);
+
+            if(tag.length() == 0) {
+                postDtoList = postService.getPostByMember(memberDto);
+            } else {
+                postDtoList = postService.getPostByTagAndMember(memberDto, tag);
+            }
         }
-        model.addAttribute("productList", productDtos);
-        model.addAttribute("tagList", tagDtoList);
+        if(productHashTagDtos == null) {
+            model.addAttribute("tagList", tagDtoList);
+        } else {
+            model.addAttribute("tagList", productHashTagDtos);
+        }
         model.addAttribute("postList", postDtoList);
+        model.addAttribute("productList", productDtos);
         model.addAttribute("member", memberDto);
 
         return "member/profile";

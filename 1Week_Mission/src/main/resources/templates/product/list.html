@@ -5,18 +5,31 @@
             <div class="card card-side bg-base-100 shadow-xl">
                 <figure><img src="https://placeimg.com/200/280/arch" alt="Movie"/></figure>
                 <div class="card-body">
-                    <h2 class="card-title">[[${product.subject}]]</h2>
-                    <div class="flex">
+                    <h2 class="card-title"><i class="fa-solid fa-book"></i> [[${product.subject}]]</h2>
+                    <div class="flex gap-2">
                         <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${product.memberDto.nickname}]]</span>
+                        <span class="badge badge-accent justify-end">[[${product.price}]] 원</span>
+                    </div>
+                    <div class="flex gap-2">
                         <span class="badge" th:text="|${#temporals.format(product.createDate, 'yyyy-MM-dd')}|"></span>
+                        <span class="badge badge-outline"
+                              th:if="${product.updateDate != null}"
+                              th:text="|${#temporals.format(product.updateDate, 'yyyy-MM-dd')}|"></span>
                     </div>
                     <div class="card-actions justify-start flex-wrap">
-                        <div class="badge badge-outline badge-xs">#Fashion</div>
-                        <div class="badge badge-outline badge-xs">#Products</div>
+                        <ul class="flex">
+                            <li class="text-2xl mr-3" th:each="hashTag : ${product.productHashTagList}">
+                                <div class="badge badge-outline badge-lg">
+                                    <a class="hover:underline hover:text-[red]"
+                                       th:href="@{|/product/list?tag=${hashTag.productKeyword.content}|}"
+                                       th:text="|#${hashTag.productKeyword.content}|"></a>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <p>Click the button to watch on Jetflix app.</p>
+                    <p>[[${product.description}]]</p>
                     <div class="card-actions justify-end">
-                        <button class="btn btn-primary">Watch</button>
+                        <button class="btn btn-primary">담기</button>
                     </div>
                 </div>
             </div>
