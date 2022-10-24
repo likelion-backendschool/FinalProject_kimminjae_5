@@ -142,7 +142,7 @@
             const postId = element.id;
             console.log(postId);
             $('input[name=postIds]').attr('value', document.getElementById('postIds').value.replace(postId + ',', ''));
-            alert(document.getElementById('postIds').value);
+            // alert(document.getElementById('postIds').value);
             $(element).parent().parent().remove();
         }
     </script>
