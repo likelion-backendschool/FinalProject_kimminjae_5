@@ -141,4 +141,14 @@ public class OrderController {
         model.addAttribute("code", code);
         return "order/fail";
     }
+
+    @PostMapping("/create")
+    @PreAuthorize("isAuthenticated()")
+    public String makeOrder(Principal principal) {
+        Member member = memberService.getMemberByUsername(principal.getName()).toEntity();
+        Order order = orderService.createFromCart(member);
+        String redirect = "redirect:/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
+
+        return redirect;
+    }
 }

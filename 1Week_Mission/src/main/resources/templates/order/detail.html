@@ -41,7 +41,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div th:if="${order.payable}">
                     <div>
                         보유 예치금 : [[${actorRestCash}]]
                     </div>
@@ -79,7 +79,7 @@
         const $PaymentForm__useRestCashAll = $("#PaymentForm__useRestCashAll");
         const $PaymentForm__pgPayPriceDisplay = $("#PaymentForm__pgPayPriceDisplay");
 
-        const tossPayments = TossPayments("test_ck_BE92LAa5PVbDMxDgLzB87YmpXyJj");
+        const tossPayments = TossPayments("test_ck_jZ61JOxRQVEgMJKaBAQ8W0X9bAqw");
 
         function payment() {
             let useRestCash = parseInt($PaymentForm__useRestCash.val());

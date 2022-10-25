@@ -1,5 +1,7 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container py-3 mx-auto">
+    <a href="javascript:;" onclick="OrderCartItemsForm__submit();" class="btn btn-primary btn-wide">전체 주문하기</a>
+    <form method="POST" name="orderCartItemsForm" th:action="@{|/order/create|}" hidden></form>
     <div class="" style="width: 75%;">
         <table class="table table-compact w-full">
             <!-- head -->
@@ -50,6 +52,10 @@
 
 
     <script>
+        function OrderCartItemsForm__submit() {
+
+            document.orderCartItemsForm.submit();
+        }
         function removeItem(id, element) {
             $.ajax({
                 url: "/cart/remove/" + id,
