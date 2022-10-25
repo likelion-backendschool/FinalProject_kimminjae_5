@@ -56,6 +56,7 @@ public class OrderService {
         Order order = Order
                 .builder()
                 .buyer(buyer)
+                .createDate(LocalDateTime.now())
                 .build();
 
         for (OrderItem orderItem : orderItems) {
@@ -124,7 +125,6 @@ public class OrderService {
         }
 
         order.setPaymentDone();
-        order.setCreateDate(LocalDateTime.now());
         orderRepository.save(order);
     }
     public boolean actorCanPayment(Member actor, Order order) {
@@ -132,7 +132,14 @@ public class OrderService {
     }
 
     public void cancel(MemberDto memberDto, Order order) {
-        Member member = memberDto.toEntity();
-        orderRepository.delete(order);
+        order.setCanceledDone();
+
+        orderRepository.save(order);
+    }
+
+    //회원정보로 주문목록 가져오기
+    public List<Order> getAllByMember(MemberDto memberDto) {
+        List<Order> orderList = orderRepository.findAllByBuyer(memberDto.toEntity());
+        return orderList;
     }
 }

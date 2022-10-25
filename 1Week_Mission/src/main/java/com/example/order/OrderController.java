@@ -36,6 +36,11 @@ public class OrderController {
     private final CartService cartService;
 
 
+//    //주문 목록
+//    @GetMapping("/list")
+//    @PreAuthorize("isAuthenticated()")
+//    public String
+
     //구매 취소
     @GetMapping("/{id}/cancel")
     @PreAuthorize("isAuthenticated()")
@@ -51,7 +56,7 @@ public class OrderController {
 
         orderService.cancel(memberDto, order);
 
-        return "<script>alert('주문이 취소되었습니다.'); location.href='/cart/list';</script>";
+        return "<script>alert('주문이 취소되었습니다.'); location.href='/member?listType=orderList';</script>";
     }
 
     @PostMapping("/{id}/payByRestCashOnly")

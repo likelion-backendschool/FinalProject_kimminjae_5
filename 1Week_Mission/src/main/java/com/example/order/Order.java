@@ -72,6 +72,12 @@ public class Order {
         isRefunded = true;
     }
 
+    public void setCanceledDone() {
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setCanceledDone();
+        }
+        isCanceled = true;
+    }
     public int getPayPrice() {
         int payPrice = 0;
         for (OrderItem orderItem : orderItems) {

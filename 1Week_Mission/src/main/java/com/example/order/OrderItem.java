@@ -60,4 +60,8 @@ public class OrderItem {
     public void setRefundDone() {
         this.refundPrice = payPrice;
     }
+
+    public void setCanceledDone() {
+        this.isPaid = false;
+    }
 }

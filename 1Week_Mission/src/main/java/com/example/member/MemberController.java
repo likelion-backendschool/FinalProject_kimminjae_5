@@ -2,6 +2,8 @@ package com.example.member;
 
 import com.example.DataNotFoundException;
 import com.example.Util;
+import com.example.order.Order;
+import com.example.order.OrderService;
 import com.example.post.post_hashTag.HashTagDto;
 import com.example.post.post_hashTag.HashTagService;
 import com.example.mail.MailService;
@@ -40,6 +42,7 @@ public class MemberController {
     private final PostService postService;
     private final HashTagService hashTagService;
     private final ProductHashTagService productHashTagService;
+    private final OrderService orderService;
 
     //로그인
     @GetMapping("/login")
@@ -83,7 +86,7 @@ public class MemberController {
             bindingResult.reject("signupFailed", e.getMessage());
             return "member/join_form";
         }
-        return "redirect:/";
+        return "redirect:/member";
     }
 
     //마이페이지, 프로필
@@ -96,6 +99,7 @@ public class MemberController {
         List<PostDto> postDtoList = null;
         List<HashTagDto> tagDtoList = null;
         List<ProductHashTagDto> productHashTagDtos = null;
+        List<Order> orderList = null;
 
         if(listType.equals("product") || listType.equals("")) {
             productHashTagDtos = productHashTagService.getProductHashTagByMember(memberDto);
@@ -112,6 +116,9 @@ public class MemberController {
             } else {
                 postDtoList = postService.getPostByTagAndMember(memberDto, tag);
             }
+        } else if(listType.equals("orderList")) {
+            orderList = orderService.getAllByMember(memberDto);
+            model.addAttribute("orderList", orderList);
         }
         if(productHashTagDtos == null) {
             model.addAttribute("tagList", tagDtoList);
