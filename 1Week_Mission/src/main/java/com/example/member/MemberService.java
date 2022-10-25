@@ -1,8 +1,12 @@
 package com.example.member;
 
 import com.example.DataNotFoundException;
+import com.example.cart.CartItem;
+import com.example.cart.CartService;
 import com.example.cash.CashLog;
 import com.example.cash.CashService;
+import com.example.product.Product;
+import com.example.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +20,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    //확인 후 제거
+    private final ProductService productService;
+    private final CartService cartService;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CashService cashService;
@@ -45,6 +52,7 @@ public class MemberService {
                 .authLevel(7)
                 .build();
         memberRepository.save(member);
+
         addCash(member, 1_000_000, "충전__무통장입금");
         return member.toDto();
     }

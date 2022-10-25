@@ -11,18 +11,18 @@
         </script>
 
         <script>
-            const tossPayments = TossPayments("test_ck_BE92LAa5PVbDMxDgLzB87YmpXyJj");
+            const tossPayments = TossPayments("test_ck_jZ61JOxRQVEgMJKaBAQ8W0X9bAqw");
 
             function payment() {
                 const method = "카드"; // "카드" 혹은 "가상계좌"
 
                 const paymentData = {
                     amount: orderPayPrice,
-                    orderId: "order__" + orderId,
+                    orderId: "order__" + orderId + "__" + (Math.random() + "").substring(2),
                     orderName,
                     customerName: buyerName,
-                    successUrl: window.location.origin + "/success",
-                    failUrl: window.location.origin + "/fail",
+                    successUrl: window.location.origin + "/order/" + orderId + "/success",
+                    failUrl: window.location.origin + "/order/" + orderId + "/fail"
                 };
 
                 tossPayments.requestPayment(method, paymentData);
@@ -52,8 +52,8 @@
                 <div>
                     <div th:each="orderItem : ${order.orderItems}">
                         <div>
-                            음악 : [[${orderItem.product.subject}]] /
-                            아티스트 : [[${orderItem.product.member.username}]] /
+                            도서 : [[${orderItem.product.subject}]] /
+                            작가 : [[${orderItem.product.member.username}]] /
                             가격 : [[${orderItem.salePrice}]]
                         </div>
                     </div>
