@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -75,15 +76,12 @@ public class ProductController {
                                 Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
-        List<Long> postIdList = new ArrayList<>();
-        List<PostDto> postDtoList = new ArrayList<>();
+        List<Long> postIdList = new LinkedList<>();
+        List<PostDto> postDtoList = new LinkedList<>();
 
         if(postIds.length() != 0) {
             for (String ch : postIds.split(",")) {
-                postIdList.add(Long.valueOf(ch));
-            }
-            for (long id : postIdList) {
-                postDtoList.add(postService.getPostById(id));
+                postDtoList.add(postService.getPostById(Long.valueOf(ch)));
             }
         }
         productService.create(memberDto, subject, tags, price, description, postDtoList);
