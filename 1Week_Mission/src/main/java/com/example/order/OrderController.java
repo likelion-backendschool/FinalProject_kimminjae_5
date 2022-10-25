@@ -1,7 +1,11 @@
 package com.example.order;
 
+import com.example.cart.CartItem;
+import com.example.cart.CartService;
 import com.example.member.Member;
+import com.example.member.MemberDto;
 import com.example.member.MemberService;
+import com.example.product.Product;
 import com.example.util.Ut;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +33,26 @@ public class OrderController {
     private final MemberService memberService;
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper;
+    private final CartService cartService;
+
+
+    //구매 취소
+    @GetMapping("/{id}/cancel")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public String cancelOrder(Principal principal, @PathVariable long id) {
+        Order order = orderService.findForPrintById(id).orElse(null);
+        MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+
+        for(int i = 0; i < order.getOrderItems().size(); i++) {
+            Product product = order.getOrderItems().get(i).getProduct();
+            cartService.addItem(memberDto.toEntity(), product);
+        }
+
+        orderService.cancel(memberDto, order);
+
+        return "<script>alert('주문이 취소되었습니다.'); location.href='/cart/list';</script>";
+    }
 
     @PostMapping("/{id}/payByRestCashOnly")
     @PreAuthorize("isAuthenticated()")

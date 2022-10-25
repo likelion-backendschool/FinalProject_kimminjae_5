@@ -60,6 +60,7 @@
                         </label>
                     </div>
                     <button th:if="${order.payable}" onclick="payment();" class="btn btn-sm btn-primary">카드결제</button>
+                    <button th:if="${order.payable}" th:onclick="location.href='/order/[[${order.id}]]/cancel';" class="btn btn-sm btn-primary">구매취소</button>
                     <span th:if="${order.isPaid}">결제완료</span>
                 </div>
                 <div>

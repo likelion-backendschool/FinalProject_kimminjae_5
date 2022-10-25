@@ -3,6 +3,7 @@ package com.example.order;
 import com.example.cart.CartItem;
 import com.example.cart.CartService;
 import com.example.member.Member;
+import com.example.member.MemberDto;
 import com.example.member.MemberService;
 import com.example.product.Product;
 import lombok.RequiredArgsConstructor;
@@ -128,5 +129,10 @@ public class OrderService {
     }
     public boolean actorCanPayment(Member actor, Order order) {
         return actorCanSee(actor, order);
+    }
+
+    public void cancel(MemberDto memberDto, Order order) {
+        Member member = memberDto.toEntity();
+        orderRepository.delete(order);
     }
 }
