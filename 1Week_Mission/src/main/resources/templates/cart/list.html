@@ -1,0 +1,53 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <div class="flex flex-wrap">
+        <div th:each="cartItem : ${cartItems}" class="m-8">
+            <div class="card card-side bg-base-100 shadow-xl" th:id="${cartItem.product.Id}">
+                <figure><img src="https://placeimg.com/200/280/arch" alt="Movie"/></figure>
+                <div class="card-body">
+                    <h2 class="card-title"><i class="fa-solid fa-book"></i> [[${cartItem.product.subject}]]</h2>
+                    <div class="flex gap-2">
+                        <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${cartItem.product.member.nickname}]]</span>
+                        <span class="badge badge-accent justify-end">[[${cartItem.product.price}]] 원</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="badge" th:text="|${#temporals.format(cartItem.product.createDate, 'yyyy-MM-dd')}|"></span>
+                        <span class="badge badge-outline"
+                              th:if="${cartItem.product.updateDate != null}"
+                              th:text="|${#temporals.format(cartItem.product.updateDate, 'yyyy-MM-dd')}|"></span>
+                    </div>
+                    <div class="card-actions justify-start flex-wrap">
+                        <ul class="flex">
+                            <li class="text-2xl mr-3" th:each="hashTag : ${cartItem.product.productHashTagList}">
+                                <div class="badge badge-outline badge-lg">
+                                    <a th:text="|#${hashTag.productKeyword.content}|"></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <p>[[${cartItem.product.description}]]</p>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary" th:onclick="removeItem([[${cartItem.product.id}]], this);">제거</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function removeItem(id, element) {
+            $.ajax({
+                url: "/cart/remove/"+id,
+                datatype: "text",
+                success: function (msg) {
+                    // alert('success');
+                    $(element).parent().parent().parent().parent().remove();
+
+                },
+                error: function () {
+                    alert('fail');
+                }
+            });
+        }
+    </script>
+</div>
+</html>

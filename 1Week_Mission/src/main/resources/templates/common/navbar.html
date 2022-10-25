@@ -1,17 +1,45 @@
-<div th:fragment="narbarFragment" class="navbar bg-base-100">
+<div th:fragment="narbarFragment" class="navbar bg-base-100" style="z-index: 1;">
     <div class="navbar bg-base-100">
         <div class="flex-1">
             <a class="text-3xl" th:href="@{/post/list}"><i class="fa-solid fa-book"></i> 멋 북스</a>
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal p-0">
-                <li><a th:href="@{/product/list}"><i class="fa-solid fa-books"></i>전체 도서 목록</a></li>
-                <li><a th:href="@{/post/list}"><i class="fa-solid fa-list"></i>전체 글 목록</a></li>
-                <li><a sec:authorize="isAuthenticated()"
-                       th:href="@{/product/create}"><i class="fa-regular fa-pen-to-square"></i>도서 등록</a></li>
                 <li>
-                <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}"><i
-                        class="fa-regular fa-pen-to-square"></i>글 작성</a></li>
+                    <a th:href="@{/cart/list}"><i class="fa-solid fa-cart-shopping"></i> 장바구니</a>
+                </li>
+                <li tabindex="0" style="position:relative; z-index: 1;">
+                    <a>
+                        <i class="fa-solid fa-book"></i> 도서
+                        <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                             viewBox="0 0 24 24">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </a>
+                    <ul class="p-2 bg-base-100">
+                        <li><a th:href="@{/product/list}"><i class="fa-duotone fa-books"></i> 전체 도서 목록</a></li>
+                        <li>
+                            <a sec:authorize="isAuthenticated()"
+                               th:href="@{/product/create}"><i class="fa-regular fa-pen-to-square"></i>도서 등록</a></li>
+                        <li>
+                    </ul>
+                </li>
+
+                <li tabindex="0" style="z-index: 10;">
+                    <a>
+                        <i class="fa-regular fa-file-lines"></i> 글
+                        <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                             viewBox="0 0 24 24">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </a>
+                    <ul class="p-2 bg-base-100">
+                        <li><a th:href="@{/post/list}"><i class="fa-solid fa-list"></i>전체 글 목록</a></li>
+                        <li><a sec:authorize="isAuthenticated()" th:href="@{/post/write}"><i
+                                class="fa-regular fa-pen-to-square"></i>글 작성</a></li>
+                        <li>
+                    </ul>
+                </li>
                 <li>
                     <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}"><i
                             class="fa-solid fa-right-to-bracket"></i>로그인</a>
@@ -21,7 +49,8 @@
                 <li>
                     <a sec:authorize="isAuthenticated()" th:href="@{/member}"><i class="fa-solid fa-user"></i>마이페이지</a>
                 </li>
-                <li><a sec:authorize="isAnonymous()" th:href="@{/member/join}"><i class="fa-solid fa-user-plus"></i>회원가입</a></li>
+                <li><a sec:authorize="isAnonymous()" th:href="@{/member/join}"><i class="fa-solid fa-user-plus"></i>회원가입</a>
+                </li>
             </ul>
         </div>
     </div>

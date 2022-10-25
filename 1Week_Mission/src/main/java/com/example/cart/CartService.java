@@ -1,5 +1,6 @@
 package com.example.cart;
 
+import com.example.DataNotFoundException;
 import com.example.member.Member;
 import com.example.product.Product;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,8 @@ public class CartService {
         CartItem oldCartItem = cartItemRepository.findByBuyerIdAndProductId(buyer.getId(), product.getId()).orElse(null);
 
         if (oldCartItem != null) {
-            return oldCartItem;
+            throw new DataNotFoundException("이미 장바구니에 있습니다.");
+//            return oldCartItem;
         }
         CartItem cartItem = CartItem.builder()
                 .createDate(LocalDateTime.now())
