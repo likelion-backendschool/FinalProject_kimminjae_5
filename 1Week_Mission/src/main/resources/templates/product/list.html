@@ -2,19 +2,14 @@
 <div layout:fragment="content" class="container py-3 mx-auto">
     <div class="flex justify-center" style="flex-wrap: wrap;">
         <div th:each="product : ${productList}" class="m-8">
-            <div class="card card-side bg-base-100 shadow-xl">
-                <figure><img src="https://placeimg.com/200/280/arch" alt="Movie"/></figure>
+            <div class="card card-compact bg-base-100 shadow-xl">
+                <figure><img src="https://placeimg.com/350/200/arch" alt="Shoes"/></figure>
                 <div class="card-body">
                     <h2 class="card-title"><i class="fa-solid fa-book"></i> [[${product.subject}]]</h2>
                     <div class="flex gap-2">
                         <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${product.memberDto.nickname}]]</span>
                         <span class="badge badge-accent justify-end">[[${product.price}]] 원</span>
-                    </div>
-                    <div class="flex gap-2">
                         <span class="badge" th:text="|${#temporals.format(product.createDate, 'yyyy-MM-dd')}|"></span>
-                        <span class="badge badge-outline"
-                              th:if="${product.updateDate != null}"
-                              th:text="|${#temporals.format(product.updateDate, 'yyyy-MM-dd')}|"></span>
                     </div>
                     <div class="card-actions justify-start flex-wrap">
                         <ul class="flex">
