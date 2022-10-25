@@ -101,6 +101,18 @@ public class ProductController {
         return "product/detail";
     }
 
+    //도서 구매 x 일시 도서 상세
+    @GetMapping("/description/{id}")
+    public String productDescription(Model model, @PathVariable("id") long id) {
+        ProductDto productDto = productService.getProductById(id);
+        List<ProductHashTagDto> tagList = productHashTagService.getTagsByProduct(productDto);
+
+        model.addAttribute("tagList", tagList);
+        model.addAttribute("product", productDto);
+
+        return "product/description";
+    }
+
     //도서 삭제
     @GetMapping("/{id}/delete")
     @PreAuthorize("isAuthenticated()")

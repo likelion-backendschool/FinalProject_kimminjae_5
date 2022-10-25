@@ -55,7 +55,7 @@
             <h1 class="text-3xl">목차</h1>
             <ul>
                 <li th:each="post : ${product.postDtoList}">
-                    <a class="hover:underline hover:text-[red]" th:href="@{|/post/${post.id}|}">[[${post.subject}]]</a>
+                    <a>[[${post.subject}]]</a>
                 </li>
             </ul>
         </div>
