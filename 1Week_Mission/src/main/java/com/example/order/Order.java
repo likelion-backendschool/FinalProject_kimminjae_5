@@ -32,6 +32,12 @@ public class Order {
     @ManyToOne(fetch = LAZY)
     private Member buyer;
 
+    private String name;
+
+    private boolean isPaid; //결제 여부
+    private boolean isCanceled; //취소 여부
+    private boolean isRefunded; //환불 여부
+
     @Builder.Default
     @OneToMany(mappedBy = "order", cascade = ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -56,12 +62,14 @@ public class Order {
         for (OrderItem orderItem : orderItems) {
             orderItem.setPaymentDone();
         }
+        isPaid =  true;
     }
 
     public void setRefundDone() {
         for (OrderItem orderItem : orderItems) {
             orderItem.setRefundDone();
         }
+        isRefunded = true;
     }
 
     public int getPayPrice() {
@@ -72,13 +80,13 @@ public class Order {
 
         return payPrice;
     }
-    public String getName() {
+    public void makeName() {
         String name = orderItems.get(0).getProduct().getSubject();
 
         if ( orderItems.size() > 1 ) {
             name += " 외 %d권".formatted(orderItems.size() - 1);
         }
 
-        return name;
+        this.name = name;
     }
 }
