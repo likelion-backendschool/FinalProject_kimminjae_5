@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CartItemService {
+public class CartService {
     private final CartItemRepository cartItemRepository;
 
     public CartItem addItem(Member buyer, Product product) {
@@ -43,5 +44,15 @@ public class CartItemService {
     }
     public boolean hasItem(Member buyer, Product product) {
         return cartItemRepository.existsByBuyerIdAndProductId(buyer.getId(), product.getId());
+    }
+    public List<CartItem> getItemsByBuyer(Member buyer) {
+        return cartItemRepository.findAllByBuyerId(buyer.getId());
+    }
+    public void removeItem(CartItem cartItem) {
+        cartItemRepository.delete(cartItem);
+    }
+    public void removeItem(Member buyer, long productId) {
+        Product product = Product.builder().id(productId).build();
+        removeItem(buyer, product);
     }
 }

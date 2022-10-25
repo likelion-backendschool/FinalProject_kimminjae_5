@@ -30,6 +30,8 @@ public class MemberService {
                 .authLevel(3)
                 .build();
         memberRepository.save(member);
+        //포인트 충전
+        addCash(member, 1_000_000, "충전__무통장입금");
         return member.toDto();
     }
     //작가 회원 생성
@@ -43,6 +45,7 @@ public class MemberService {
                 .authLevel(7)
                 .build();
         memberRepository.save(member);
+        addCash(member, 1_000_000, "충전__무통장입금");
         return member.toDto();
     }
 
