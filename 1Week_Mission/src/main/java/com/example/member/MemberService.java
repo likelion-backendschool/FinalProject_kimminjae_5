@@ -1,10 +1,13 @@
 package com.example.member;
 
 import com.example.DataNotFoundException;
+import com.example.cash.CashLog;
+import com.example.cash.CashService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
@@ -15,6 +18,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CashService cashService;
 
     //일반 회원 생성
     public MemberDto create(String username, String password, String email) {
@@ -114,5 +118,18 @@ public class MemberService {
         } else {
             throw new DataNotFoundException("회원이 존재하지 않습니다.");
         }
+    }
+    @Transactional
+    public long addCash(Member member, long price, String eventType) {
+        CashLog cashLog = cashService.addCash(member, price, eventType);
+
+        long newRestCash = member.getRestCash() + cashLog.getPrice();
+        member.setRestCash(newRestCash);
+        memberRepository.save(member);
+
+        return newRestCash;
+    }
+    public long getRestCash(Member member) {
+        return member.getRestCash();
     }
 }

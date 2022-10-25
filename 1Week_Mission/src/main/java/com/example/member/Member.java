@@ -34,6 +34,8 @@ public class Member {
 
     private int authLevel;
 
+    private long restCash;
+
     public MemberDto toDto() {
         MemberDto memberDto = MemberDto.builder()
                 .id(id)
@@ -63,5 +65,9 @@ public class Member {
 
     public void setAuthLevel(int authLevel) {
         this.authLevel = authLevel;
+    }
+
+    public void setRestCash(long newRestCash) {
+        this.restCash = newRestCash;
     }
 }
