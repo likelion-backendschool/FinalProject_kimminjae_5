@@ -41,9 +41,9 @@ public class CartController {
         Member buyer = memberService.getMemberByUsername(principal.getName()).toEntity();
         Product product = productService.getProductById(id).toEntity();
 
-        cartService.addItem(buyer, product);
+        String s = cartService.addItem(buyer, product);
 
-        return "success";
+        return s;
     }
 
     @GetMapping("/remove/{id}")

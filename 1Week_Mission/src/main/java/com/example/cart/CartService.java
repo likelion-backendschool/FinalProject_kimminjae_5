@@ -3,6 +3,8 @@ package com.example.cart;
 import com.example.DataNotFoundException;
 import com.example.member.Member;
 import com.example.product.Product;
+import com.example.product.ProductDto;
+import com.example.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +17,23 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CartService {
     private final CartItemRepository cartItemRepository;
+    private final ProductService productService;
 
-    public CartItem addItem(Member buyer, Product product) {
+    public String addItem(Member buyer, Product product) {
         CartItem oldCartItem = cartItemRepository.findByBuyerIdAndProductId(buyer.getId(), product.getId()).orElse(null);
 
+        List<ProductDto> productDtos = productService.getByMember(buyer.toDto());
+        
+        for(ProductDto productDto : productDtos) {
+            if(productDto.getId() == product.getId()) {
+                return "my product";
+            }
+        }
+
         if (oldCartItem != null) {
-            throw new DataNotFoundException("이미 장바구니에 있습니다.");
+//            throw new DataNotFoundException("이미 장바구니에 있습니다.");
 //            return oldCartItem;
+            return "already exist";
         }
         CartItem cartItem = CartItem.builder()
                 .createDate(LocalDateTime.now())
@@ -31,7 +43,8 @@ public class CartService {
 
         cartItemRepository.save(cartItem);
 
-        return cartItem;
+//        return cartItem;
+        return "addItem";
     }
 
     @Transactional
