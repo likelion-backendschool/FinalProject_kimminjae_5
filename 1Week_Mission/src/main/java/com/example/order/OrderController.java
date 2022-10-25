@@ -86,7 +86,7 @@ public class OrderController {
                                  @RequestParam String paymentKey,
                                  @RequestParam String orderId,
                                  @RequestParam Long amount,
-                                 Model model) throws Exception {
+                                 Model model, Principal principal) throws Exception {
 
         Order order = orderService.findForPrintById(id).get();
 
@@ -103,7 +103,16 @@ public class OrderController {
 
         Map<String, String> payloadMap = new HashMap<>();
         payloadMap.put("orderId", orderId);
-        payloadMap.put("amount", String.valueOf(order.calculatePayPrice()));
+//        payloadMap.put("amount", String.valueOf(order.calculatePayPrice()));
+        payloadMap.put("amount", String.valueOf(amount));
+
+        Member actor = memberService.getMemberByUsername(principal.getName()).toEntity();
+        long restCash = memberService.getRestCash(actor);
+        long payPriceRestCash = order.calculatePayPrice() - amount;
+
+        if (payPriceRestCash > restCash) {
+            throw new OrderNotEnoughRestCashException();
+        }
 
         HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
 
@@ -115,7 +124,7 @@ public class OrderController {
 //            model.addAttribute("orderId", successNode.get("orderId").asText());
 //            String secret = successNode.get("secret").asText(); // 가상계좌의 경우 입금 callback 검증을 위해서 secret을 저장하기를 권장함
 //            return "order/success";
-            orderService.payByTossPayments(order);
+            orderService.payByTossPayments(order, payPriceRestCash);
 
             return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("결제가 완료되었습니다."));
         } else {
