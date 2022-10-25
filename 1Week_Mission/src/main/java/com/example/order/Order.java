@@ -46,7 +46,7 @@ public class Order {
         int payPrice = 0;
 
         for (OrderItem orderItem : orderItems) {
-            payPrice += orderItem.getPayPrice();
+            payPrice += orderItem.getSalePrice();
         }
 
         return payPrice;
