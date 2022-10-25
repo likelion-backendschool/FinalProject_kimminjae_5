@@ -56,13 +56,19 @@ public class ProductController {
     public String createProduct(Model model, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
-        if(memberDto.getNickname() == null) {
-            return "redirect:/member";
+        if(memberDto.getNickname().length() == 0) {
+            return "redirect:/product/notAuthor";
         }
 
         List<PostDto> postDtoList = postService.getPostByMember(memberDto);
         model.addAttribute("postList", postDtoList);
         return "product/create_form";
+    }
+
+    @GetMapping("/notAuthor")
+    @ResponseBody
+    public String notAuthor() {
+        return "<script>alert('작가가 되어야 도서를 등록할 수 있습니다! 작가명을 등록하고 작가가 되어보세요!'); location.href='/member';</script>";
     }
 
     //도서 등록 처리
