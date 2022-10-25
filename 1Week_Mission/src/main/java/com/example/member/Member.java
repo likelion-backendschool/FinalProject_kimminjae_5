@@ -46,6 +46,7 @@ public class Member {
                 .createDate(this.createDate)
                 .updateDate(this.updateDate)
                 .authLevel(this.authLevel)
+                .restCash(this.restCash)
                 .build();
 
         return memberDto;

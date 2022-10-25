@@ -40,10 +40,13 @@ public class OrderController {
 
         Member actor = memberService.getMemberByUsername(principal.getName()).toEntity();
 
+        long restCash = memberService.getRestCash(actor);
+
         if (orderService.actorCanSee(actor, order) == false) {
             throw new ActorCanNotSeeOrderException();
         }
 
+        model.addAttribute("actorRestCash", restCash);
         model.addAttribute("order", order);
 
         return "order/detail";

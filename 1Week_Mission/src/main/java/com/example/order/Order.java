@@ -89,4 +89,10 @@ public class Order {
 
         this.name = name;
     }
+    public boolean isPayable() {
+        if(isPaid) return false;
+        if(isCanceled) return false;
+
+        return true;
+    }
 }
