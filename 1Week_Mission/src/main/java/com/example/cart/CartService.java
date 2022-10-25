@@ -23,7 +23,7 @@ public class CartService {
         CartItem oldCartItem = cartItemRepository.findByBuyerIdAndProductId(buyer.getId(), product.getId()).orElse(null);
 
         List<ProductDto> productDtos = productService.getByMember(buyer.toDto());
-        
+
         for(ProductDto productDto : productDtos) {
             if(productDto.getId() == product.getId()) {
                 return "my product";

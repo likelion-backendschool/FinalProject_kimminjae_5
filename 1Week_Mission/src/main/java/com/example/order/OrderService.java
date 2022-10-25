@@ -31,6 +31,10 @@ public class OrderService {
 
         List<CartItem> cartItems = cartService.getItemsByBuyer(buyer);
 
+        if(cartItems.size() == 0) {
+            return null;
+        }
+
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (CartItem cartItem : cartItems) {

@@ -144,11 +144,15 @@ public class OrderController {
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
+    @ResponseBody
     public String makeOrder(Principal principal) {
         Member member = memberService.getMemberByUsername(principal.getName()).toEntity();
         Order order = orderService.createFromCart(member);
-        String redirect = "redirect:/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
-
+        if(order == null) {
+            return "<script>alert('장바구니 목록이 비어있습니다.'); location.href='/cart/list';</script>";
+        }
+//        String redirect = "/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
+        String redirect = "<script>location.href='/order/%d?msg=%s';</script>".formatted(order.getId(), Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId())));
         return redirect;
     }
 }
