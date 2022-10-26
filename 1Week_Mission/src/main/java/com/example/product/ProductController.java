@@ -114,7 +114,8 @@ public class ProductController {
                 b = true;
             }
         }
-        if(memberDto.getId() != productDto.getId() && !b) {
+
+        if(memberDto.getId() != productDto.getMemberDto().getId() && !b) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "접근 권한이 없습니다. 잘못된 접근입니다.");
         }
 
