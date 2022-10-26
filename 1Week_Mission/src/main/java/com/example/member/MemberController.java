@@ -2,6 +2,8 @@ package com.example.member;
 
 import com.example.DataNotFoundException;
 import com.example.Util;
+import com.example.mybook.MyBook;
+import com.example.mybook.MyBookService;
 import com.example.order.Order;
 import com.example.order.OrderService;
 import com.example.post.post_hashTag.HashTagDto;
@@ -43,6 +45,7 @@ public class MemberController {
     private final HashTagService hashTagService;
     private final ProductHashTagService productHashTagService;
     private final OrderService orderService;
+    private final MyBookService myBookService;
 
     //로그인
     @GetMapping("/login")
@@ -100,6 +103,7 @@ public class MemberController {
         List<HashTagDto> tagDtoList = null;
         List<ProductHashTagDto> productHashTagDtos = null;
         List<Order> orderList = null;
+        List<MyBook> myBookList = null;
 
         if(listType.equals("product") || listType.equals("")) {
             productHashTagDtos = productHashTagService.getProductHashTagByMember(memberDto);
@@ -118,16 +122,20 @@ public class MemberController {
             }
         } else if(listType.equals("orderList")) {
             orderList = orderService.getAllByMember(memberDto);
-            model.addAttribute("orderList", orderList);
+        } else if(listType.equals("myBook")) {
+            myBookList = myBookService.getAllByBuyerId(memberDto.getId());
         }
+
         if(productHashTagDtos == null) {
             model.addAttribute("tagList", tagDtoList);
         } else {
             model.addAttribute("tagList", productHashTagDtos);
         }
+        model.addAttribute("orderList", orderList);
         model.addAttribute("postList", postDtoList);
         model.addAttribute("productList", productDtos);
         model.addAttribute("member", memberDto);
+        model.addAttribute("myBookList", myBookList);
 
         return "member/profile";
     }

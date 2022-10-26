@@ -5,6 +5,7 @@ import com.example.cart.CartService;
 import com.example.member.Member;
 import com.example.member.MemberDto;
 import com.example.member.MemberService;
+import com.example.mybook.MyBookService;
 import com.example.product.Product;
 import com.example.util.Ut;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -23,6 +24,7 @@ import javax.annotation.PostConstruct;
 import java.security.Principal;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -34,6 +36,7 @@ public class OrderController {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper;
     private final CartService cartService;
+    private final MyBookService myBookService;
 
 
 //    //주문 목록
@@ -73,6 +76,11 @@ public class OrderController {
         }
         orderService.payByRestCashOnly(order);
 
+        List<OrderItem> orderItems = order.getOrderItems();
+
+        for(OrderItem orderItem : orderItems) {
+            myBookService.create(actor, orderItem.getProduct());
+        }
         return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("예치금으로 결제했습니다."));
     }
 
@@ -154,6 +162,13 @@ public class OrderController {
 //            String secret = successNode.get("secret").asText(); // 가상계좌의 경우 입금 callback 검증을 위해서 secret을 저장하기를 권장함
 //            return "order/success";
             orderService.payByTossPayments(order, payPriceRestCash);
+
+            //구매후 mybook에 추가
+            List<OrderItem> orderItems = order.getOrderItems();
+
+            for(OrderItem orderItem : orderItems) {
+                myBookService.create(actor, orderItem.getProduct());
+            }
 
             return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("결제가 완료되었습니다."));
         } else {

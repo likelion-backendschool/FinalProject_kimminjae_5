@@ -33,6 +33,7 @@
         <a class="btn btn-wide m-1" th:href="@{/member?listType=post}">글</a>
         <a class="btn btn-wide m-1" th:href="@{/member?listType=product}">도서</a>
         <a class="btn btn-wide m-1" th:href="@{/member?listType=orderList}">주문 목록</a>
+        <a class="btn btn-wide m-1" th:href="@{/member?listType=myBook}">구매한 도서</a>
     </div>
     <!-- 도서 목록 -->
     <div th:if="${productList != null}">
@@ -55,8 +56,8 @@
                 <div class="card card-side bg-base-100 shadow-2xl">
                     <figure><img src="https://placeimg.com/200/280/arch" alt="Movie"/></figure>
                     <div class="card-body gap-3">
-                            <a class="text-2xl card-title" th:href="@{|/product/${product.id}|}"><i
-                                    class="fa-solid fa-book"></i> [[${product.subject}]]</a>
+                        <a class="text-2xl card-title" th:href="@{|/product/${product.id}|}"><i
+                                class="fa-solid fa-book"></i> [[${product.subject}]]</a>
                         <div class="flex gap-2">
                             <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${product.memberDto.nickname}]]</span>
                             <span class="badge badge-accent justify-end">[[${product.price}]] 원</span>
@@ -159,9 +160,9 @@
 
     <!-- 주문 목록 -->
     <div th:if="${orderList != null}">
-<!--        <div class="text-center my-auto" th:if="${postList.size() == 0}" style="align-items: center; margin-top: 25%;">-->
-<!--            <h1>주문내역이 없습니다!</h1>-->
-<!--        </div>-->
+        <!--        <div class="text-center my-auto" th:if="${postList.size() == 0}" style="align-items: center; margin-top: 25%;">-->
+        <!--            <h1>주문내역이 없습니다!</h1>-->
+        <!--        </div>-->
         <div th:if="${orderList.size() > 0}" class="overflow-x-auto">
             <table class="table table-compact w-full">
                 <thead>
@@ -193,5 +194,61 @@
         </div>
     </div>
     <!-- 주문 목록 끝-->
+
+    <!-- 내가 구매한 도서 목록 -->
+    <div th:if="${myBookList != null}">
+<!--        <div class="mb-3" th:if="${tagList != null}">-->
+<!--            <ul class="flex justify-center" style="flex-wrap: wrap">-->
+<!--                <li class="mr-1 mb-1">-->
+<!--                    <a class="badge badge-lg badge-outline hover:underline hover:text-[red]"-->
+<!--                       th:href="@{/member?listType=myBook}">전체-->
+<!--                        도서</a>-->
+<!--                </li>-->
+<!--                <li class="mr-1 mb-1" th:each="tag : ${tagList}">-->
+<!--                    <a class="badge badge-lg badge-outline hover:underline hover:text-[red]"-->
+<!--                       th:href="@{|/member?listType=myBook&tag=${tag.productKeyword.content}|}"-->
+<!--                       th:text="|#${tag.productKeyword.content}|"></a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+        <div class="flex justify-center" style="flex-wrap: wrap;">
+            <div th:each="myBook : ${myBookList}" class="m-5">
+                <div class="card card-side bg-base-100 shadow-2xl">
+                    <figure><img src="https://placeimg.com/200/280/arch" alt="Movie"/></figure>
+                    <div class="card-body gap-3">
+                        <a class="text-2xl card-title" th:href="@{|/product/${myBook.product.id}|}"><i
+                                class="fa-solid fa-book"></i> [[${myBook.product.subject}]]</a>
+                        <div class="flex gap-2">
+                            <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${myBook.product.member.nickname}]]</span>
+                            <span class="badge badge-accent justify-end">[[${myBook.product.price}]] 원</span>
+                        </div>
+                        <div class="flex">
+                            <span class="badge mr-2"
+                                  th:text="|${#temporals.format(myBook.product.createDate, 'yyyy-MM-dd')}|"></span>
+                            <span class="badge badge-outline"
+                                  th:if="${myBook.product.updateDate != null}"
+                                  th:text="|${#temporals.format(myBook.product.updateDate, 'yyyy-MM-dd')}|"></span>
+                        </div>
+                        <div class="card-actions flex-wrap">
+                            <ul class="flex">
+                                <li class="text-2xl mr-3" th:each="hashTag : ${myBook.product.productHashTagList}">
+                                    <div class="badge badge-outline badge-lg">
+                                        <a class="hover:underline hover:text-[red]"
+                                           th:href="@{|/product/list?tag=${hashTag.productKeyword.content}|}"
+                                           th:text="|#${hashTag.productKeyword.content}|"></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>[[${myBook.product.description}]]</p>
+<!--                        <div class="card-actions justify-end">-->
+<!--                            <button class="btn btn-primary">보기</button>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 내 도서 목록 끝 -->
 </div>
 </html>
