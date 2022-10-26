@@ -68,6 +68,7 @@ public class Order {
         for (OrderItem orderItem : orderItems) {
             orderItem.setRefundDone();
         }
+        isPaid = false;
         isRefunded = true;
     }
 
@@ -97,6 +98,7 @@ public class Order {
     public boolean isPayable() {
         if(isPaid) return false;
         if(isCanceled) return false;
+        if(isRefunded) return false;
 
         return true;
     }

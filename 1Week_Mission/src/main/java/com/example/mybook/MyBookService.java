@@ -1,12 +1,14 @@
 package com.example.mybook;
 
 import com.example.member.Member;
+import com.example.member.MemberDto;
 import com.example.product.Product;
 import com.example.product.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,5 +40,12 @@ public class MyBookService {
             return false;
         }
         return true;
+    }
+
+    public void removeMyBook(MemberDto memberDto, List<Product> productList) {
+        for(Product product : productList) {
+            MyBook myBook = myBookRepository.findByBuyerIdAndProductId(memberDto.getId(), product.getId()).orElse(null);
+            myBookRepository.delete(myBook);
+        }
     }
 }

@@ -5,7 +5,9 @@ import com.example.cart.CartService;
 import com.example.member.Member;
 import com.example.member.MemberDto;
 import com.example.member.MemberService;
+import com.example.mybook.MyBook;
 import com.example.mybook.MyBookService;
+import com.example.product.Product;
 import com.example.util.Ut;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,10 +24,8 @@ import com.example.order.Order;
 
 import javax.annotation.PostConstruct;
 import java.security.Principal;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,6 +37,31 @@ public class OrderController {
     private final ObjectMapper objectMapper;
     private final CartService cartService;
     private final MyBookService myBookService;
+
+    //환불
+    @GetMapping("/{id}/refund")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public String refundOrder(Principal principal, @PathVariable long id) {
+        MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+        Order order = orderService.findForPrintById(id).orElse(null);
+
+        LocalDateTime now = LocalDateTime.now(); //날짜1
+        LocalDateTime createDate = order.getCreateDate();
+
+        long diffMin = (now.getMinute() - createDate.getMinute()) / 60000; //분 차이
+        System.out.println(diffMin);
+
+        List<OrderItem> orderItems = order.getOrderItems();
+        List<Product> productList = new ArrayList<>();
+        for(OrderItem orderItem : orderItems) {
+            productList.add(orderItem.getProduct());
+        }
+        myBookService.removeMyBook(memberDto, productList);
+        orderService.refund(order);
+
+        return "<script>alert('환불 완료!'); location.href='/order/%d';</script>".formatted(order.getId());
+    }
 
     //구매 취소
     @GetMapping("/{id}/cancel")
