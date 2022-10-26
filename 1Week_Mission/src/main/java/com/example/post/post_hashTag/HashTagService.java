@@ -5,6 +5,7 @@ import com.example.post.post_keyword.KeywordService;
 import com.example.member.MemberDto;
 import com.example.post.Post;
 import com.example.post.PostDto;
+import com.example.product.product_hashTag.ProductHashTagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -101,6 +102,7 @@ public class HashTagService {
         return tagList;
     }
 
+    //member로 해시태그 찾기
     public List<HashTagDto> getHashTagByMember(MemberDto memberDto) {
         List<HashTag> tagList = hashTagRepository.findByMember(memberDto.toEntity());
         List<HashTagDto> tagDtoList = new ArrayList<>();
@@ -108,5 +110,21 @@ public class HashTagService {
             tagDtoList.add(hashTag.toDto());
         }
         return tagDtoList;
+    }
+
+    //member로 해시태그 키워드 중복없이 가져오기
+    public List<String> getKeywordContent(MemberDto memberDto) {
+        List<HashTagDto> hashTagDtos = getHashTagByMember(memberDto);
+        List<String> keywordList = new ArrayList<>();
+
+        for(HashTagDto hashTagDto : hashTagDtos) {
+            String keyword = hashTagDto.getKeyword().getContent();
+
+            if(keywordList.contains(keyword)) {
+                continue;
+            }
+            keywordList.add(keyword);
+        }
+        return keywordList;
     }
 }

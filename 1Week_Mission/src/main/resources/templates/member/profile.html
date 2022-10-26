@@ -46,8 +46,8 @@
                 </li>
                 <li class="mr-1 mb-1" th:each="tag : ${tagList}">
                     <a class="badge badge-lg badge-outline hover:underline hover:text-[red]"
-                       th:href="@{|/member?listType=product&tag=${tag.productKeyword.content}|}"
-                       th:text="|#${tag.productKeyword.content}|"></a>
+                       th:href="@{|/member?listType=product&tag=${tag}|}"
+                       th:text="|#${tag}|"></a>
                 </li>
             </ul>
         </div>
@@ -109,8 +109,8 @@
                 </li>
                 <li class="mr-1 mb-1" th:each="tag : ${tagList}">
                     <a class="badge badge-lg badge-outline hover:underline hover:text-[red]"
-                       th:href="@{|/member?listType=post&tag=${tag.keyword.content}|}"
-                       th:text="|#${tag.keyword.content}|"></a>
+                       th:href="@{|/member?listType=post&tag=${tag}|}"
+                       th:text="|#${tag}|"></a>
                 </li>
             </ul>
         </div>

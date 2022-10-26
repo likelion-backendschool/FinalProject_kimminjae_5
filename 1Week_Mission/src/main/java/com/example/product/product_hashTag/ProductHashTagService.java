@@ -108,6 +108,7 @@ public class ProductHashTagService {
         return tagList;
     }
 
+    //member로 hasgtag리스트 가져오기
     public List<ProductHashTagDto> getProductHashTagByMember(MemberDto memberDto) {
         List<ProductHashTag> tagList = productHashTagRepository.findByMember(memberDto.toEntity());
         List<ProductHashTagDto> tagDtoList = new ArrayList<>();
@@ -115,5 +116,21 @@ public class ProductHashTagService {
             tagDtoList.add(hashTag.toDto());
         }
         return tagDtoList;
+    }
+
+    //member로 keyword가져오기 중복x
+    public List<String> getKeywordContent(MemberDto memberDto) {
+        List<ProductHashTagDto> productHashTagDtos = getProductHashTagByMember(memberDto);
+        List<String> keywordList = new ArrayList<>();
+
+        for(ProductHashTagDto productHashTagDto : productHashTagDtos) {
+            String keyword = productHashTagDto.getProductKeyword().getContent();
+
+            if(keywordList.contains(keyword)) {
+                continue;
+            }
+            keywordList.add(keyword);
+        }
+        return keywordList;
     }
 }

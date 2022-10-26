@@ -100,20 +100,20 @@ public class MemberController {
 
         List<ProductDto> productDtos = null;
         List<PostDto> postDtoList = null;
-        List<HashTagDto> tagDtoList = null;
-        List<ProductHashTagDto> productHashTagDtos = null;
+        List<String> tagDtoList = null;
+        List<String> productHashTagDtos = null;
         List<Order> orderList = null;
         List<MyBook> myBookList = null;
 
         if(listType.equals("product") || listType.equals("")) {
-            productHashTagDtos = productHashTagService.getProductHashTagByMember(memberDto);
+            productHashTagDtos = productHashTagService.getKeywordContent(memberDto);
             if(tag.length() == 0) {
                 productDtos = productService.getByMember(memberDto);
             } else {
                 productDtos = productService.getProductByTagAndMember(memberDto, tag);
             }
         } else if(listType.equals("post")) {
-            tagDtoList = hashTagService.getHashTagByMember(memberDto);
+            tagDtoList = hashTagService.getKeywordContent(memberDto);
 
             if(tag.length() == 0) {
                 postDtoList = postService.getPostByMember(memberDto);
