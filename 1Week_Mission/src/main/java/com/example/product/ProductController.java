@@ -3,6 +3,8 @@ package com.example.product;
 import com.example.member.Member;
 import com.example.member.MemberDto;
 import com.example.member.MemberService;
+import com.example.mybook.MyBook;
+import com.example.mybook.MyBookService;
 import com.example.post.PostDto;
 import com.example.post.PostService;
 import com.example.post.post_hashTag.HashTag;
@@ -32,6 +34,7 @@ public class ProductController {
     private final MemberService memberService;
 
     private final PostService postService;
+    private final MyBookService myBookService;
 
     //도서 목록
     @GetMapping("/list")
@@ -97,9 +100,23 @@ public class ProductController {
 
     //도서 상세
     @GetMapping("/{id}")
-    public String productDetail(Model model, @PathVariable("id") long id) {
+    public String productDetail(Model model, @PathVariable("id") long id, Principal principal) {
+        MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         ProductDto productDto = productService.getProductById(id);
         List<ProductHashTagDto> tagList = productHashTagService.getTagsByProduct(productDto);
+        List<MyBook> myBooks = myBookService.getAllByBuyerId(memberDto.getId());
+
+        //mybook리스트에 product가 있으면 true -> 구매한 도서
+        boolean b = false;
+
+        for(MyBook myBook : myBooks) {
+            if(myBook.getProduct().getId() == productDto.getId()) {
+                b = true;
+            }
+        }
+        if(memberDto.getId() != productDto.getId() && !b) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "접근 권한이 없습니다. 잘못된 접근입니다.");
+        }
 
         model.addAttribute("tagList", tagList);
         model.addAttribute("product", productDto);
