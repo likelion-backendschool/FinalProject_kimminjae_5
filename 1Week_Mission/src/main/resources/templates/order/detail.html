@@ -68,7 +68,9 @@
                 </div>
                 <div class="flex gap-3">
                     <p class="badge badge-primary" th:if="${order.isPaid == true}">결제완료</p>
-                    <a class="badge badge-error badge-outline" th:href="@{|/order/${order.id}/refund|}" th:if="${order.isPaid == true}">환불</a>
+                    <a class="badge badge-error badge-outline"
+                       onclick="if (!confirm('환불하시겠습니까?')) return false;"
+                       th:href="@{|/order/${order.id}/refund|}" th:if="${order.isPaid == true}">환불</a>
                     <p class="badge badge-error badge-outline" th:if="${order.isCanceled == true}">결제취소</p>
                     <p th:if="${order.isRefunded == true}">환불 완료</p>
                 </div>

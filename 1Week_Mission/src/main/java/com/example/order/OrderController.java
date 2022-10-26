@@ -52,6 +52,9 @@ public class OrderController {
         long diffMin = (now.getMinute() - createDate.getMinute()) / 60000; //분 차이
         System.out.println(diffMin);
 
+        if(diffMin > 10) {
+            return "<script>alert('구매한지 10분이 지나 환불이 불가합니다.'); location.href='/order/%d';</script>".formatted(order.getId());
+        }
         List<OrderItem> orderItems = order.getOrderItems();
         List<Product> productList = new ArrayList<>();
         for(OrderItem orderItem : orderItems) {
