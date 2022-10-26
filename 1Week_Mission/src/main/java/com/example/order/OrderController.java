@@ -49,7 +49,9 @@ public class OrderController {
         LocalDateTime now = LocalDateTime.now(); //날짜1
         LocalDateTime createDate = order.getCreateDate();
 
-        long diffMin = (now.getMinute() - createDate.getMinute()) / 60000; //분 차이
+        long diffMin = now.getMinute() - createDate.getMinute(); //분 차이
+        System.out.println(now);
+        System.out.println(createDate);
         System.out.println(diffMin);
 
         if(diffMin > 10) {
