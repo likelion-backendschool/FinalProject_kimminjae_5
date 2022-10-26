@@ -23,6 +23,7 @@ public class OrderService {
     private final CartService cartService;
     private final OrderRepository orderRepository;
 
+    //장바구니 목록들로 주문 생성
     @Transactional
     public Order createFromCart(Member buyer) {
         // 입력된 회원의 장바구니 아이템들을 전부 가져온다.
@@ -51,6 +52,7 @@ public class OrderService {
         return create(buyer, orderItems);
     }
 
+    //주문 생성
     @Transactional
     public Order create(Member buyer, List<OrderItem> orderItems) {
         Order order = Order
@@ -71,6 +73,7 @@ public class OrderService {
         return order;
     }
 
+    //예치금으로만 결제
     @Transactional
     public void payByRestCashOnly(Order order) {
         Member buyer = order.getBuyer();
@@ -109,6 +112,7 @@ public class OrderService {
         return actor.getId().equals(order.getBuyer().getId());
     }
 
+    //결제
     @Transactional
     public void payByTossPayments(Order order, long useRestCash) {
         Member buyer = order.getBuyer();
@@ -131,6 +135,8 @@ public class OrderService {
         return actorCanSee(actor, order);
     }
 
+
+    //주문 취소
     public void cancel(MemberDto memberDto, Order order) {
         order.setCanceledDone();
 

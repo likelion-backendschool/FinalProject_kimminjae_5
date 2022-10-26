@@ -19,17 +19,20 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductService productService;
 
+    //장바구니에 도서 추가
     public String addItem(Member buyer, Product product) {
         CartItem oldCartItem = cartItemRepository.findByBuyerIdAndProductId(buyer.getId(), product.getId()).orElse(null);
 
         List<ProductDto> productDtos = productService.getByMember(buyer.toDto());
 
+        //내가 등록한 도서일 경우
         for(ProductDto productDto : productDtos) {
             if(productDto.getId() == product.getId()) {
                 return "my product";
             }
         }
 
+        //이미 장바구니에 있을 경우
         if (oldCartItem != null) {
 //            throw new DataNotFoundException("이미 장바구니에 있습니다.");
 //            return oldCartItem;
@@ -47,6 +50,7 @@ public class CartService {
         return "addItem";
     }
 
+    //장바구니에서 도서 제거
     @Transactional
     public boolean removeItem(Member buyer, Product product) {
         CartItem oldCartItem = cartItemRepository.findByBuyerIdAndProductId(buyer.getId(), product.getId()).orElse(null);
@@ -60,6 +64,8 @@ public class CartService {
     public boolean hasItem(Member buyer, Product product) {
         return cartItemRepository.existsByBuyerIdAndProductId(buyer.getId(), product.getId());
     }
+
+    //구매자로 장바구니 목록 가져오기
     public List<CartItem> getItemsByBuyer(Member buyer) {
         return cartItemRepository.findAllByBuyerId(buyer.getId());
     }

@@ -38,12 +38,6 @@ public class OrderController {
     private final CartService cartService;
     private final MyBookService myBookService;
 
-
-//    //주문 목록
-//    @GetMapping("/list")
-//    @PreAuthorize("isAuthenticated()")
-//    public String
-
     //구매 취소
     @GetMapping("/{id}/cancel")
     @PreAuthorize("isAuthenticated()")
@@ -62,6 +56,7 @@ public class OrderController {
         return "<script>alert('주문이 취소되었습니다.'); location.href='/member?listType=orderList';</script>";
     }
 
+    //예치금으로만 결제
     @PostMapping("/{id}/payByRestCashOnly")
     @PreAuthorize("isAuthenticated()")
     public String payByRestCashOnly(Principal principal, @PathVariable long id) {
@@ -74,8 +69,9 @@ public class OrderController {
         if(orderService.actorCanPayment(actor, order) == false) {
             throw new ActorCanNotPayOrderException();
         }
-        orderService.payByRestCashOnly(order);
+        orderService.payByRestCashOnly(order); //결제
 
+        //결제시 MyBook에 도서들을 등록해 볼 수 있도록
         List<OrderItem> orderItems = order.getOrderItems();
 
         for(OrderItem orderItem : orderItems) {
@@ -84,6 +80,7 @@ public class OrderController {
         return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("예치금으로 결제했습니다."));
     }
 
+    //주문 상세
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public String showDetail(Principal principal, @PathVariable long id, Model model) {
@@ -186,12 +183,15 @@ public class OrderController {
         return "order/fail";
     }
 
+    //주문 생성
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
     public String makeOrder(Principal principal) {
         Member member = memberService.getMemberByUsername(principal.getName()).toEntity();
         Order order = orderService.createFromCart(member);
+
+        //장바구니가 비어있을 경우, 주문 생성 불가
         if(order == null) {
             return "<script>alert('장바구니 목록이 비어있습니다.'); location.href='/cart/list';</script>";
         }

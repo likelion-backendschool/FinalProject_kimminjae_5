@@ -21,6 +21,7 @@ public class CartController {
     private final CartService cartService;
     private final ProductService productService;
 
+    //장바구니 리스트
     @GetMapping("/list")
     @PreAuthorize("isAuthenticated()")
     public String cartList(Principal principal, Model model) {
@@ -32,6 +33,8 @@ public class CartController {
 
         return "cart/list";
     }
+
+    //장바구니에 도서 추가
     @GetMapping("/add/{id}")
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
@@ -46,6 +49,7 @@ public class CartController {
         return s;
     }
 
+    //장바구니에서 도서 제거
     @GetMapping("/remove/{id}")
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
