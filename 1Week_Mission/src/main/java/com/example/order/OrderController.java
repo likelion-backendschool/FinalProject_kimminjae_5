@@ -24,7 +24,9 @@ import com.example.order.Order;
 
 import javax.annotation.PostConstruct;
 import java.security.Principal;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Controller
@@ -49,9 +51,12 @@ public class OrderController {
         LocalDateTime now = LocalDateTime.now(); //날짜1
         LocalDateTime createDate = order.getCreateDate();
 
-        long diffMin = now.getMinute() - createDate.getMinute(); //분 차이
-        System.out.println(now);
-        System.out.println(createDate);
+        //두 시간 차이를 분으로 환산
+        LocalTime start = createDate.toLocalTime();
+        LocalTime end = now.toLocalTime();
+        Duration diff = Duration.between(start, end);
+        long diffMin = diff.toMinutes();
+
         System.out.println(diffMin);
 
         if(diffMin > 10) {
