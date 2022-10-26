@@ -61,8 +61,9 @@
                     </div>
                     <button th:if="${order.payable}" onclick="payment();" class="btn btn-sm btn-primary">카드결제</button>
                     <button th:if="${order.payable}" th:onclick="location.href='/order/[[${order.id}]]/cancel';" class="btn btn-sm btn-primary">구매취소</button>
-                    <span th:if="${order.isPaid}">결제완료</span>
                 </div>
+                <p class="badge badge-primary" th:if="${order.isPaid == true}">결제완료</p>
+                <p class="badge badge-error badge-outline" th:if="${order.isCanceled == true}">결제취소</p>
                 <div>
                     <div>
                         <span>PG결제가격 : </span>
