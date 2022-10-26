@@ -2,6 +2,8 @@ package com.example.cart;
 
 import com.example.DataNotFoundException;
 import com.example.member.Member;
+import com.example.mybook.MyBook;
+import com.example.mybook.MyBookService;
 import com.example.product.Product;
 import com.example.product.ProductDto;
 import com.example.product.ProductService;
@@ -18,6 +20,7 @@ import java.util.List;
 public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductService productService;
+    private final MyBookService myBookService;
 
     //장바구니에 도서 추가
     public String addItem(Member buyer, Product product) {
@@ -29,6 +32,14 @@ public class CartService {
         for(ProductDto productDto : productDtos) {
             if(productDto.getId() == product.getId()) {
                 return "my product";
+            }
+        }
+        List<MyBook> myBookList = myBookService.getAllByBuyerId(buyer.getId());
+
+        //내가 구매한 도서일 경우
+        for(MyBook myBook : myBookList) {
+            if(product.getId() == myBook.getProduct().getId()) {
+                return "my book";
             }
         }
 
