@@ -30,10 +30,14 @@
         </div>
     </div>
     <div class="flex mb-3 justify-center">
-        <a class="btn btn-wide m-1" th:href="@{/member?listType=post}">글</a>
-        <a class="btn btn-wide m-1" th:href="@{/member?listType=product}">도서</a>
-        <a class="btn btn-wide m-1" th:href="@{/member?listType=orderList}">주문 목록</a>
-        <a class="btn btn-wide m-1" th:href="@{/member?listType=myBook}">구매한 도서</a>
+        <a class="btn btn-wide m-1" th:href="@{/member?listType=post}" th:if="${postList != null}">글</a>
+        <a class="btn btn-wide btn-outline m-1" th:href="@{/member?listType=post}" th:if="${postList == null}">글</a>
+        <a class="btn btn-wide m-1" th:href="@{/member?listType=product}" th:if="${productList != null}">도서</a>
+        <a class="btn btn-wide btn-outline m-1" th:href="@{/member?listType=product}" th:if="${productList == null}">도서</a>
+        <a class="btn btn-wide m-1" th:href="@{/member?listType=orderList}" th:if="${orderList != null}">주문 목록</a>
+        <a class="btn btn-wide btn-outline m-1" th:href="@{/member?listType=orderList}" th:if="${orderList == null}">주문 목록</a>
+        <a class="btn btn-wide m-1" th:href="@{/member?listType=myBook}" th:if="${myBookList != null}">구매한 도서</a>
+        <a class="btn btn-wide btn-outline m-1" th:href="@{/member?listType=myBook}" th:if="${myBookList == null}">구매한 도서</a>
     </div>
     <!-- 도서 목록 -->
     <div th:if="${productList != null}">
