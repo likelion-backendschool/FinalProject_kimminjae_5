@@ -1,5 +1,6 @@
 package com.example.order;
 
+import com.example.order.Order;
 import com.example.cart.CartItem;
 import com.example.cart.CartService;
 import com.example.member.Member;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class OrderService {
     private final MemberService memberService;
     private final CartService cartService;
@@ -137,10 +138,14 @@ public class OrderService {
 
 
     //주문 취소
-    public void cancel(MemberDto memberDto, Order order) {
+    public void cancel(long id) {
+        Order order = orderRepository.findById(id).orElse(null);
         order.setCanceledDone();
+        order.setCanceled(true);
 
         orderRepository.save(order);
+
+//        orderRepository.delete(order);
     }
 
     //회원정보로 주문목록 가져오기

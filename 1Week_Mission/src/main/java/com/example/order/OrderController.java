@@ -1,12 +1,11 @@
 package com.example.order;
 
-import com.example.cart.CartItem;
+
 import com.example.cart.CartService;
 import com.example.member.Member;
 import com.example.member.MemberDto;
 import com.example.member.MemberService;
 import com.example.mybook.MyBookService;
-import com.example.product.Product;
 import com.example.util.Ut;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
+import com.example.order.Order;
 
 import javax.annotation.PostConstruct;
 import java.security.Principal;
@@ -46,12 +46,12 @@ public class OrderController {
         Order order = orderService.findForPrintById(id).orElse(null);
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
-        for(int i = 0; i < order.getOrderItems().size(); i++) {
-            Product product = order.getOrderItems().get(i).getProduct();
-            cartService.addItem(memberDto.toEntity(), product);
-        }
+//        for(int i = 0; i < order.getOrderItems().size(); i++) {
+//            Product product = order.getOrderItems().get(i).getProduct();
+//            cartService.addItem(memberDto.toEntity(), product);
+//        }
 
-        orderService.cancel(memberDto, order);
+        orderService.cancel(id);
 
         return "<script>alert('주문이 취소되었습니다.'); location.href='/member?listType=orderList';</script>";
     }

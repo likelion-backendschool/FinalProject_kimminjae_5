@@ -18,7 +18,6 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@ToString(callSuper = true)
 @Table(name = "product_order")
 public class Order {
     @Id
