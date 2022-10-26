@@ -140,14 +140,18 @@ public class ProductController {
     //도서 삭제
     @GetMapping("/{id}/delete")
     @PreAuthorize("isAuthenticated()")
+    @ResponseBody
     public String deleteProduct(@PathVariable("id") long id, Principal principal) {
         ProductDto productDto = productService.getProductById(id);
         //삭제 권한 확인
         if(!productDto.getMemberDto().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
-        productService.delete(productDto);
-        return "redirect:/member";
+        if(!myBookService.confirmDelete(productDto)) {
+            productService.delete(productDto);
+            return "<script>location.href='/member';</script>";
+        }
+        return "<script>alert('도서를 구매한 유저가 있어 삭제할 수 없습니다!'); location.href='/member';</script>";
     }
 
     //도서 수정
