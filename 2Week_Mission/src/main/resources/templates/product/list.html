@@ -2,25 +2,56 @@
 <div layout:fragment="content" class="container py-3 mx-auto">
     <div class="flex justify-center" style="flex-wrap: wrap;">
         <div th:each="product : ${productList}" class="m-8">
-            <div class="card card-side bg-base-100 shadow-xl">
-                <figure><img src="https://placeimg.com/200/280/arch" alt="Movie"/></figure>
+            <div class="card card-compact bg-base-100 shadow-xl">
+                <figure><img src="https://placeimg.com/350/200/arch" alt="Shoes"/></figure>
                 <div class="card-body">
-                    <h2 class="card-title">[[${product.subject}]]</h2>
-                    <div class="flex">
+                    <a class="card-title" th:href="@{|/product/description/${product.id}|}"><i class="fa-solid fa-book"></i> [[${product.subject}]]</a>
+                    <div class="flex gap-2">
                         <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${product.memberDto.nickname}]]</span>
+                        <span class="badge badge-accent justify-end">[[${product.price}]] 원</span>
                         <span class="badge" th:text="|${#temporals.format(product.createDate, 'yyyy-MM-dd')}|"></span>
                     </div>
                     <div class="card-actions justify-start flex-wrap">
-                        <div class="badge badge-outline badge-xs">#Fashion</div>
-                        <div class="badge badge-outline badge-xs">#Products</div>
+                        <ul class="flex">
+                            <li class="text-2xl mr-3" th:each="hashTag : ${product.productHashTagList}">
+                                <div class="badge badge-outline badge-lg">
+                                    <a class="hover:underline hover:text-[red]"
+                                       th:href="@{|/product/list?tag=${hashTag.productKeyword.content}|}"
+                                       th:text="|#${hashTag.productKeyword.content}|"></a>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <p>Click the button to watch on Jetflix app.</p>
+                    <p>[[${product.description}]]</p>
                     <div class="card-actions justify-end">
-                        <button class="btn btn-primary">Watch</button>
+                        <button class="btn btn-primary" th:onclick="addItem([[${product.id}]]);">담기</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function addItem(id) {
+            $.ajax({
+                url: "/cart/add/"+id,
+                datatype: "text",
+                success: function (msg) {
+                    console.log(msg);
+                    if(msg == "my product") {
+                        alert('내가 등록한 도서입니다.');
+                    } else if(msg == "already exist") {
+                        alert('이미 장바구니 목록에 존재합니다.')
+                    } else if(msg == "my book") {
+                        alert('이미 구매한 도서입니다.');
+                    } else {
+                        alert('장바구니에 담았습니다.');
+                    }
+                },
+                error: function () {
+                    alert('error발생');
+                }
+            });
+        }
+    </script>
 </div>
 </html>

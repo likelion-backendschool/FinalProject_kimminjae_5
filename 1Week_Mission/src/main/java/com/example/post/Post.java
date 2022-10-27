@@ -2,7 +2,6 @@ package com.example.post;
 
 import com.example.post.post_hashTag.HashTag;
 import com.example.member.Member;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +39,6 @@ public class Post {
     private Member member;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    @JsonBackReference
     private List<HashTag> hashTagList;
 
     public PostDto toDto() {

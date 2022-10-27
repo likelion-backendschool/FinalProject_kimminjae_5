@@ -7,7 +7,9 @@ import com.example.post.PostDto;
 import com.example.product.Product;
 import com.example.product.ProductDto;
 
-import java.util.*;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Util {
@@ -45,11 +47,7 @@ public class Util {
     }
 
     public static List<Post> toEntityList(List<PostDto> postDtoList) {
-//        List<Post> postList = postDtoList.stream().map(PostDto :: toEntity).toList();
-        List<Post> postList = new LinkedList<>();
-        for(PostDto postDto : postDtoList) {
-            postList.add(postDto.toEntity());
-        }
+        List<Post> postList = postDtoList.stream().map(PostDto :: toEntity).toList();
 
         return postList;
     }

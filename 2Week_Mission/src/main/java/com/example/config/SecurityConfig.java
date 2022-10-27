@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .loginPage("/member/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/member")
             //로그아웃 설정
                 .and()
                 .logout()

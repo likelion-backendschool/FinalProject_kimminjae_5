@@ -113,7 +113,7 @@ public class PostController {
             return "<script>alert('도서에 등록된 글은 삭제할 수 없습니다!'); location.href='/post/%d';</script>".formatted(id);
         }
 //        return "redirect:/";
-        return "<script>location.href='/';</script>";
+        return "<script>location.href='/member?listType=post';</script>";
     }
 
     //글 정보 가져오기

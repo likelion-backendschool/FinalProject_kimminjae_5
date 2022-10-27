@@ -2,10 +2,6 @@ package com.example.member;
 
 import com.example.DataNotFoundException;
 import com.example.Util;
-import com.example.mybook.MyBook;
-import com.example.mybook.MyBookService;
-import com.example.order.Order;
-import com.example.order.OrderService;
 import com.example.post.post_hashTag.HashTagDto;
 import com.example.post.post_hashTag.HashTagService;
 import com.example.mail.MailService;
@@ -15,9 +11,6 @@ import com.example.post.PostService;
 import com.example.product.Product;
 import com.example.product.ProductDto;
 import com.example.product.ProductService;
-import com.example.product.product_hashTag.ProductHashTag;
-import com.example.product.product_hashTag.ProductHashTagDto;
-import com.example.product.product_hashTag.ProductHashTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -43,9 +36,6 @@ public class MemberController {
     private final MemberService memberService;
     private final PostService postService;
     private final HashTagService hashTagService;
-    private final ProductHashTagService productHashTagService;
-    private final OrderService orderService;
-    private final MyBookService myBookService;
 
     //로그인
     @GetMapping("/login")
@@ -78,8 +68,8 @@ public class MemberController {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getNickname(), memberForm.getEmail());
             }
             //메일 생성 & 발송
-//            MailTO mail = new MailTO(memberForm.getEmail(), "멋북스 회원가입 축하 메일", "멋북스의 회원이 되신 것을 진심으로 축하드립니다!");
-//            mailService.sendMail(mail);
+            MailTO mail = new MailTO(memberForm.getEmail(), "멋북스 회원가입 축하 메일", "멋북스의 회원이 되신 것을 진심으로 축하드립니다!");
+            mailService.sendMail(mail);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -89,53 +79,27 @@ public class MemberController {
             bindingResult.reject("signupFailed", e.getMessage());
             return "member/join_form";
         }
-        return "redirect:/member";
+        return "redirect:/";
     }
 
     //마이페이지, 프로필
     @GetMapping("")
     @PreAuthorize("isAuthenticated()")
-    public String memberDetail(Model model, Principal principal, @RequestParam(value = "listType", defaultValue = "") String listType, @RequestParam(value = "tag", defaultValue = "") String tag) {
+    public String memberDetail(Model model, Principal principal, @RequestParam(value = "tag", defaultValue = "") String tag) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+        List<PostDto> postDtoList;
+        List<HashTagDto> tagDtoList = hashTagService.getHashTagByMember(memberDto);
+        List<ProductDto> productDtos = productService.getByMember(memberDto);
 
-        List<ProductDto> productDtos = null;
-        List<PostDto> postDtoList = null;
-        List<String> tagDtoList = null;
-        List<String> productHashTagDtos = null;
-        List<Order> orderList = null;
-        List<MyBook> myBookList = null;
-
-        if(listType.equals("product") || listType.equals("")) {
-            productHashTagDtos = productHashTagService.getKeywordContent(memberDto);
-            if(tag.length() == 0) {
-                productDtos = productService.getByMember(memberDto);
-            } else {
-                productDtos = productService.getProductByTagAndMember(memberDto, tag);
-            }
-        } else if(listType.equals("post")) {
-            tagDtoList = hashTagService.getKeywordContent(memberDto);
-
-            if(tag.length() == 0) {
-                postDtoList = postService.getPostByMember(memberDto);
-            } else {
-                postDtoList = postService.getPostByTagAndMember(memberDto, tag);
-            }
-        } else if(listType.equals("orderList")) {
-            orderList = orderService.getAllByMember(memberDto);
-        } else if(listType.equals("myBook")) {
-            myBookList = myBookService.getAllByBuyerId(memberDto.getId());
-        }
-
-        if(productHashTagDtos == null) {
-            model.addAttribute("tagList", tagDtoList);
+        if(tag.length() == 0) {
+            postDtoList = postService.getPostByMember(memberDto);
         } else {
-            model.addAttribute("tagList", productHashTagDtos);
+            postDtoList = postService.getPostByTagAndMember(memberDto, tag);
         }
-        model.addAttribute("orderList", orderList);
-        model.addAttribute("postList", postDtoList);
         model.addAttribute("productList", productDtos);
+        model.addAttribute("tagList", tagDtoList);
+        model.addAttribute("postList", postDtoList);
         model.addAttribute("member", memberDto);
-        model.addAttribute("myBookList", myBookList);
 
         return "member/profile";
     }

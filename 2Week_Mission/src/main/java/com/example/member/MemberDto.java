@@ -30,6 +30,8 @@ public class MemberDto {
 
     private int authLevel;
 
+    private long restCash;
+
     public Member toEntity() {
         return Member.builder()
                 .id(this.id)
@@ -40,6 +42,7 @@ public class MemberDto {
                 .createDate(this.createDate)
                 .updateDate(this.updateDate)
                 .authLevel(this.authLevel)
+                .restCash(this.restCash)
                 .build();
     }
 }
