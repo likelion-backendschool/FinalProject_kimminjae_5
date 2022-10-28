@@ -12,12 +12,18 @@
 
 <!-- 제이쿼리 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 <!-- 폰트어썸 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 <!-- 테일윈드 불러오기 -->
 <script src="https://cdn.tailwindcss.com"></script>
 <!--데이지UI 불러오기 -->
 <link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css"/>
+
 
 
 <!-- 토스트 UI 에디터 의존성 시작 -->
@@ -78,6 +84,8 @@
 </style>
 
 <div th:replace="common/navbar :: narbarFragment"></div>
+
+<script src="/common.js"></script>
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 <th:block class="hero min-h-screen py-3 px-5 mx-auto" layout:fragment="content"

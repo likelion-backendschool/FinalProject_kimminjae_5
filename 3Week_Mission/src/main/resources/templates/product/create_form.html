@@ -95,13 +95,13 @@
         function ProductSave__submitForm(form) {
             form.subject.value = form.subject.value.trim();
             if (form.subject.value.length == 0) {
-                alert('제목을 입력해주세요.');
+                warningModal('제목을 입력해주세요.');
                 form.subject.focus();
                 return;
             }
             form.hashtag.value = form.hashtag.value.trim();
             if (form.hashtag.value.length == 0) {
-                alert("태그를 입력해주세요");
+                warningModal("태그를 입력해주세요");
                 form.hashtag.focus();
                 return;
             }
@@ -113,7 +113,7 @@
         function addPostAtProduct(element) {
             const postId = element.id;
             if (document.getElementById('postIds').value.includes(postId)) {
-                alert('글 목록에 존재하는 글입니다.');
+                errorModal('글 목록에 존재하는 글입니다.');
                 return;
             }
             $('input[name=postIds]').attr('value', document.getElementById('postIds').value + postId + ',');
