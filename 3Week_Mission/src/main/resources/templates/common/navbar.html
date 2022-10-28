@@ -6,6 +6,10 @@
         <div class="flex-none">
             <ul class="menu menu-horizontal p-0">
                 <li>
+                    <a class="mr-5" sec:authorize="hasAuthority('ADMIN')" th:href="@{/adm/home/main}">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>ADMIN</a>
+                </li>
+                <li>
                     <a th:href="@{/cart/list}"><i class="fa-solid fa-cart-shopping"></i> 장바구니</a>
                 </li>
                 <li tabindex="0" style="position:relative; z-index: 1;">

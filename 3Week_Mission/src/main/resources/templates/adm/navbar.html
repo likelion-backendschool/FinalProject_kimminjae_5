@@ -1,0 +1,20 @@
+<div th:fragment="narbarFragment" class="navbar bg-base-100" style="z-index: 1;">
+  <div class="navbar bg-base-100">
+    <div class="flex-1">
+      <a class="text-3xl" th:href="@{/post/list}"><i class="fa-solid fa-book"></i> 멋 북스</a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal p-0">
+        <li>
+          <a class="mr-5" sec:authorize="hasAuthority('ADMIN')" th:href="@{/adm/home/main}">
+            <i class="fa-solid fa-screwdriver-wrench"></i>ADMIN</a>
+          <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}"><i
+                  class="fa-solid fa-right-to-bracket"></i>로그인</a>
+          <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}"><i
+                  class="fa-solid fa-right-from-bracket"></i>로그아웃</a>
+          <a sec:authorize="isAuthenticated()" th:href="@{/member}"><i class="fa-solid fa-user"></i>마이페이지</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

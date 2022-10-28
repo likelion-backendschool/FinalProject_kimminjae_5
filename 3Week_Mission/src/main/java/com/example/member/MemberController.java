@@ -72,7 +72,7 @@ public class MemberController {
             return "member/join_form";
         }
         try {
-            if (memberForm.getNickname() == null) {
+            if (memberForm.getNickname().length() == 0) {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail());
             } else {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getNickname(), memberForm.getEmail());

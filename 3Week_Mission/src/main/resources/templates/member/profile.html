@@ -11,9 +11,9 @@
                     </div>
                     <div>
                         <h1 class="text-5xl font-bold mb-2" th:text="${member.username}"></h1>
-                        <h2 class="text-2xl" th:if="${member.nickname.length != 0}"
+                        <h2 class="text-2xl" th:if="${member.nickname != null}"
                             th:text="|작가명 : ${member.nickname}|"></h2>
-                        <form th:if="${member.nickname.length == 0}" th:action="@{/member/signup/author}" method="post">
+                        <form th:if="${member.nickname == null}" th:action="@{/member/signup/author}" method="post">
                             <input class="input input-bordered" type="text" placeholder="작가로 활동할 이름을 정해보세요!"
                                    name="nickname"
                                    id="nickname">
