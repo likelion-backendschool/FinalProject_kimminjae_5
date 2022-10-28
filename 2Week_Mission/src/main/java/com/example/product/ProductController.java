@@ -147,7 +147,7 @@ public class ProductController {
         if(!productDto.getMemberDto().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
-        if(!myBookService.confirmDelete(productDto)) {
+        if(myBookService.confirmDelete(productDto)) {
             productService.delete(productDto);
             return "<script>location.href='/member';</script>";
         }

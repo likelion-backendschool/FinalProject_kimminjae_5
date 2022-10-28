@@ -1,7 +1,7 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container py-3 mx-auto">
     <div class="flex justify-center" style="flex-wrap: wrap;">
-        <div th:each="product : ${productList}" class="m-8">
+        <div th:each="product : ${productList}" class="m-8" style="max-width: 25%;"s>
             <div class="card card-compact bg-base-100 shadow-xl">
                 <figure><img src="https://placeimg.com/350/200/arch" alt="Shoes"/></figure>
                 <div class="card-body">
@@ -22,7 +22,12 @@
                             </li>
                         </ul>
                     </div>
-                    <p>[[${product.description}]]</p>
+                    <div style="white-space: pre-line;" th:if="${product.description.length >= 50}"
+                         th:text="${#strings.substring(product.description, 0, 30)}">
+                    </div>
+                    <div style="white-space: pre-line;" th:if="${product.description.length < 50}"
+                         th:text="${product.description}">
+                    </div>
                     <div class="card-actions justify-end">
                         <button class="btn btn-primary" th:onclick="addItem([[${product.id}]]);">담기</button>
                     </div>
