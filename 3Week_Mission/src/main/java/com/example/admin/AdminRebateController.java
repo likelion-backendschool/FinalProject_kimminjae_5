@@ -4,12 +4,14 @@ import com.example.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/adm/rebate")
@@ -30,10 +32,14 @@ public class AdminRebateController {
     }
     @GetMapping("/rebateOrderItemList")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String showRebateOrderItemList(String yearMonth) {
+    public String showRebateOrderItemList(String yearMonth, Model model) {
         if (yearMonth == null) {
             yearMonth = "2022-10";
         }
+        List<RebateOrderItem> itemList = rebateService.findRebateOrderItemsByPayDateIn(yearMonth);
+
+        System.out.println(itemList);
+        model.addAttribute("items", itemList);
 
         return "adm/rebate/rebateOrderItemList";
     }
