@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/adm/rebate")
 @RequiredArgsConstructor
 public class AdminRebateController {
+    private final RebateService rebateService;
     @GetMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showMakeData() {
@@ -24,13 +25,8 @@ public class AdminRebateController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseBody
     public String makeData(String yearMonth) {
-        int monthEndDay = Ut.date.getEndDayOf(yearMonth);
+        rebateService.makeDate(yearMonth);
 
-        String fromDateStr = yearMonth + "-01 00:00:00.000000";
-        String toDateStr = yearMonth + "-%02d 23:59:59.999999".formatted(monthEndDay);
-        LocalDateTime fromDate = Ut.date.parse(fromDateStr);
-        LocalDateTime toDate = Ut.date.parse(toDateStr);
-
-        return "fromDateStr : %s<br>toDateStr : %s".formatted(fromDateStr, toDateStr);
+        return "성공";
     }
 }

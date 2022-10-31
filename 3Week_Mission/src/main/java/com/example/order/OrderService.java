@@ -153,4 +153,8 @@ public class OrderService {
         List<Order> orderList = orderRepository.findAllByBuyer(memberDto.toEntity());
         return orderList;
     }
+
+    public List<OrderItem> findAllByPayDateBetween(LocalDateTime fromDate, LocalDateTime toDate) {
+        return orderRepository.findAllByPayDateBetween(fromDate, toDate);
+    }
 }
