@@ -6,6 +6,10 @@
     <div class="flex-none">
       <ul class="menu menu-horizontal p-0">
         <li>
+          <a th:href="@{/adm/rebate/makeData}" class="inline-flex">
+            <i class="fa-solid fa-code-merge"></i>
+            정산
+          </a>
           <a class="mr-5" sec:authorize="hasAuthority('ADMIN')" th:href="@{/adm/home/main}">
             <i class="fa-solid fa-screwdriver-wrench"></i>ADMIN</a>
           <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}"><i
