@@ -23,6 +23,7 @@ public class OrderService {
     private final MemberService memberService;
     private final CartService cartService;
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
     //장바구니 목록들로 주문 생성
     @Transactional
@@ -155,6 +156,6 @@ public class OrderService {
     }
 
     public List<OrderItem> findAllByPayDateBetween(LocalDateTime fromDate, LocalDateTime toDate) {
-        return orderRepository.findAllByPayDateBetween(fromDate, toDate);
+        return orderItemRepository.findAllByPayDateBetween(fromDate, toDate);
     }
 }

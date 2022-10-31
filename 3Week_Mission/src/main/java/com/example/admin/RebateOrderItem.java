@@ -1,5 +1,7 @@
 package com.example.admin;
 
+import com.example.cash.CashLog;
+import com.example.member.Member;
 import com.example.order.OrderItem;
 import com.example.order.Order;
 import com.example.product.Product;
@@ -48,11 +50,23 @@ public class RebateOrderItem {
     private boolean isPaid; // 결제여부
     private LocalDateTime payDate; // 결제날짜
 
+    @ManyToOne(fetch = LAZY)
+    @ToString.Exclude
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private CashLog rebateCashLog; // 정산에 관련된 환급지급내역
+
     // 상품
     private String productSubject;
 
     // 주문품목
     private LocalDateTime orderItemCreateDate;
+
+    // 회원
+    @ManyToOne(fetch = LAZY)
+    @ToString.Exclude
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member buyer;
+    private String buyerName;
 
     public RebateOrderItem(OrderItem orderItem) {
         this.orderItem = orderItem;
@@ -72,5 +86,9 @@ public class RebateOrderItem {
 
         // 주문품목 추가데이터
         orderItemCreateDate = orderItem.getCreateDate();
+
+        // 주문품목 추가데이터
+        buyer = orderItem.getOrder().getBuyer();
+        buyerName = orderItem.getOrder().getBuyer().getUsername();
     }
 }
