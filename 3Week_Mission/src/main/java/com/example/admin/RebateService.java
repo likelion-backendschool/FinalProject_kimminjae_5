@@ -24,7 +24,7 @@ public class RebateService {
     private final MemberService memberService;
 
     @Transactional
-    public void makeDate(String yearMonth) {
+    public RsData makeDate(String yearMonth) {
         int monthEndDay = Ut.date.getEndDayOf(yearMonth);
 
         String fromDateStr = yearMonth + "-01 00:00:00.000000";
@@ -42,11 +42,18 @@ public class RebateService {
                 .collect(Collectors.toList());
         //저장
         rebateOrderItems.forEach(this::makeRebateOrderItem);
+
+        return RsData.of("S-1", "정산데이터가 성공적으로 생성되었습니다.");
     }
 
     @Transactional
-    private void makeRebateOrderItem(RebateOrderItem rebateOrderItem) {
+    public void makeRebateOrderItem(RebateOrderItem rebateOrderItem) {
         RebateOrderItem oldRebateOrderItem = rebateOrderItemRepository.findByOrderItemId(rebateOrderItem.getOrderItem().getId()).orElse(null);
+
+        if (oldRebateOrderItem != null) {
+            rebateOrderItemRepository.delete(oldRebateOrderItem);
+        }
+        rebateOrderItemRepository.save(rebateOrderItem);
     }
 
     private RebateOrderItem toRebateOrderItem(OrderItem orderItem) {
@@ -74,14 +81,17 @@ public class RebateService {
 
         int calculateRebatePrice = rebateOrderItem.calculateRebatePrice();
 
-        RsData<Map<String, Object>> addCashRsData = memberService.addCash(rebateOrderItem.getProduct().getMember(), calculateRebatePrice, "정산__%d__지급__예치금".formatted(rebateOrderItem.getOrderItem().getId()));
-        CashLog cashLog = (CashLog) addCashRsData.getData().get("cashLog");
+        CashLog cashLog = memberService.addCash(
+                rebateOrderItem.getProduct().getMember(),
+                calculateRebatePrice,
+                "정산__%d__지급__예치금".formatted(rebateOrderItem.getOrderItem().getId())
+        ).getData().getCashLog();
 
         rebateOrderItem.setRebateDone(cashLog.getId());
 
         return RsData.of(
                 "S-1",
-                "정산성공",
+                "주문품목번호 %d번에 대해서 판매자에게 %s원 정산을 완료하였습니다.".formatted(rebateOrderItem.getOrderItem().getId(), calculateRebatePrice),
                 Ut.mapOf(
                         "cashLogId", cashLog.getId()
                 )

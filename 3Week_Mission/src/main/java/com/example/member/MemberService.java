@@ -9,6 +9,8 @@ import com.example.cash.CashService;
 import com.example.product.Product;
 import com.example.product.ProductService;
 import com.example.util.Ut;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -134,7 +136,7 @@ public class MemberService {
         }
     }
     @Transactional
-    public RsData<Map<String, Object>> addCash(Member member, long price, String eventType) {
+    public RsData<AddCashRsDataBody> addCash(Member member, long price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         long newRestCash = member.getRestCash() + cashLog.getPrice();
@@ -144,11 +146,14 @@ public class MemberService {
         return RsData.of(
                 "S-1",
                 "success",
-                Ut.mapOf(
-                        "cashLog", cashLog,
-                        "newRestCash", newRestCash
-                )
+                new AddCashRsDataBody(cashLog, newRestCash)
         );
+    }
+    @Data
+    @AllArgsConstructor
+    public static class AddCashRsDataBody {
+        CashLog cashLog;
+        long newRestCash;
     }
     public long getRestCash(Member member) {
         Member foundMember = memberRepository.findByusername(member.getUsername()).get();
