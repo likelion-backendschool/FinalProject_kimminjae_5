@@ -1,12 +1,14 @@
 package com.example.member;
 
 import com.example.DataNotFoundException;
+import com.example.base.dto.RsData;
 import com.example.cart.CartItem;
 import com.example.cart.CartService;
 import com.example.cash.CashLog;
 import com.example.cash.CashService;
 import com.example.product.Product;
 import com.example.product.ProductService;
+import com.example.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -131,14 +134,21 @@ public class MemberService {
         }
     }
     @Transactional
-    public long addCash(Member member, long price, String eventType) {
+    public RsData<Map<String, Object>> addCash(Member member, long price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         long newRestCash = member.getRestCash() + cashLog.getPrice();
         member.setRestCash(newRestCash);
         memberRepository.save(member);
 
-        return newRestCash;
+        return RsData.of(
+                "S-1",
+                "success",
+                Ut.mapOf(
+                        "cashLog", cashLog,
+                        "newRestCash", newRestCash
+                )
+        );
     }
     public long getRestCash(Member member) {
         Member foundMember = memberRepository.findByusername(member.getUsername()).get();
