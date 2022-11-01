@@ -33,8 +33,9 @@ public class RebateService {
         LocalDateTime toDate = Ut.date.parse(toDateStr);
 
         //데이터 가져오기
-        List<OrderItem> orderItemList = orderService.findAllByPayDateBetweenOrderByIdAsc(fromDate, toDate);
+        List<OrderItem> orderItemList = orderService.findAllByRebateAndPayDateBetweenOrderByIdAsc(false, fromDate, toDate);
 
+        System.out.println(orderItemList);
         //변환
         List<RebateOrderItem> rebateOrderItems = orderItemList
                 .stream()

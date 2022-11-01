@@ -17,28 +17,34 @@ import java.util.List;
 @Controller
 @RequestMapping("/adm/rebate")
 @RequiredArgsConstructor
-@Slf4j
 public class AdminRebateController {
     private final RebateService rebateService;
+
+    //정산 데이터 생성 폼
     @GetMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showMakeData() {
         return "adm/rebate/makeData";
     }
+
+    //정산 데이터 생성 처리
     @PostMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String makeData(String yearMonth) {
+        System.out.println(yearMonth);
         RsData makeDateRsData = rebateService.makeDate(yearMonth);
 
         String redirect = makeDateRsData.addMsgToUrl("redirect:/adm/rebate/rebateOrderItemList?yearMonth=" + yearMonth);
 
         return redirect;
     }
+
+    //정산 데이터 목록
     @GetMapping("/rebateOrderItemList")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showRebateOrderItemList(String yearMonth, Model model) {
         if (yearMonth == null) {
-            yearMonth = "2022-10";
+            yearMonth = "2022-11";
         }
         List<RebateOrderItem> itemList = rebateService.findRebateOrderItemsByPayDateIn(yearMonth);
 
@@ -47,6 +53,8 @@ public class AdminRebateController {
 
         return "adm/rebate/rebateOrderItemList";
     }
+
+    //건별 정산
     @PostMapping("/rebateOne/{orderItemId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String rebateOne(@PathVariable long orderItemId, HttpServletRequest req) {
@@ -62,6 +70,8 @@ public class AdminRebateController {
 
         return redirect;
     }
+
+    //선택 정산
     @PostMapping("/rebate")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String rebate(String ids, HttpServletRequest req) {

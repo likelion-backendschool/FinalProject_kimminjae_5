@@ -74,8 +74,8 @@ public class MemberController {
         try {
             if (memberForm.getNickname().length() == 0) {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail());
-            } else if(memberForm.getNickname().equals("admin")) {
-                memberService.createAdmin(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail());
+            } else if(memberForm.getUsername().equals("admin")) {
+                memberService.createAdmin(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail(), memberForm.getNickname());
             } else {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getNickname(), memberForm.getEmail());
             }

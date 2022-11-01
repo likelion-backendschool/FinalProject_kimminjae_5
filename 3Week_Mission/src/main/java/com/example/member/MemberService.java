@@ -32,7 +32,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final CashService cashService;
     //관리자 회원 생성
-    public void createAdmin(String username, String password, String email) {
+    public void createAdmin(String username, String password, String email, String nickname) {
         Member member = Member.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
