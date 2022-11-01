@@ -31,6 +31,18 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CashService cashService;
+    //관리자 회원 생성
+    public void createAdmin(String username, String password, String email) {
+        Member member = Member.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .email(email)
+                .nickname(nickname)
+                .createDate(LocalDateTime.now())
+                .authLevel(10)
+                .build();
+        memberRepository.save(member);
+    }
 
     //일반 회원 생성
     public MemberDto create(String username, String password, String email) {
@@ -149,6 +161,7 @@ public class MemberService {
                 new AddCashRsDataBody(cashLog, newRestCash)
         );
     }
+
     @Data
     @AllArgsConstructor
     public static class AddCashRsDataBody {

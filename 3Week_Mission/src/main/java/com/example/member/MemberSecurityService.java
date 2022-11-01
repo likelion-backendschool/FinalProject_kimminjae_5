@@ -29,7 +29,7 @@ public class MemberSecurityService implements UserDetailsService {
         }
         Member member = _member.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (member.getAuthLevel() == 7) {
+        if (member.getAuthLevel() == 10) {
             authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
         }
         authorities.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
