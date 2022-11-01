@@ -2,7 +2,11 @@
 <div layout:fragment="content">
     <div class="container mx-auto">
         <div>
-            <h1>정산데이터 목록</h1>
+            <h1 class="text-3xl mb-3">정산데이터 목록</h1>
+            <a href="javascript:;" onclick="RebateForm__submit();" class="btn btn-primary btn-sm mb-3">선택정산</a>
+            <form method="POST" name="rebateForm" th:action="@{|/adm/rebate/rebate|}" hidden>
+                <input type="hidden" name="ids">
+            </form>
             <div class="overflow-x-auto">
                 <table class="table table-compact w-full">
                     <thead>
@@ -49,11 +53,6 @@
                     </tr>
                     </tbody>
                 </table>
-
-                <a href="javascript:;" onclick="RebateForm__submit();" class="btn btn-primary btn-sm">선택정산</a>
-                <form method="POST" name="rebateForm" th:action="@{|/adm/rebate/rebate|}" hidden>
-                    <input type="hidden" name="ids">
-                </form>
 
                 <script>
                     // 전체선택 체크박스
