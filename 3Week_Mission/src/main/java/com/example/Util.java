@@ -7,6 +7,7 @@ import com.example.post.PostDto;
 import com.example.product.Product;
 import com.example.product.ProductDto;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,4 +54,7 @@ public class Util {
 
         return postList;
     }
+//    public static LocalDateTime parse(String dateText) {
+//        return parse("yyyy-MM-dd HH:mm:ss.SSSSSS", dateText);
+//    }
 }
