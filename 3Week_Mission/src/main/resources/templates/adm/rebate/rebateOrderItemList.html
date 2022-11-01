@@ -31,14 +31,14 @@
                                    type="checkbox" class="orderItemCheckbox checkbox" th:value="${item.orderItem.id}">
                         </td>
                         <td th:text="${item.orderItem.id}"></td>
-                        <td th:text="${item.payDate}"></td>
+                        <td th:text="${#temporals.format(item.payDate, 'yyyy-MM-dd HH:mm')}"></td>
                         <td th:text="${item.productSubject}"></td>
                         <td th:text="${item.payPrice}"></td>
                         <td th:text="${item.pgFee}"></td>
                         <td th:text="${item.refundPrice}"></td>
                         <td th:text="${item.sellerName}"></td>
                         <td th:text="${item.calculateRebatePrice}"></td>
-                        <td th:text="${item.rebateDate}"></td>
+                        <td th:text="${#temporals.format(item.rebateDate, 'yyyy-MM-dd HH:mm')}"></td>
                         <td th:text="${item.rebateCashLog?.id}"></td>
                         <td>
                             <a th:if="${item.rebateAvailable}" href="javascript:;" onclick="$(this).next().submit();"
