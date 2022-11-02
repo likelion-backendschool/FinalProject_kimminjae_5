@@ -5,6 +5,7 @@ import com.example.admin.RebateOrderItem;
 import com.example.admin.RebateOrderItemRepository;
 import com.example.order.OrderItem;
 import com.example.order.OrderItemRepository;
+import com.example.util.Ut;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -23,6 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -38,7 +40,7 @@ public class MakeRebateOrderItemJobConfig {
 //
 //
 //    @Bean
-//    public Job makeRebateOrderItemJob(Step makeRebateOrderItemStep1) throws Exception {
+//    public Job makeRebateOrderItemJob(Step makeRebateOrderItemStep1) {
 //
 //        return jobBuilderFactory.get("makeRebateOrderItemJob")
 //                .start(makeRebateOrderItemStep1)
@@ -63,12 +65,20 @@ public class MakeRebateOrderItemJobConfig {
 //    @StepScope
 //    @Bean
 //    public RepositoryItemReader<OrderItem> orderItemReader() {
+//        LocalDateTime now = LocalDateTime.now();
+//        int year = now.getYear();
+//        int month = now.getMonthValue();
+//        int endDay = Ut.date.getEndDayOf(year, month);
+//        LocalDateTime startDayTime = Ut.date.parse(year + "-" + month + "-" + 1 + " " + "00" + ":" + "00");
+//        LocalDateTime endDayTime = Ut.date.parse(year + "-" + month + "-" + endDay + " " + "23" + ":" + "59");
+//        System.out.println(startDayTime);
+//        System.out.println(endDayTime);
 //        return new RepositoryItemReaderBuilder<OrderItem>()
 //                .name("orderItemReader")
 //                .repository(orderItemRepository)
-//                .methodName("findAllByIdPaid")
+//                .methodName("findAllByIsPaidBetween")
 //                .pageSize(100)
-//                .arguments(Arrays.asList(true))
+//                .arguments(Arrays.asList(startDayTime, endDayTime))
 //                .sorts(Collections.singletonMap("id", Sort.Direction.ASC))
 //                .build();
 //    }
