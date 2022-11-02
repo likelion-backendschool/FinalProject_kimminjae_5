@@ -21,8 +21,11 @@
                         </form>
                     </div>
                 </div>
-                <div class="mt-3">
+                <div class="mt-3 flex gap-3">
                     <p class="text-2xl">잔여 예치금 : [[${member.restCash}]]</p>
+                    <a class="btn btn-primary btn-sm" th:if="${member.nickname != null}"
+                       th:href="@{/withdraw/apply}"
+                        >출금신청</a>
                 </div>
                 <div>
                     <p class="py-6 text-2xl"><i class="fa-regular fa-envelope"></i> [[${member.email}]]</p>
