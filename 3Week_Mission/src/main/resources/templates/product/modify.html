@@ -109,13 +109,13 @@
         function ProductSave__submitForm(form) {
             form.subject.value = form.subject.value.trim();
             if (form.subject.value.length == 0) {
-                alert('제목을 입력해주세요.');
+                warningModal('제목을 입력해주세요.');
                 form.subject.focus();
                 return;
             }
             form.hashtag.value = form.hashtag.value.trim();
             if (form.hashtag.value.length == 0) {
-                alert("태그를 입력해주세요");
+                warningModal("태그를 입력해주세요");
                 form.hashtag.focus();
                 return;
             }
@@ -154,7 +154,7 @@
                     $('.tbody').append(html);
                 },
                 error: function () {
-                    alert('error');
+                    errorModal('error');
                 }
             });
         }
@@ -173,7 +173,7 @@
                     console.log('제거 완료');
                 },
                 error: function () {
-                    alert('error');
+                    errorModal('error');
                 }
             });
 

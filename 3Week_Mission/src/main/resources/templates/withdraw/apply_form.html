@@ -1,0 +1,58 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container py-3 px-5 mx-auto">
+    <form th:action="@{/withdraw/apply}" method="post" onsubmit="form_submit(this); return false;">
+        <div class="mb-3">
+            <h1 class="text-3xl">은행</h1>
+            <input class="input input-bordered" type="text" id="bankName" name="bankName" placeholder="은행">
+        </div>
+        <div class="mb-3">
+            <h1 class="text-3xl">계좌번호</h1>
+            <input class="input input-bordered" type="text" id="bankAccountNo" name="bankAccountNo" placeholder="계좌 번호">
+        </div>
+        <div class="mb-3">
+            <h1 class="text-3xl">출금 금액</h1>
+            <input class="input input-bordered" type="text" id="price" name="price" placeholder="출금 가격">
+        </div>
+        <div>
+            <p class="text-3xl">잔여 예치금 : [[${member.restCash}]]</p>
+        </div>
+        <button class="btn btn-primary btn-wide">출금신청</button>
+    </form>
+    <script th:inline="javascript">
+        const restCash = [[${member.restCash}]];
+
+
+        function form_submit(form) {
+            form.bankName.value = form.bankName.value.trim();
+            if (form.bankName.value.length == 0) {
+                warningModal('은행을 입력해주세요.');
+                form.bankName.focus();
+                return;
+            }
+            form.bankAccountNo.value = form.bankAccountNo.value.trim();
+            if (form.bankAccountNo.value.length == 0) {
+                warningModal("계좌번호를 입력해주세요");
+                form.bankAccountNo.focus();
+                return;
+            }
+            form.price.value = form.price.value.trim();
+            if (form.price.value.length == 0) {
+                warningModal("출금신청할 금액을 입력해주세요");
+                form.price.focus();
+                return;
+            }
+            form.price.value = form.price.value.trim();
+            if (form.price.value <= 0) {
+                warningModal("출금신청할 금액을 확인해주세요");
+                form.price.focus();
+                return;
+            }
+            if(form.price.value > restCash) {
+                warningModal('잔여 예치금이 부족합니다.');
+                return;
+            }
+            form.submit();
+        }
+    </script>
+</div>
+</html>

@@ -43,6 +43,7 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <div class="mb-3" th:if="${tagList.size() > 0}">
         <ul class="flex" style="flex-wrap: wrap">
             <li class="mr-1 mb-1">
@@ -54,6 +55,46 @@
             </li>
         </ul>
     </div>
+=======
+    <!-- 글 목록 -->
+    <div th:if="${postList != null}">
+        <div class="mb-3" th:if="${tagList.size() > 0}">
+            <ul class="flex justify-center" style="flex-wrap: wrap">
+                <li class="mr-1 mb-1">
+                    <a class="badge badge-lg badge-outline hover:underline hover:text-[red]"
+                       th:href="@{/member?listType=post}">전체
+                        글</a>
+                </li>
+                <li class="mr-1 mb-1" th:each="tag : ${tagList}">
+                    <a class="badge badge-lg badge-outline hover:underline hover:text-[red]"
+                       th:href="@{|/member?listType=post&tag=${tag}|}"
+                       th:text="|#${tag}|"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="text-center mt-0" th:if="${postList.size() == 0}" style="align-items: center; margin-top: 25%;">
+            <a class="mx-auto text-3xl hover:underline hover:text-[skyblue]" th:href="@{/post/write}">
+                <i class="fa-regular fa-pen-to-square"></i> 글 작성하기</a>
+        </div>
+        <div th:if="${postList.size() > 0}" class="overflow-x-auto">
+            <table class="table table-compact w-full">
+                <thead>
+                <tr class="text-center">
+                    <th>번호</th>
+                    <th style="width:25%;">제목</th>
+                    <th style="width:40%;">태그</th>
+                    <th>작성일시</th>
+                    <th>수정일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" th:each="post, loop : ${postList}">
+                    <td><a class="badge badge-primary" th:text="${post.id}"></a></td>
+                    <td>
+                        <a class="flex-grow hover:underline hover:text-[red]" th:text="${post.subject}"
+                           th:href="@{|/post/${post.id}|}"></a>
+                    </td>
+>>>>>>> d43e123 (end)
 
     <div class="text-center my-auto" th:if="${postList.size() == 0}" style="align-items: center; margin-top: 25%;">
         <a class="mx-auto my-auto text-3xl hover:underline hover:text-[skyblue]" th:href="@{/post/write}">

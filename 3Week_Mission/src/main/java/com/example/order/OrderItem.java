@@ -42,6 +42,7 @@ public class OrderItem {
     private int payPrice; // 결제금액
     private int refundPrice; // 환불금액
     private boolean isPaid; // 결제여부
+    private boolean rebate; //정산 여부
 
     public OrderItem(Product product) {
         this.product = product;

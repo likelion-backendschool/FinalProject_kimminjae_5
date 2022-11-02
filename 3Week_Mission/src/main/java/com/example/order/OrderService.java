@@ -23,6 +23,7 @@ public class OrderService {
     private final MemberService memberService;
     private final CartService cartService;
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
     //장바구니 목록들로 주문 생성
     @Transactional
@@ -152,5 +153,18 @@ public class OrderService {
     public List<Order> getAllByMember(MemberDto memberDto) {
         List<Order> orderList = orderRepository.findAllByBuyer(memberDto.toEntity());
         return orderList;
+    }
+
+    public List<OrderItem> findAllByPayDateBetweenOrderByIdAsc(LocalDateTime fromDate, LocalDateTime toDate) {
+        return orderItemRepository.findAllByPayDateBetween(fromDate, toDate);
+    }
+    public List<OrderItem> findAllByRebateAndPayDateBetweenOrderByIdAsc(boolean rebate, LocalDateTime fromDate, LocalDateTime toDate) {
+        List<OrderItem> orderItems = findAllByPayDateBetweenOrderByIdAsc(fromDate, toDate);
+        List<OrderItem> result = orderItems.stream().filter(i -> i.isRebate() == rebate).toList();
+        for(OrderItem orderItem : result) {
+            orderItem.setRebate(true);
+            orderItemRepository.save(orderItem);
+        }
+        return result;
     }
 }

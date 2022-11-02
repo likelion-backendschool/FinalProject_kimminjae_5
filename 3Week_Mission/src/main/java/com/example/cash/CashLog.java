@@ -31,4 +31,8 @@ public class CashLog {
     private long price; //변동
 
     private String eventType;
+
+    public CashLog(long id) {
+        this.id = id;
+    }
 }

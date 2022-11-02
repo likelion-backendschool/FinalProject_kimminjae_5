@@ -18,6 +18,8 @@ import com.example.product.ProductService;
 import com.example.product.product_hashTag.ProductHashTag;
 import com.example.product.product_hashTag.ProductHashTagDto;
 import com.example.product.product_hashTag.ProductHashTagService;
+import com.example.withdraw.Withdraw;
+import com.example.withdraw.WithdrawService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -72,8 +74,10 @@ public class MemberController {
             return "member/join_form";
         }
         try {
-            if (memberForm.getNickname() == null) {
+            if (memberForm.getNickname().length() == 0) {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail());
+            } else if(memberForm.getUsername().equals("admin")) {
+                memberService.createAdmin(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail(), memberForm.getNickname());
             } else {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getNickname(), memberForm.getEmail());
             }
