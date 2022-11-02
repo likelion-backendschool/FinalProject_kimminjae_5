@@ -1,6 +1,7 @@
 package com.example.withdraw;
 
 import com.example.member.MemberDto;
+import com.example.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WithdrawService {
     private final WithdrawRepository withdrawRepository;
+    private final MemberService memberService;
 
     @Transactional
     public Withdraw create(String bankName, String bankAccountNo, long price, MemberDto memberDto) {
@@ -36,6 +38,7 @@ public class WithdrawService {
         Withdraw withdraw = withdrawRepository.findById(id).orElse(null);
         withdraw.setWithdraw(true);
 
+        memberService.addCash(withdraw.getMember(), withdraw.getPrice() * -1, "출금__%d__사용__예치금".formatted(withdraw.getId()));
         withdrawRepository.save(withdraw);
 
 
