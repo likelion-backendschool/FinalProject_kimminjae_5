@@ -17,7 +17,7 @@
             <tbody>
             <tr th:each="withdraw : ${withdrawList}">
                 <td>[[${withdraw.id}]]</td>
-                <td>[[${withdraw.createDate}]]</td>
+                <td th:text="${#temporals.format(withdraw.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                 <td>[[${withdraw.member.username}]]</td>
                 <td>[[${withdraw.bankName}]]</td>
                 <td>[[${withdraw.bankAccountNo}]]</td>
