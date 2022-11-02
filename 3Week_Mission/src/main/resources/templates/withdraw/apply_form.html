@@ -41,6 +41,12 @@
                 form.price.focus();
                 return;
             }
+            form.price.value = form.price.value.trim();
+            if (form.price.value <= 0) {
+                warningModal("출금신청할 금액을 확인해주세요");
+                form.price.focus();
+                return;
+            }
             if(form.price.value > restCash) {
                 warningModal('잔여 예치금이 부족합니다.');
                 return;
