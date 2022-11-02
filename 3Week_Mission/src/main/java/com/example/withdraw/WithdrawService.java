@@ -3,6 +3,7 @@ package com.example.withdraw;
 import com.example.member.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class WithdrawService {
     private final WithdrawRepository withdrawRepository;
 
+    @Transactional
     public Withdraw create(String bankName, String bankAccountNo, long price, MemberDto memberDto) {
         Withdraw withdraw = Withdraw.builder()
                 .createDate(LocalDateTime.now())
@@ -29,6 +31,7 @@ public class WithdrawService {
         return withdrawRepository.findAll();
     }
 
+    @Transactional
     public void withdrawDone(long id) {
         Withdraw withdraw = withdrawRepository.findById(id).orElse(null);
         withdraw.setWithdraw(true);
@@ -46,6 +49,7 @@ public class WithdrawService {
         return withdrawRepository.findAllByMemberId(memberDto.getId());
     }
 
+    @Transactional
     public void cancel(Withdraw withdraw) {
         withdraw.setCanceled(true);
         withdrawRepository.save(withdraw);
