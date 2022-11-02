@@ -29,4 +29,6 @@ public class Withdraw {
 
     @ManyToOne
     private Member member;
+
+    private boolean isWithdraw; //출금 처리 여부
 }

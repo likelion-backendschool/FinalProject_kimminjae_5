@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
@@ -23,5 +25,16 @@ public class WithdrawController {
 
         model.addAttribute("member", memberDto);
         return "/withdraw/apply_form";
+    }
+    @PostMapping("/apply")
+    public String requestWithdraw(Principal principal,
+                                  @RequestParam("bankName") String bankName,
+                                  @RequestParam("bankAccountNo") String bankAccountNo,
+                                  @RequestParam("price") long price) {
+        MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+
+        withdrawService.create(bankName, bankAccountNo, price, memberDto);
+
+        return "redirect:/member";
     }
 }
