@@ -32,5 +32,11 @@ public class WithdrawService {
         withdraw.setWithdraw(true);
 
         withdrawRepository.save(withdraw);
+
+
+    }
+
+    public Withdraw getById(long id) {
+        return withdrawRepository.findById(id).orElse(null);
     }
 }

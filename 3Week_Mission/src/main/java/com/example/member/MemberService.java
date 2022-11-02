@@ -162,6 +162,11 @@ public class MemberService {
         );
     }
 
+    public void minusRestCash(long price, Member member) {
+        member.setRestCash(member.getRestCash() - price);
+        memberRepository.save(member);
+    }
+
     @Data
     @AllArgsConstructor
     public static class AddCashRsDataBody {
