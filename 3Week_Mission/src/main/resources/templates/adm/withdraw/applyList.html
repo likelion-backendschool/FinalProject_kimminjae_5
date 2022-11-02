@@ -1,0 +1,31 @@
+<html layout:decorate="~{adm/layout}">
+<div layout:fragment="content" class="container mx-auto">
+    <div class="overflow-x-auto">
+        <table class="table table-compact w-full">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>신청일시</th>
+                <th>신청회원</th>
+                <th>은행명</th>
+                <th>계좌번호</th>
+                <th>출금요청금액</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="withdraw : ${withdrawList}">
+                <td>[[${withdraw.id}]]</td>
+                <td>[[${withdraw.createDate}]]</td>
+                <td>[[${withdraw.member.username}]]</td>
+                <td>[[${withdraw.bankName}]]</td>
+                <td>[[${withdraw.bankAccountNo}]]</td>
+                <td>[[${withdraw.price}]]</td>
+                <td><a class="btn btn-primary btn-outline btn-sm" th:href="@{|/adm/withdraw/${withdraw.id}|}">입금 완료</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,5 +21,9 @@ public class WithdrawService {
                 .member(memberDto.toEntity())
                 .build();
         withdrawRepository.save(withdraw);
+    }
+
+    public List<Withdraw> getAll() {
+        return withdrawRepository.findAll();
     }
 }
