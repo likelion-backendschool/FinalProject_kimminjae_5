@@ -30,7 +30,6 @@ public class AdminWithdrawController {
     @PostMapping("/{id}")
     public String withdrawApply(@PathVariable("id") long id) {
         Withdraw withdraw = withdrawService.getById(id);
-        memberService.minusRestCash(withdraw.getPrice(), withdraw.getMember());
         withdrawService.withdrawDone(id);
 
         return "redirect:/adm/withdraw/applyList";

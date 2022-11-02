@@ -12,7 +12,7 @@ import java.util.List;
 public class WithdrawService {
     private final WithdrawRepository withdrawRepository;
 
-    public void create(String bankName, String bankAccountNo, long price, MemberDto memberDto) {
+    public Withdraw create(String bankName, String bankAccountNo, long price, MemberDto memberDto) {
         Withdraw withdraw = Withdraw.builder()
                 .createDate(LocalDateTime.now())
                 .bankName(bankName)
@@ -21,6 +21,8 @@ public class WithdrawService {
                 .member(memberDto.toEntity())
                 .build();
         withdrawRepository.save(withdraw);
+
+        return withdraw;
     }
 
     public List<Withdraw> getAll() {
@@ -38,5 +40,14 @@ public class WithdrawService {
 
     public Withdraw getById(long id) {
         return withdrawRepository.findById(id).orElse(null);
+    }
+
+    public List<Withdraw> getByMember(MemberDto memberDto) {
+        return withdrawRepository.findAllByMemberId(memberDto.getId());
+    }
+
+    public void cancel(Withdraw withdraw) {
+        withdraw.setCanceled(true);
+        withdrawRepository.save(withdraw);
     }
 }

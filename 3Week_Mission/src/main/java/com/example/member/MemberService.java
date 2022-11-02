@@ -167,6 +167,11 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    public void plusRestCash(long price, Member member) {
+        member.setRestCash(member.getRestCash() + price);
+        memberRepository.save(member);
+    }
+
     @Data
     @AllArgsConstructor
     public static class AddCashRsDataBody {

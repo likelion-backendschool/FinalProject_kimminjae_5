@@ -31,4 +31,6 @@ public class Withdraw {
     private Member member;
 
     private boolean isWithdraw; //출금 처리 여부
+
+    private boolean isCanceled; //취소 여부
 }

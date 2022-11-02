@@ -5,12 +5,10 @@ import com.example.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,6 +16,15 @@ import java.security.Principal;
 public class WithdrawController {
     private final WithdrawService withdrawService;
     private final MemberService memberService;
+
+    @GetMapping("/list")
+    public String withdrawList(Principal principal, Model model) {
+        MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+        List<Withdraw> withdrawList = withdrawService.getByMember(memberDto);
+
+        model.addAttribute("withdrawList", withdrawList);
+        return "withdraw/list";
+    }
 
     @GetMapping("/apply")
     public String requestWithdraw(Principal principal, Model model) {
@@ -32,9 +39,17 @@ public class WithdrawController {
                                   @RequestParam("bankAccountNo") String bankAccountNo,
                                   @RequestParam("price") long price) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
+        Withdraw withdraw = withdrawService.create(bankName, bankAccountNo, price, memberDto);
+        memberService.minusRestCash(withdraw.getPrice(), withdraw.getMember());
 
-        withdrawService.create(bankName, bankAccountNo, price, memberDto);
+        return "redirect:/withdraw/list";
+    }
+    @PostMapping("/cancel/{id}")
+    public String cancelWithdraw(Principal principal, @PathVariable("id") long id) {
+        Withdraw withdraw = withdrawService.getById(id);
+        withdrawService.cancel(withdraw);
+        memberService.plusRestCash(withdraw.getPrice(), withdraw.getMember());
 
-        return "redirect:/member";
+        return "redirect:/withdraw/list";
     }
 }
