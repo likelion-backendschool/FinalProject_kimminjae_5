@@ -161,6 +161,20 @@ public class MemberService {
                 new AddCashRsDataBody(cashLog, newRestCash)
         );
     }
+    @Transactional
+    public RsData<AddCashRsDataBody> addCashWithdraw(Member member, long price, String eventType) {
+        CashLog cashLog = cashService.addCash(member, price, eventType);
+
+        long newRestCash = member.getRestCash();
+//        member.setRestCash(newRestCash);
+//        memberRepository.save(member);
+
+        return RsData.of(
+                "S-1",
+                "success",
+                new AddCashRsDataBody(cashLog, newRestCash)
+        );
+    }
 
     public void minusRestCash(long price, Member member) {
         member.setRestCash(member.getRestCash() - price);

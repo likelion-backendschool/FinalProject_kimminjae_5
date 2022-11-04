@@ -34,12 +34,17 @@ public class WithdrawService {
     }
 
     @Transactional
-    public void withdrawDone(long id) {
+    public boolean withdrawDone(long id) {
         Withdraw withdraw = withdrawRepository.findById(id).orElse(null);
-        withdraw.setWithdraw(true);
+        if(withdraw.isCanceled()) {
+            return false;
+        } else {
+            withdraw.setWithdraw(true);
 
-        memberService.addCash(withdraw.getMember(), withdraw.getPrice() * -1, "출금__%d__사용__예치금".formatted(withdraw.getId()));
-        withdrawRepository.save(withdraw);
+            memberService.addCashWithdraw(withdraw.getMember(), withdraw.getPrice() * -1, "출금__%d__사용__예치금".formatted(withdraw.getId()));
+            withdrawRepository.save(withdraw);
+        }
+        return true;
 
 
     }
@@ -53,8 +58,12 @@ public class WithdrawService {
     }
 
     @Transactional
-    public void cancel(Withdraw withdraw) {
+    public boolean cancel(Withdraw withdraw) {
+        if(withdraw.isWithdraw() == true) {
+            return false;
+        }
         withdraw.setCanceled(true);
         withdrawRepository.save(withdraw);
+        return true;
     }
 }

@@ -47,9 +47,10 @@ public class WithdrawController {
     @PostMapping("/cancel/{id}")
     public String cancelWithdraw(Principal principal, @PathVariable("id") long id) {
         Withdraw withdraw = withdrawService.getById(id);
-        withdrawService.cancel(withdraw);
-        memberService.plusRestCash(withdraw.getPrice(), withdraw.getMember());
-
+        boolean result = withdrawService.cancel(withdraw);
+        if(result) {
+            memberService.plusRestCash(withdraw.getPrice(), withdraw.getMember());
+        }
         return "redirect:/withdraw/list";
     }
 }
