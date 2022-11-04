@@ -24,6 +24,7 @@ public class JobConfig {
          LocalDateTime now = LocalDateTime.now();
          int year = now.getYear();
          int month = now.getMonthValue()-1;
+         if(month == 0) month = 12;
         String yearMonth = year + "-" + month;
         JobParameters param = new JobParametersBuilder()
                 .addString("yearMonth", yearMonth)
