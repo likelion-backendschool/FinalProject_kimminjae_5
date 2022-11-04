@@ -1,5 +1,6 @@
 package com.example.product;
 
+import com.example.AppConfig;
 import com.example.Util;
 import com.example.member.Member;
 import com.example.post.Post;
@@ -71,7 +72,7 @@ public class Product {
     }
 
     public int getWholesalePrice() {
-        return (int) Math.ceil(getPrice() * 0.7);
+        return (int) Math.ceil(getPrice() * AppConfig.getWholesalePriceRate());
     }
 
     public boolean isOrderable() {

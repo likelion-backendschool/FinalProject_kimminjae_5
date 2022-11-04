@@ -19,6 +19,22 @@ public class AppConfig {
     @Getter
     private static String siteBaseUrl;
 
+    @Getter
+    public static double wholesalePriceRate;
+
+    @Getter
+    public static int cancelAvailableMinutes;
+
+    @Value("${custom.rebate.wholesalePriceRate}")
+    public void setWholesalePriceRate(double value) {
+        wholesalePriceRate = value;
+    }
+
+    @Value("${custom.order.cancelAvailableMinutes}")
+    public void setCancelAvailableMinutes(String value) {
+        cancelAvailableMinutes = Integer.valueOf(value);
+    }
+
     @Autowired
     public void setContext(ApplicationContext context) {
         AppConfig.context = context;
@@ -28,16 +44,16 @@ public class AppConfig {
 //    public void setActiveProfile(String value) {
 //        activeProfile = value;
 //    }
-//
-//    @Value("${custom.site.name}")
-//    public void setSiteName(String siteName) {
-//        AppConfig.siteName = siteName;
-//    }
-//
-//    @Value("${custom.site.baseUrl}")
-//    public void setSiteBaseUrl(String siteBaseUrl) {
-//        AppConfig.siteBaseUrl = siteBaseUrl;
-//    }
+
+    @Value("${custom.site.name}")
+    public void setSiteName(String siteName) {
+        AppConfig.siteName = siteName;
+    }
+
+    @Value("${custom.site.baseUrl}")
+    public void setSiteBaseUrl(String siteBaseUrl) {
+        AppConfig.siteBaseUrl = siteBaseUrl;
+    }
 
     public static boolean isNotProd() {
         return isProd() == false;
