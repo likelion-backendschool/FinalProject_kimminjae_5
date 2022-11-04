@@ -35,7 +35,6 @@ public class RebateService {
         //데이터 가져오기
         List<OrderItem> orderItemList = orderService.findAllByRebateAndPayDateBetweenOrderByIdAsc(false, fromDate, toDate);
 
-        System.out.println(orderItemList);
         //변환
         List<RebateOrderItem> rebateOrderItems = orderItemList
                 .stream()

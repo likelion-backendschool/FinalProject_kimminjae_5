@@ -123,11 +123,6 @@
 
             form.submit();
             // 도서 등록
-            console.log(form.subject.value);
-            console.log(form.hashtag.value);
-            console.log(form.price.value);
-            console.log(form.postIds.value);
-            console.log(postList);
         }
 
         function addPostAtProduct(element) {
@@ -170,7 +165,7 @@
                 },
                 datatype: "text",
                 success: function (post) {
-                    console.log('제거 완료');
+                    // console.log('제거 완료');
                 },
                 error: function () {
                     errorModal('error');

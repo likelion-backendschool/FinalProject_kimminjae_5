@@ -59,7 +59,6 @@ public class PostController {
     @PostMapping("/write")
     @PreAuthorize("isAuthenticated()")
     public String write(@RequestParam("subject") String subject, @RequestParam("hashtag") String hashTag, @RequestParam("content") String content, Principal principal) {
-        System.out.println("content : " + content);
         MemberDto member = memberService.getMemberByUsername(principal.getName());
         postService.write(member, subject, hashTag, content);
         return "redirect:/";

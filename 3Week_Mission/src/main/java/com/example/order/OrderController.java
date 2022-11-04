@@ -59,8 +59,6 @@ public class OrderController {
         Duration diff = Duration.between(start, end);
         long diffMin = diff.toMinutes();
 
-        System.out.println(diffMin);
-
 
         if(diffMin > cancelAvailableMinutes) {
             return "<script>alert('구매한지 10분이 지나 환불이 불가합니다.'); location.href='/order/%d';</script>".formatted(order.getId());

@@ -39,7 +39,6 @@ public class CartController {
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
     public String addItem(Principal principal, @PathVariable long id) {
-        System.out.println("add");
 
         Member buyer = memberService.getMemberByUsername(principal.getName()).toEntity();
         Product product = productService.getProductById(id).toEntity();
@@ -54,7 +53,6 @@ public class CartController {
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
     public String removeItem(Principal principal, @PathVariable long id) {
-        System.out.println("add");
 
         Member buyer = memberService.getMemberByUsername(principal.getName()).toEntity();
         Product product = productService.getProductById(id).toEntity();

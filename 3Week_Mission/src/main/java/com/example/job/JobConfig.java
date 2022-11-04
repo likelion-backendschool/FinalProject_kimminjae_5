@@ -31,7 +31,6 @@ public class JobConfig {
                 .toJobParameters();
         JobExecution execution = jobLauncher.run(makeRebateDataJob, param);
 
-        System.out.println("batch");
         System.out.println(execution.getStatus());
     }
 

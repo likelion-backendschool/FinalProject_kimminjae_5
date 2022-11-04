@@ -394,7 +394,8 @@
         function ArticleSave__submitForm(form) {
             form.subject.value = form.subject.value.trim();
             if (form.subject.value.length == 0) {
-                alert('제목을 입력해주세요.');
+                // alert('제목을 입력해주세요.');
+                warningModal('제목을 입력해주세요.');
                 form.subject.focus();
                 return;
             }
@@ -403,7 +404,7 @@
             console.log(markdown);
             form.content.value = markdown.trim();
             if (form.content.value.length == 0) {
-                alert("내용을 입력해주세요");
+                warningModal('내용을 입력해주세요.');
                 editor.focus();
                 return;
             }
