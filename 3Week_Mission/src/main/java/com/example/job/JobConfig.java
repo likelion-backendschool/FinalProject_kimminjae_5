@@ -23,7 +23,7 @@ public class JobConfig {
     public void performMakeRebateDataJob() throws Exception {
          LocalDateTime now = LocalDateTime.now();
          int year = now.getYear();
-         int month = now.getMonthValue();
+         int month = now.getMonthValue()-1;
         String yearMonth = year + "-" + month;
         JobParameters param = new JobParametersBuilder()
                 .addString("yearMonth", yearMonth)
