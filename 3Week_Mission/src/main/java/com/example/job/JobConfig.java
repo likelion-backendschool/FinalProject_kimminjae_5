@@ -17,12 +17,14 @@ public class JobConfig {
     private final JobLauncher jobLauncher;
     private final Job makeRebateDataJob;
 
-    // @Scheduled(cron = "0 0 4 * * *") // 실제 코드
-    @Scheduled(cron = "10 * * * * *")
-    public void performMakeRebateDataJob() throws Exception {
-        // String yearMonth = getPerformMakeRebateDataJobParam1Value(); // 실제 코드
-        String yearMonth = "2022-11";
 
+    //    @Scheduled(cron = "0 0 * * * *")
+     @Scheduled(cron = "0 0 4 15 * *") // 실제 코드
+    public void performMakeRebateDataJob() throws Exception {
+         LocalDateTime now = LocalDateTime.now();
+         int year = now.getYear();
+         int month = now.getMonthValue() - 1;
+        String yearMonth = year + "-" + month;
         JobParameters param = new JobParametersBuilder()
                 .addString("yearMonth", yearMonth)
                 .toJobParameters();

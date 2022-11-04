@@ -44,6 +44,9 @@ public class AdminRebateController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showRebateOrderItemList(String yearMonth, Model model) {
         if (yearMonth == null) {
+            LocalDateTime now = LocalDateTime.now();
+            int year = now.getYear();
+            int month = now.getMonthValue();
             yearMonth = "2022-11";
         }
         List<RebateOrderItem> itemList = rebateService.findRebateOrderItemsByPayDateIn(yearMonth);
