@@ -89,6 +89,7 @@ public class RebateOrderItem {
         isPaid = orderItem.isPaid();
         payDate = orderItem.getPayDate();
 
+
         // 상품 추가데이터
         productSubject = orderItem.getProduct().getSubject();
 
