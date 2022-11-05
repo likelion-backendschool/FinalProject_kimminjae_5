@@ -1,6 +1,7 @@
 package com.example.config;
 
 import com.example.member.MemberSecurityService;
+import com.example.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .loginPage("/member/login")
-                .defaultSuccessUrl("/member")
+                .defaultSuccessUrl("/member?msg=%s".formatted(Ut.url.encode("환영합니다!")))
             //로그아웃 설정
                 .and()
                 .logout()

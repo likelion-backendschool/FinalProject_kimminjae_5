@@ -15,7 +15,17 @@ toastr.options = {
     showMethod: "fadeIn",
     hideMethod: "fadeOut"
 };
+function parseMsg(msg) {
+    const [pureMsg, ttl] = msg.split(";ttl=");
 
+    const currentJsUnixTimestamp = new Date().getTime();
+
+    if ( ttl && parseInt(ttl) + 5000 < currentJsUnixTimestamp ) {
+        return [pureMsg, false];
+    }
+
+    return [pureMsg, true];
+}
 function successModal(msg) {
     toastr["success"](msg);
 }
