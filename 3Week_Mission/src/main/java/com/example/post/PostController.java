@@ -5,6 +5,7 @@ import com.example.post.post_hashTag.HashTagDto;
 import com.example.post.post_hashTag.HashTagService;
 import com.example.member.MemberDto;
 import com.example.member.MemberService;
+import com.example.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,19 +25,19 @@ public class PostController {
     private final PostService postService;
     private final HashTagService hashTagService;
     // 글 목록
-    @GetMapping("/list")
-    public String list(Model model, @RequestParam(value = "tag", defaultValue = "") String tag) {
-        List<PostDto> postDtoList;
-
-        if(tag.length() > 0) {
-            postDtoList = postService.getPostByTag(tag);
-        } else {
-            postDtoList = postService.getAllPost();
-        }
-
-        model.addAttribute("postList", postDtoList);
-        return "post/list";
-    }
+//    @GetMapping("/list")
+//    public String list(Model model, @RequestParam(value = "tag", defaultValue = "") String tag) {
+//        List<PostDto> postDtoList;
+//
+//        if(tag.length() > 0) {
+//            postDtoList = postService.getPostByTag(tag);
+//        } else {
+//            postDtoList = postService.getAllPost();
+//        }
+//
+//        model.addAttribute("postList", postDtoList);
+//        return "post/list";
+//    }
 
     // 글 상세페이지
     @GetMapping("/{id}")
@@ -61,7 +62,7 @@ public class PostController {
     public String write(@RequestParam("subject") String subject, @RequestParam("hashtag") String hashTag, @RequestParam("content") String content, Principal principal) {
         MemberDto member = memberService.getMemberByUsername(principal.getName());
         postService.write(member, subject, hashTag, content);
-        return "redirect:/";
+        return "redirect:/member?listType=post&msg=%s".formatted(Ut.url.encode("글을 작성했습니다!"));
     }
 
     // 글 수정
@@ -93,13 +94,12 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         postService.modify(postDto, subject, hashTag, content);
-        return "redirect:/post/%d".formatted(postDto.getId());
+        return "redirect:/post/%d?msg=%s".formatted(postDto.getId(), Ut.url.encode("글이 수정되었습니다!"));
     }
 
     //글 삭제
     @GetMapping("/{id}/delete")
     @PreAuthorize("isAuthenticated()")
-    @ResponseBody
     public String delete(@PathVariable("id") Long id, Principal principal) {
         PostDto postDto = postService.getPostById(id);
         //삭제 권한 확인
@@ -109,10 +109,9 @@ public class PostController {
         try {
             postService.delete(postDto);
         } catch(Exception e) {
-            return "<script>alert('도서에 등록된 글은 삭제할 수 없습니다!'); location.href='/post/%d';</script>".formatted(id);
+            return "redirect:/post%d?errorMsg=%s".formatted(id, Ut.url.encode("도서에 등록된 글은 삭제할 수 없습니다."));
         }
-//        return "redirect:/";
-        return "<script>location.href='/member?listType=post';</script>";
+        return "redirect:/member?listType=post&msg=%s".formatted(Ut.url.encode("글이 삭제되었습니다!"));
     }
 
     //글 정보 가져오기

@@ -18,6 +18,7 @@ import com.example.product.ProductService;
 import com.example.product.product_hashTag.ProductHashTag;
 import com.example.product.product_hashTag.ProductHashTagDto;
 import com.example.product.product_hashTag.ProductHashTagService;
+import com.example.util.Ut;
 import com.example.withdraw.Withdraw;
 import com.example.withdraw.WithdrawService;
 import lombok.RequiredArgsConstructor;
@@ -93,7 +94,7 @@ public class MemberController {
             bindingResult.reject("signupFailed", e.getMessage());
             return "member/join_form";
         }
-        return "redirect:/member";
+        return "redirect:/member/login?msg=%s".formatted(Ut.url.encode("회원가입이 완료되었습니다!"));
     }
 
     //마이페이지, 프로필
@@ -146,17 +147,16 @@ public class MemberController {
 
     //작가로 등록
     @PostMapping("/signup/author")
-    @ResponseBody
     @PreAuthorize("isAuthenticated()")
     public String signupAuthor(@RequestParam("nickname") String nickname, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         try {
             memberService.signupAuthor(memberDto, nickname);
         } catch (DataIntegrityViolationException e) { //작가명이 중복될 경우
-            String errorMessage = "<script>alert('이미 존재하는 작가명입니다.'); location.href='/member'</script>";
+            String errorMessage = "redirect:/member?errorMsg=%s".formatted(Ut.url.encode("이미 존재하는 작가명입니다."));
             return errorMessage;
         }
-        return "<script>location.href='/member'</script>";
+        return "redirect:/member?msg=%s".formatted(Ut.url.encode("작가로 등록되었습니다!"));
     }
 
     //회원 정보 수정
@@ -195,7 +195,7 @@ public class MemberController {
             bindingResult.rejectValue("nickname", "alreadyExistData", "이미 존재하는 작가명 혹은 이메일입니다.");
             return "member/modify_form";
         }
-        return "redirect:/member";
+        return "redirect:/member?msg=%s".formatted(Ut.url.encode("회원정보가 수정되었습니다!"));
     }
 
     //비밀번호 변경
@@ -257,7 +257,6 @@ public class MemberController {
 
     //비밀번호 찾기
     @PostMapping("/findPassword")
-    @ResponseBody
     public String findPassword(@RequestParam("email") String email, @RequestParam("username") String username) {
         MemberDto member;
         try {
@@ -268,7 +267,7 @@ public class MemberController {
                 throw new DataNotFoundException("회원을 찾을 수 없습니다.");
             }
         } catch(Exception e) {
-            return "<script>alert('아이디 혹은 이메일을 확인하세요.'); location.href='/member/findPassword';</script>";
+            return "redirect:/member/findPassword?errorMsg=%s".formatted(Ut.url.encode("아이디 혹은 이메일을 확인하세요."));
         }
         //임시 비밀번호 생성
         String newPassword = Util.makeRandomPassword();
@@ -280,6 +279,6 @@ public class MemberController {
         MailTO mail = new MailTO(email, "임시 비밀번호 발급", "회원님의 임시 비밀번호는 " + newPassword + " 입니다.");
         mailService.sendMail(mail);
 
-        return "<script>alert('임시 비밀번호가 메일로 발송되었습니다'); location.href='/';</script>";
+        return "redirect:/member?msg=%s".formatted(Ut.url.encode("메일로 임시 비밀번호가 발송되었습니다."));
     }
 }

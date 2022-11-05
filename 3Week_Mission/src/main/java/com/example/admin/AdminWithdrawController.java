@@ -1,6 +1,7 @@
 package com.example.admin;
 
 import com.example.member.MemberService;
+import com.example.util.Ut;
 import com.example.withdraw.Withdraw;
 import com.example.withdraw.WithdrawService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,6 @@ public class AdminWithdrawController {
         boolean result = withdrawService.withdrawDone(id);
 
 
-        return "redirect:/adm/withdraw/applyList";
+        return "redirect:/adm/withdraw/applyList?msg=%s".formatted(Ut.url.encode("처리되었습니다!"));
     }
 }

@@ -40,6 +40,18 @@
 
 <script src="/common.js"></script>
 
+<script th:inline="javascript">
+  const params = /*[[ ${param} ]]*/ null;
+
+  if (params.msg) {
+    successModal(params.msg[0]);
+  }
+
+  if (params.errorMsg) {
+    errorModal(params.errorMsg[0]);
+  }
+</script>
+
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 <th:block class="min-h-screen py-3 px-5 mx-auto" layout:fragment="content"
           style="width:100%;"></th:block>

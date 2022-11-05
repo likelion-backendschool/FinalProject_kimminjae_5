@@ -12,6 +12,7 @@ import com.example.post.post_hashTag.HashTagDto;
 import com.example.product.product_hashTag.ProductHashTag;
 import com.example.product.product_hashTag.ProductHashTagDto;
 import com.example.product.product_hashTag.ProductHashTagService;
+import com.example.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -69,9 +70,8 @@ public class ProductController {
     }
 
     @GetMapping("/notAuthor")
-    @ResponseBody
     public String notAuthor() {
-        return "<script>alert('작가가 되어야 도서를 등록할 수 있습니다! 작가명을 등록하고 작가가 되어보세요!'); location.href='/member';</script>";
+        return "redirect:/member?errorMsg=%s".formatted(Ut.url.encode("작가만 도서를 등록할 수 있습니다!\n 작가명을 등록하고 작가가 되어보세요!"));
     }
 
     //도서 등록 처리
@@ -95,7 +95,7 @@ public class ProductController {
         }
         productService.create(memberDto, subject, tags, price, description, postDtoList);
 
-        return "redirect:/member";
+        return "redirect:/member?msg=%s".formatted(Ut.url.encode("도서가 등록되었습니다!"));
     }
 
     //도서 상세
@@ -140,7 +140,6 @@ public class ProductController {
     //도서 삭제
     @GetMapping("/{id}/delete")
     @PreAuthorize("isAuthenticated()")
-    @ResponseBody
     public String deleteProduct(@PathVariable("id") long id, Principal principal) {
         ProductDto productDto = productService.getProductById(id);
         //삭제 권한 확인
@@ -149,9 +148,9 @@ public class ProductController {
         }
         if(myBookService.confirmDelete(productDto)) {
             productService.delete(productDto);
-            return "<script>location.href='/member';</script>";
+            return "redirect:/member?msg=%s".formatted(Ut.url.encode("도서가 삭제되었습니다."));
         }
-        return "<script>alert('도서를 구매한 유저가 있어 삭제할 수 없습니다!'); location.href='/member';</script>";
+        return "redirect:/member?errorMsg=%s".formatted(Ut.url.encode("도서를 구매한 회원이 있어 삭제할 수 없습니다!"));
     }
 
     //도서 수정
@@ -187,7 +186,7 @@ public class ProductController {
 
         return postDto;
     }
-    //수정 페이지에서 도서에 글 넣기
+    //수정 페이지에서 도서에서 글 빼기
     @GetMapping("/removePost")
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
@@ -218,6 +217,6 @@ public class ProductController {
 
         productService.modify(productDto, subject, hashtags, price, description);
 
-        return "redirect:/product/%d".formatted(id);
+        return "redirect:/product/%d?msg=%s".formatted(id, Ut.url.encode("수정되었습니다."));
     }
 }

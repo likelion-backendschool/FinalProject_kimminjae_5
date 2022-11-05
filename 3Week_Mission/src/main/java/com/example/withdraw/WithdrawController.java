@@ -2,6 +2,7 @@ package com.example.withdraw;
 
 import com.example.member.MemberDto;
 import com.example.member.MemberService;
+import com.example.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +43,7 @@ public class WithdrawController {
         Withdraw withdraw = withdrawService.create(bankName, bankAccountNo, price, memberDto);
         memberService.minusRestCash(withdraw.getPrice(), withdraw.getMember());
 
-        return "redirect:/withdraw/list";
+        return "redirect:/withdraw/list?msg=%s".formatted(Ut.url.encode("출금신청 되었습니다."));
     }
     @PostMapping("/cancel/{id}")
     public String cancelWithdraw(Principal principal, @PathVariable("id") long id) {
@@ -51,6 +52,6 @@ public class WithdrawController {
         if(result) {
             memberService.plusRestCash(withdraw.getPrice(), withdraw.getMember());
         }
-        return "redirect:/withdraw/list";
+        return "redirect:/withdraw/list?msg=%s".formatted(Ut.url.encode("취소되었습니다."));
     }
 }

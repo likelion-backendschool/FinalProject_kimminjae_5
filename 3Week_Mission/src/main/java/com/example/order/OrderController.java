@@ -45,7 +45,6 @@ public class OrderController {
     //환불
     @GetMapping("/{id}/refund")
     @PreAuthorize("isAuthenticated()")
-    @ResponseBody
     public String refundOrder(Principal principal, @PathVariable long id) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
         Order order = orderService.findForPrintById(id).orElse(null);
@@ -61,7 +60,7 @@ public class OrderController {
 
 
         if(diffMin > cancelAvailableMinutes) {
-            return "<script>alert('구매한지 10분이 지나 환불이 불가합니다.'); location.href='/order/%d';</script>".formatted(order.getId());
+            return "redirect:/order/%d?errorMsg=%s".formatted(order.getId(), Ut.url.encode("구매한지 10분이 지나 환불이 불가합니다."));
         }
         List<OrderItem> orderItems = order.getOrderItems();
         List<Product> productList = new ArrayList<>();
@@ -71,13 +70,13 @@ public class OrderController {
         myBookService.removeMyBook(memberDto, productList);
         orderService.refund(order);
 
-        return "<script>alert('환불 완료!'); location.href='/order/%d';</script>".formatted(order.getId());
+        return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("환불완료!"));
+
     }
 
     //구매 취소
     @GetMapping("/{id}/cancel")
     @PreAuthorize("isAuthenticated()")
-    @ResponseBody
     public String cancelOrder(Principal principal, @PathVariable long id) {
         Order order = orderService.findForPrintById(id).orElse(null);
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
@@ -89,7 +88,7 @@ public class OrderController {
 
         orderService.cancel(id);
 
-        return "<script>alert('주문이 취소되었습니다.'); location.href='/member?listType=orderList';</script>";
+        return "redirect:/member?listType=orderList&msg=%s".formatted(Ut.url.encode("주문이 취소되었습니다."));
     }
 
     //예치금으로만 결제
@@ -222,17 +221,15 @@ public class OrderController {
     //주문 생성
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
-    @ResponseBody
     public String makeOrder(Principal principal) {
         Member member = memberService.getMemberByUsername(principal.getName()).toEntity();
         Order order = orderService.createFromCart(member);
 
         //장바구니가 비어있을 경우, 주문 생성 불가
         if(order == null) {
-            return "<script>alert('장바구니 목록이 비어있습니다.'); location.href='/cart/list';</script>";
+            return "redirect:/cart/list?msg=%s".formatted("장바구니 목록이 비어있습니다.");
         }
 //        String redirect = "/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
-        String redirect = "<script>location.href='/order/%d?msg=%s';</script>".formatted(order.getId(), Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId())));
-        return redirect;
+        return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId())));
     }
 }
