@@ -1,0 +1,63 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container py-3 mx-auto">
+    <div class="flex justify-center" style="flex-wrap: wrap;">
+        <div th:each="product : ${productList}" class="m-8" style="max-width: 25%;"s>
+            <div class="card card-compact bg-base-100 shadow-xl">
+                <figure><img src="https://placeimg.com/350/200/arch" alt="Shoes"/></figure>
+                <div class="card-body">
+                    <a class="card-title" th:href="@{|/product/description/${product.id}|}"><i class="fa-solid fa-book"></i> [[${product.subject}]]</a>
+                    <div class="flex gap-2">
+                        <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${product.memberDto.nickname}]]</span>
+                        <span class="badge badge-accent justify-end">[[${product.price}]] 원</span>
+                        <span class="badge" th:text="|${#temporals.format(product.createDate, 'yyyy-MM-dd')}|"></span>
+                    </div>
+                    <div class="card-actions justify-start flex-wrap">
+                        <ul class="flex">
+                            <li class="text-2xl mr-3" th:each="hashTag : ${product.productHashTagList}">
+                                <div class="badge badge-outline badge-lg">
+                                    <a class="hover:underline hover:text-[red]"
+                                       th:href="@{|/product/list?tag=${hashTag.productKeyword.content}|}"
+                                       th:text="|#${hashTag.productKeyword.content}|"></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="white-space: pre-line;" th:if="${product.description.length >= 50}"
+                         th:text="${#strings.substring(product.description, 0, 30)}">
+                    </div>
+                    <div style="white-space: pre-line;" th:if="${product.description.length < 50}"
+                         th:text="${product.description}">
+                    </div>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary" th:onclick="addItem([[${product.id}]]);">담기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addItem(id) {
+            $.ajax({
+                url: "/cart/add/"+id,
+                datatype: "text",
+                success: function (msg) {
+                    console.log(msg);
+                    if(msg == "my product") {
+                        warningModal('내가 등록한 도서입니다.');
+                    } else if(msg == "already exist") {
+                        warningModal('이미 장바구니 목록에 존재합니다.');
+                    } else if(msg == "my book") {
+                        warningModal('이미 구매한 도서입니다.');
+                    } else {
+                        // alert('장바구니에 담았습니다.');
+                        successModal('장바구니에 담았습니다.');
+                    }
+                },
+                error: function () {
+                    errorModal('error발생');
+                }
+            });
+        }
+    </script>
+</div>
+</html>

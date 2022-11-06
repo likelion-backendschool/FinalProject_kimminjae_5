@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <!-- 모바일에서 디자인이 축소되지 않게 하기 위한 코드 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>멋북스</title>
+</head>
+<body>
+<!-- 제이쿼리 불러오기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<!-- 폰트어썸 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+<!-- 테일윈드 불러오기 -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!--데이지UI 불러오기 -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css"/>
+
+<style>
+    @font-face {
+        font-family: 'RIDIBatang';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    html > body {
+        font-family: "RIDIBatang";
+        text-underline-position: under;
+        color: #444;
+    }
+</style>
+
+<div th:replace="common/navbar :: narbarFragment"></div>
+
+<script src="/common.js"></script>
+<div
+     style="background-size: cover; background-image: url(https://png.pngtree.com/thumb_back/fw800/background/20210902/pngtree-the-background-photography-of-the-empty-library-bookstore-indoors-image_785539.jpg);">
+
+    <div class="hero min-h-screen">
+        <div class="hero-content flex-col lg:flex-row-reverse">
+            <div class="text-center lg:text-left text-neutral-content">
+                <h1 class="text-6xl font-bold" style="white-space: nowrap;">Login now!</h1>
+            </div>
+            <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                <form class="card-body" th:action="@{/member/login}" method="post">
+                    <div th:if="${param.error}" class="alert alert-error shadow-lg">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6"
+                                 fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>사용자ID 또는 비밀번호를 확인해 주세요.</span>
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">ID</span>
+                        </label>
+                        <input type="text" placeholder="ID" class="input input-bordered" name="username" id="username"/>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Password</span>
+                        </label>
+                        <input type="password" placeholder="password" class="input input-bordered" id="password"
+                               name="password"/>
+                        <label class="label">
+                            <!-- Put this part before </body> tag -->
+                            <input type="checkbox" id="my-modal-3" class="modal-toggle"/>
+                            <div class="modal">
+                                <div class="modal-box relative">
+                                    <label for="my-modal-3"
+                                           class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                    <h3 class="mb-1">이메일을 입력하세요</h3>
+                                    <input class="input input-bordered input-md w-full max-w-xs mr-2" type="email"
+                                           id="email">
+                                    <button class="btn btn-outline btn-primary" type="button" onclick="find_id_email()">
+                                        아이디 찾기
+                                    </button>
+                                </div>
+                            </div>
+                            <a for="my-modal-3" class="label-text-alt link link-hover mr-2">Forgot ID?</a>
+                            <a th:href="@{/member/findPassword}" class="label-text-alt link link-hover">Forgot
+                                password?</a>
+                        </label>
+                    </div>
+                    <div class="form-control mt-6">
+                        <button class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function find_id_email() {
+            let input_email = document.getElementById('email').value;
+            console.log(input_email);
+            $.ajax({
+                type: "get",
+                url: "/member/findUsername?email=" + input_email,
+                datatype: "text",
+                success: function (res) {
+                    successModal('회원님의 아이디는 ' + res + ' 입니다');
+                },
+                error: function () {
+                    warningModal('존재하지 않는 회원입니다.');
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>
