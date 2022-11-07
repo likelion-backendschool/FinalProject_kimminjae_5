@@ -2,6 +2,7 @@ package com.example.mybook;
 
 import com.example.member.Member;
 import com.example.product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class MyBook {
     private LocalDateTime updateDate;
 
     @ManyToOne
+    @JsonIgnore
     private Member buyer;
 
     @ManyToOne
