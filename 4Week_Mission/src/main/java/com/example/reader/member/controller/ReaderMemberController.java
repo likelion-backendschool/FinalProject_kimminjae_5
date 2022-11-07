@@ -26,10 +26,6 @@ public class ReaderMemberController {
     private final PasswordEncoder passwordEncoder;
     @PostMapping("/login")
     public ResponseEntity<RsData> login(@RequestBody LoginDto loginDto) {
-        System.out.println(loginDto);
-        if (loginDto.isNotValid()) {
-            return Ut.spring.responseEntityOf(RsData.of("F-1", "로그인 정보가 올바르지 않습니다."));
-        }
         MemberDto member;
         try {
             member = memberService.getMemberByUsername(loginDto.getUsername());
