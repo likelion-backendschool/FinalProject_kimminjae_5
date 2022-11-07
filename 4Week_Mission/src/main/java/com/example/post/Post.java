@@ -3,6 +3,7 @@ package com.example.post;
 import com.example.post.post_hashTag.HashTag;
 import com.example.member.Member;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIncludeProperties({"id", "subject", "content", "contentHtml"})
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

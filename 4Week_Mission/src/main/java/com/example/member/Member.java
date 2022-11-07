@@ -1,6 +1,8 @@
 package com.example.member;
 
 import com.example.util.Ut;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +20,7 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIncludeProperties({"id", "username"})
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

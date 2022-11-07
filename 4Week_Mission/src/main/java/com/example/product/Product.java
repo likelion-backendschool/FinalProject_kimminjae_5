@@ -7,6 +7,9 @@ import com.example.post.Post;
 import com.example.post.post_hashTag.HashTag;
 import com.example.product.product_hashTag.ProductHashTag;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,15 +38,18 @@ public class Product {
 
     private String subject;
 
+    @JsonIgnore
     private int price;
 
     @ManyToOne
     private Member member;
 
     @ManyToMany
+    @JsonProperty("bookChapters")
     private List<Post> postList;
 
     @Column(columnDefinition = "TEXT")
+    @JsonIgnore
     private String description;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
