@@ -1,0 +1,64 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container py-3 mx-auto">
+    <div>
+        <div class="container py-3 flex">
+            <h1 class="text-5xl font-bold mr-auto" style="white-space: nowrap;">
+                <i class="fa-solid fa-book"></i> [[${product.subject}]]
+            </h1>
+            <ul sec:authorize="isAuthenticated()" class="flex gap-3">
+                <li th:if="${product.memberDto != null and #authentication.getPrincipal().getUsername() == product.memberDto.username}">
+                    <a class="btn btn-primary" th:href="@{|/product/${product.id}/modify|}">
+                        <i class="fa-regular fa-pen-to-square"></i> 수정</a>
+                </li>
+                <li th:if="${product.memberDto != null and #authentication.getPrincipal().getUsername() == product.memberDto.username}">
+                    <a class="btn btn-outline btn-error" th:href="@{|/product/${product.id}/delete|}"
+                       onclick="if (!confirm('삭제하시겠습니까?')) return false;">
+                        <i class="fa-solid fa-trash-can"></i> 삭제</a>
+                </li>
+            </ul>
+        </div>
+        <div class="flex">
+            <div>
+                <span class="badge badge-primary my-auto mr-2">
+                    <a href="#">
+                        <i class="fa-solid fa-user"></i> [[${product.memberDto.nickname}]]
+                    </a>
+                </span>
+            </div>
+            <div>
+            <span class="badge badge-primary my-auto mr-2">
+                [[${product.price}]] 원
+            </span>
+            </div>
+            <div class="mr-2">
+                <div class="badge" th:text="|생성일시 : ${#temporals.format(product.createDate, 'yyyy-MM-dd HH:mm')}|"></div>
+                <div class="badge badge-outline"
+                     th:if="${product.updateDate != null}"
+                     th:text="|최종수정 : ${#temporals.format(product.updateDate, 'yyyy-MM-dd HH:mm')}|"></div>
+            </div>
+        </div>
+        <div th:if="${tagList != null}">
+            <ul class="flex">
+                <li class="text-2xl mr-3" th:each="hashTag : ${tagList}">
+                    <div class="badge badge-outline badge-lg">
+                        <a class="hover:underline hover:text-[red]"
+                           th:href="@{|/product/list?tag=${hashTag.productKeyword.content}|}"
+                           th:text="|#${hashTag.productKeyword.content}|"></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <p>[[${product.description}]]</p>
+        </div>
+        <div>
+            <h1 class="text-3xl">목차</h1>
+            <ul>
+                <li th:each="post : ${product.postDtoList}">
+                    <a class="hover:underline hover:text-[red]" th:href="@{|/post/${post.id}|}">[[${post.subject}]]</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</html>
