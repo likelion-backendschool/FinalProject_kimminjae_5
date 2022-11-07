@@ -21,16 +21,26 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private final MemberSecurityService memberSecurityService;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/**").permitAll()
-            //로그인 설정
-                .and()
-                .formLogin()
-                .loginPage("/member/login")
-                .defaultSuccessUrl("/member?msg=%s".formatted(Ut.url.encode("환영합니다!")))
-            //로그아웃 설정
-                .and()
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .formLogin(
+                        formLogin -> formLogin
+                                .loginPage("/member/login")
+                                .defaultSuccessUrl("/member?msg=%s".formatted(Ut.url.encode("환영합니다!")))
+                )
+                //로그인 설정
+                .authorizeRequests(
+                        authorizeRequests -> authorizeRequests
+                                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+                                .hasAuthority("ADMIN")
+                                .anyRequest()
+                                .permitAll()
+                )
+                //로그아웃 설정
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                 .logoutSuccessUrl("/member/login")
@@ -43,6 +53,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
