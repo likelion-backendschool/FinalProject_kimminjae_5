@@ -1,4 +1,4 @@
-package com.example.reader.member;
+package com.example.reader.member.dto;
 
 import lombok.Data;
 
