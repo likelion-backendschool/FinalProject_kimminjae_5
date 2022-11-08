@@ -227,7 +227,7 @@ public class OrderController {
 
         //장바구니가 비어있을 경우, 주문 생성 불가
         if(order == null) {
-            return "redirect:/cart/list?msg=%s".formatted("장바구니 목록이 비어있습니다.");
+            return "redirect:/cart/list?msg=%s".formatted(Ut.url.encode("장바구니 목록이 비어있습니다."));
         }
         return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId())));
     }
