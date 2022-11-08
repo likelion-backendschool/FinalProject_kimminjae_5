@@ -7,6 +7,9 @@ import com.example.member.MemberDto;
 import com.example.member.MemberService;
 import com.example.reader.member.dto.LoginDto;
 import com.example.util.Ut;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +21,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/api/v1/member")
+@Tag(name = "ApiV1MemberController", description = "로그인, 회원 정보")
 public class ReaderMemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     @PostMapping("/login")
+    @Operation(summary =  "로그인", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<RsData> login(@RequestBody LoginDto loginDto) {
         MemberDto member;
         try {
@@ -52,6 +57,7 @@ public class ReaderMemberController {
         );
     }
     @GetMapping("/me")
+    @Operation(summary =  "회원 정보", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<RsData> me(@AuthenticationPrincipal MemberContext memberContext) {
         System.out.println(memberContext);
         if (memberContext == null) { // 임시코드, 나중에는 시프링 시큐리티를 이용해서 로그인을 안했다면, 아예 여기로 못 들어오도록
