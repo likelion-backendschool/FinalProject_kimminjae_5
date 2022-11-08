@@ -229,7 +229,6 @@ public class OrderController {
         if(order == null) {
             return "redirect:/cart/list?msg=%s".formatted("장바구니 목록이 비어있습니다.");
         }
-//        String redirect = "/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
         return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId())));
     }
 }

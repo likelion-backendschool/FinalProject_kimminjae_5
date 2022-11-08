@@ -83,8 +83,8 @@ public class MemberController {
                 memberService.create(memberForm.getUsername(), memberForm.getPassword(), memberForm.getNickname(), memberForm.getEmail());
             }
             //메일 생성 & 발송
-//            MailTO mail = new MailTO(memberForm.getEmail(), "멋북스 회원가입 축하 메일", "멋북스의 회원이 되신 것을 진심으로 축하드립니다!");
-//            mailService.sendMail(mail);
+            MailTO mail = new MailTO(memberForm.getEmail(), "멋북스 회원가입 축하 메일", "멋북스의 회원이 되신 것을 진심으로 축하드립니다!");
+            mailService.sendMail(mail);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -234,7 +234,6 @@ public class MemberController {
         }
         memberService.modifyPassword(memberDto, passwordForm.getPassword());
 
-//        return "<script>alert('비밀번호가 변경되었습니다.'); location.href='/member/logout';</script>";
 
         //비밀번호 변경완료시 로그아웃
         return "redirect:/member/logout";

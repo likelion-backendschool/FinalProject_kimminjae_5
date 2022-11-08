@@ -55,7 +55,6 @@ public class CartService {
 
         cartItemRepository.save(cartItem);
 
-//        return cartItem;
         return "addItem";
     }
 
@@ -75,7 +74,7 @@ public class CartService {
     }
 
     //구매자로 장바구니 목록 가져오기
-  public List<CartItem> getItemsByBuyer(Member buyer) {
+    public List<CartItem> getItemsByBuyer(Member buyer) {
         return cartItemRepository.findAllByBuyerId(buyer.getId());
     }
     public void removeItem(CartItem cartItem) {
