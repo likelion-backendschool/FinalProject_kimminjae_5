@@ -56,6 +56,14 @@ public class Ut {
                 return null;
             }
         }
+        public static Object toStr(Object object) {
+            try {
+                return getObjectMapper().writeValueAsString(object);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
 
         public static Map<String, Object> toMap(String jsonStr) {
             try {

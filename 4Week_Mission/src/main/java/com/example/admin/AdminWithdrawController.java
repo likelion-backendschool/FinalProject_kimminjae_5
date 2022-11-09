@@ -21,6 +21,8 @@ import java.util.List;
 public class AdminWithdrawController {
     private final WithdrawService withdrawService;
     private final MemberService memberService;
+
+    //출금 신청 데이터 리스트
     @GetMapping("/applyList")
     public String applyList(Model model) {
         List<Withdraw> withdrawList = withdrawService.getAll();
@@ -28,6 +30,8 @@ public class AdminWithdrawController {
         model.addAttribute("withdrawList", withdrawList);
         return "/adm/withdraw/applyList";
     }
+
+    //출금 신청 처리
     @PostMapping("/{id}")
     public String withdrawApply(@PathVariable("id") long id) {
         Withdraw withdraw = withdrawService.getById(id);

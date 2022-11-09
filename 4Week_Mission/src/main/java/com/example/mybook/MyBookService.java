@@ -48,4 +48,8 @@ public class MyBookService {
             myBookRepository.delete(myBook);
         }
     }
+
+    public MyBook getById(long id) {
+        return myBookRepository.findById(id).orElse(null);
+    }
 }

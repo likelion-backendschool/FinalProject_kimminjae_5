@@ -6,6 +6,7 @@ import com.example.cart.CartItem;
 import com.example.cart.CartService;
 import com.example.cash.CashLog;
 import com.example.cash.CashService;
+import com.example.config.jwt.JwtProvider;
 import com.example.product.Product;
 import com.example.product.ProductService;
 import com.example.util.Ut;
@@ -31,6 +32,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CashService cashService;
+    private final JwtProvider jwtProvider;
+
     //관리자 회원 생성
     public void createAdmin(String username, String password, String email, String nickname) {
         Member member = Member.builder()
@@ -161,13 +164,12 @@ public class MemberService {
                 new AddCashRsDataBody(cashLog, newRestCash)
         );
     }
+
     @Transactional
     public RsData<AddCashRsDataBody> addCashWithdraw(Member member, long price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         long newRestCash = member.getRestCash();
-//        member.setRestCash(newRestCash);
-//        memberRepository.save(member);
 
         return RsData.of(
                 "S-1",
@@ -185,6 +187,10 @@ public class MemberService {
         member.setRestCash(member.getRestCash() + price);
         memberRepository.save(member);
     }
+
+    public String genAccessToken(Member member) {
+            return jwtProvider.generateAccessToken(member.getAccessTokenClaims(), 60 * 60 * 24 * 90);
+        }
 
     @Data
     @AllArgsConstructor

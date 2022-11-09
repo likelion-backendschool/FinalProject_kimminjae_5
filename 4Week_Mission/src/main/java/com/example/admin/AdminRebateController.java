@@ -53,8 +53,6 @@ public class AdminRebateController {
             yearMonth = year + "-" + month;
         }
         List<RebateOrderItem> itemList = rebateService.findRebateOrderItemsByPayDateIn(yearMonth);
-
-        System.out.println(itemList);
         model.addAttribute("items", itemList);
 
         return "adm/rebate/rebateOrderItemList";

@@ -29,19 +29,16 @@ public class Util {
     //Post Dto화
     public static List<PostDto> toPostDtoList(List<Post> postList) {
         List<PostDto> postDtoList = postList.stream().map(Post :: toDto).toList();
-        System.out.println(postDtoList);
         return postDtoList;
     }
     public static List<ProductDto> toDtoList(List<Product> productList) {
         List<ProductDto> postDtoList = productList.stream().map(Product :: toDto).toList();
-        System.out.println(postDtoList);
         return postDtoList;
     }
 
     //keyword Dto화
     public static Set<KeywordDto> toDtoList(Set<Keyword> keywords) {
         Set<KeywordDto> keywordDtos = keywords.stream().map(Keyword :: toDto).collect(Collectors.toSet());
-        System.out.println(keywordDtos);
         return keywordDtos;
     }
 
