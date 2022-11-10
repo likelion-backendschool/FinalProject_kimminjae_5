@@ -8,10 +8,10 @@
         <li>
           <a href="/adm/withdraw/applyList"><i class="fa-solid fa-list"></i> 출금 신청 목록</a>
           <a href="/adm/rebate/rebateOrderItemList"><i class="fa-solid fa-list"></i> 정산데이터</a>
-<!--          <a th:href="@{/adm/rebate/makeData}" class="inline-flex">-->
-<!--            <i class="fa-solid fa-code-merge"></i>-->
-<!--            정산-->
-<!--          </a>-->
+          <a th:href="@{/adm/rebate/makeData}" class="inline-flex">
+            <i class="fa-solid fa-code-merge"></i>
+            정산
+          </a>
           <a class="mr-5" sec:authorize="hasAuthority('ADMIN')" th:href="@{/adm/home/main}">
             <i class="fa-solid fa-screwdriver-wrench"></i>ADMIN</a>
           <a class="mr-5" sec:authorize="isAnonymous()" th:href="@{/member/login}"><i

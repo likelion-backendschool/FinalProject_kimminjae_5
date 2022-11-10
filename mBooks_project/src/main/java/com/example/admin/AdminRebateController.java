@@ -24,23 +24,23 @@ public class AdminRebateController {
 
     //문제 해결 전까지 정산 데이터 수동 생성 주석처리
     //정산 데이터 생성 폼
-//    @GetMapping("/makeData")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public String showMakeData() {
-//        return "adm/rebate/makeData";
-//    }
+    @GetMapping("/makeData")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String showMakeData() {
+        return "adm/rebate/makeData";
+    }
 
     //정산 데이터 생성 처리
-//    @PostMapping("/makeData")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public String makeData(String yearMonth) {
-//        System.out.println(yearMonth);
-//        RsData makeDateRsData = rebateService.makeDate(yearMonth);
-//
-//        String redirect = makeDateRsData.addMsgToUrl("redirect:/adm/rebate/rebateOrderItemList?yearMonth=" + yearMonth);
-//
-//        return redirect;
-//    }
+    @PostMapping("/makeData")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String makeData(String yearMonth) {
+        System.out.println(yearMonth);
+        RsData makeDateRsData = rebateService.makeDate(yearMonth);
+
+        String redirect = makeDateRsData.addMsgToUrl("redirect:/adm/rebate/rebateOrderItemList?yearMonth=" + yearMonth);
+
+        return redirect;
+    }
 
     //정산 데이터 목록
     @GetMapping("/rebateOrderItemList")
