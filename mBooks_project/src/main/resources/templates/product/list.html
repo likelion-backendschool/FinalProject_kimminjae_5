@@ -2,10 +2,10 @@
 <div layout:fragment="content" class="container py-3 mx-auto">
     <div class="flex justify-center" style="flex-wrap: wrap;">
         <div th:each="product : ${productList}" class="m-8" style="max-width: 25%;"s>
-            <div class="card card-compact bg-base-100 shadow-xl">
-                <figure><img src="https://placeimg.com/350/200/arch" alt="Shoes"/></figure>
+            <div class="card bg-base-100 shadow-xl">
+<!--                <figure><img src="https://placeimg.com/350/200/book" alt="Shoes"/></figure>-->
                 <div class="card-body">
-                    <a class="card-title" th:href="@{|/product/description/${product.id}|}"><i class="fa-solid fa-book"></i> [[${product.subject}]]</a>
+                    <a class="text-3xl" th:href="@{|/product/description/${product.id}|}"><i class="fa-solid fa-book"></i> [[${product.subject}]]</a>
                     <div class="flex gap-2">
                         <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${product.memberDto.nickname}]]</span>
                         <span class="badge badge-accent justify-end">[[${product.price}]] 원</span>
