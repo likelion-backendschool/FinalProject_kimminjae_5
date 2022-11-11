@@ -15,7 +15,7 @@
 - [x]  Srping Doc 으로 API 문서화(크롬 /swagger-ui/index.html )
     - [x]  문서 꾸미기, 권한 버튼 넣기
 
-### 2주차 미션 요약
+### 4주차 미션 요약
 
 ---
 
