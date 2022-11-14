@@ -1,15 +1,8 @@
 package com.example.product.product_hashTag;
 
-import com.example.member.MemberDto;
-import com.example.post.Post;
-import com.example.post.PostDto;
-import com.example.post.post_hashTag.HashTag;
-import com.example.post.post_hashTag.HashTagDto;
-import com.example.post.post_hashTag.HashTagRepository;
-import com.example.post.post_keyword.Keyword;
-import com.example.post.post_keyword.KeywordService;
-import com.example.product.Product;
-import com.example.product.ProductDto;
+import com.example.member.dto.MemberDto;
+import com.example.product.entity.Product;
+import com.example.product.dto.ProductDto;
 import com.example.product.product_keyword.ProductKeyword;
 import com.example.product.product_keyword.ProductKeywordService;
 import lombok.RequiredArgsConstructor;

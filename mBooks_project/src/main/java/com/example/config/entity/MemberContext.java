@@ -1,6 +1,6 @@
 package com.example.config.entity;
 
-import com.example.member.Member;
+import com.example.member.enitty.Member;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

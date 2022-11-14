@@ -2,10 +2,8 @@ package com.example.reader.mybook.controller;
 
 import com.example.base.dto.RsData;
 import com.example.config.entity.MemberContext;
-import com.example.member.Member;
-import com.example.member.MemberDto;
-import com.example.mybook.MyBook;
-import com.example.mybook.MyBookService;
+import com.example.mybook.entity.MyBook;
+import com.example.mybook.service.MyBookService;
 import com.example.util.Ut;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

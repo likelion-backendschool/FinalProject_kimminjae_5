@@ -1,8 +1,8 @@
 package com.example.post.post_hashTag;
 
 import com.example.post.post_keyword.Keyword;
-import com.example.member.Member;
-import com.example.post.Post;
+import com.example.member.enitty.Member;
+import com.example.post.entity.Post;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 

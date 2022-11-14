@@ -2,10 +2,9 @@ package com.example.post.post_hashTag;
 
 import com.example.post.post_keyword.Keyword;
 import com.example.post.post_keyword.KeywordService;
-import com.example.member.MemberDto;
-import com.example.post.Post;
-import com.example.post.PostDto;
-import com.example.product.product_hashTag.ProductHashTagDto;
+import com.example.member.dto.MemberDto;
+import com.example.post.entity.Post;
+import com.example.post.dto.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

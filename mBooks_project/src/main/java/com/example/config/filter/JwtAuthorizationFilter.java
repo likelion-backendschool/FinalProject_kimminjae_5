@@ -2,8 +2,8 @@ package com.example.config.filter;
 
 import com.example.config.entity.MemberContext;
 import com.example.config.jwt.JwtProvider;
-import com.example.member.Member;
-import com.example.member.MemberService;
+import com.example.member.enitty.Member;
+import com.example.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,10 +1,10 @@
 package com.example.job;
 
 
-import com.example.admin.RebateOrderItem;
-import com.example.admin.RebateOrderItemRepository;
-import com.example.order.OrderItem;
-import com.example.order.OrderItemRepository;
+import com.example.admin.entity.RebateOrderItem;
+import com.example.admin.repository.RebateOrderItemRepository;
+import com.example.order.entity.OrderItem;
+import com.example.order.repository.OrderItemRepository;
 import com.example.util.Ut;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;

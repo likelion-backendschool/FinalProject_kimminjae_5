@@ -1,9 +1,8 @@
 package com.example;
 
 
-import com.example.member.Member;
-import com.example.member.MemberDto;
-import com.example.member.MemberService;
+import com.example.member.dto.MemberDto;
+import com.example.member.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

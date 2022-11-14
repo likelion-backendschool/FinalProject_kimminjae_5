@@ -1,13 +1,12 @@
 package com.example;
 
-import com.example.member.Member;
-import com.example.member.MemberRepository;
-import com.example.post.PostDto;
-import com.example.post.PostService;
+import com.example.member.enitty.Member;
+import com.example.member.repository.MemberRepository;
+import com.example.post.dto.PostDto;
+import com.example.post.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
