@@ -37,3 +37,5 @@ out/
 .vscode/
 .application-db.yml
 .application-mail.yml
+
+.DS_Store
