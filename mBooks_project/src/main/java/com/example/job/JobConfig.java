@@ -18,7 +18,7 @@ public class JobConfig {
     private final Job makeRebateDataJob;
 
 
-    //    @Scheduled(cron = "0 0 * * * *")
+//        @Scheduled(cron = "0 0 * * * *")
      @Scheduled(cron = "0 0 4 15 * *") // 실제 코드
     public void performMakeRebateDataJob() throws Exception {
          LocalDateTime now = LocalDateTime.now();

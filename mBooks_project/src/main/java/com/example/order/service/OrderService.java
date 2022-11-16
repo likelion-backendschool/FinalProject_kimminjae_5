@@ -163,7 +163,7 @@ public class OrderService {
     }
     public List<OrderItem> findAllByRebateAndPayDateBetweenOrderByIdAsc(boolean rebate, LocalDateTime fromDate, LocalDateTime toDate) {
         List<OrderItem> orderItems = findAllByPayDateBetweenOrderByIdAsc(fromDate, toDate);
-        List<OrderItem> result = orderItems.stream().filter(i -> i.isRebate() == rebate).toList();
+        List<OrderItem> result = orderItems.stream().filter(i -> i.isRebate() == false).toList();
         for(OrderItem orderItem : result) {
             orderItem.setRebate(true);
             orderItemRepository.save(orderItem);

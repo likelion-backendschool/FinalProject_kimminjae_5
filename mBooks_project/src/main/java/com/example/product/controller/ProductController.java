@@ -58,7 +58,7 @@ public class ProductController {
     public String createProduct(Model model, Principal principal) {
         MemberDto memberDto = memberService.getMemberByUsername(principal.getName());
 
-        if(memberDto.getNickname().length() == 0) {
+        if(memberDto.getNickname() == null) {
             return "redirect:/product/notAuthor";
         }
 

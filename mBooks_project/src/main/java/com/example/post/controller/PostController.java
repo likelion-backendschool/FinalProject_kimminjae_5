@@ -111,7 +111,7 @@ public class PostController {
         try {
             postService.delete(postDto);
         } catch(Exception e) {
-            return "redirect:/post%d?errorMsg=%s".formatted(id, Ut.url.encode("도서에 등록된 글은 삭제할 수 없습니다."));
+            return "redirect:/post/%d?errorMsg=%s".formatted(id, Ut.url.encode("도서에 등록된 글은 삭제할 수 없습니다."));
         }
         return "redirect:/member?listType=post&msg=%s".formatted(Ut.url.encode("글이 삭제되었습니다!"));
     }
