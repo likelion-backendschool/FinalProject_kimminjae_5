@@ -19,7 +19,7 @@
 - 개발 언어 : Java 17
 - 개발 환경 : InteliJ IDEA
 - front : html5, css3, Javascript, JQuery, Ajax, 
-- back : Spring Boot 2.7.2, Gradle, Spring Data JPA, Spring Security
+- back : Spring Boot 2.7.2, Gradle, Spring Data JPA, Spring Security, Spring Batch
 - DB : mariaDB, MySQLWorkbench
 - API : 토스페이먼츠 결제 모듈 API, Gmail API
 
