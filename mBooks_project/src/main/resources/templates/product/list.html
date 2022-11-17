@@ -8,8 +8,8 @@
                     <a class="text-3xl" th:href="@{|/product/description/${product.id}|}"><i class="fa-solid fa-book"></i> [[${product.subject}]]</a>
                     <div class="flex gap-2">
                         <span class="badge badge-secondary mr-2"><i class="fa-solid fa-user"></i> [[${product.memberDto.nickname}]]</span>
-                        <span class="badge badge-accent justify-end">[[${product.price}]] 원</span>
-                        <span class="badge" th:text="|${#temporals.format(product.createDate, 'yyyy-MM-dd')}|"></span>
+                        <span class="badge badge-accent justify-end" style="white-space: nowrap;">[[${product.price}]] 원</span>
+                        <span class="badge" style="white-space: nowrap;" th:text="|${#temporals.format(product.createDate, 'yyyy-MM-dd')}|"></span>
                     </div>
                     <div class="card-actions justify-start flex-wrap">
                         <ul class="flex">

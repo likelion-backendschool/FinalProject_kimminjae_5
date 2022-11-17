@@ -55,6 +55,7 @@ public class RebateOrderItem {
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private CashLog rebateCashLog; // 정산에 관련된 환급지급내역
     private LocalDateTime rebateDate;
+    private boolean rebate;
 
     // 상품
     private String productSubject;
