@@ -36,6 +36,7 @@ public class AdminWithdrawController {
         Withdraw withdraw = withdrawService.getById(id);
         boolean result = withdrawService.withdrawDone(id);
 
+        if(!result) return "redirect:/adm/withdraw/applyList?errorMsg=%s".formatted(Ut.url.encode("신청이 취소되었습니다!"));
 
         return "redirect:/adm/withdraw/applyList?msg=%s".formatted(Ut.url.encode("처리되었습니다!"));
     }
